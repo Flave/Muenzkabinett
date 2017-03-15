@@ -1,0 +1,12 @@
+node_modules
+src/data/images/actors
+src/data/images/actors_merged.png
+src/data/images/coins_merged.png
+src/data/sprites/thumbs_back_m
+src/data/sprites/thumbs_front_m
+src/data/sprites/thumbs_front
+src/data/json
+src/data/xml
+src/data/csv/raw.csv
+.DS_Store
+build
