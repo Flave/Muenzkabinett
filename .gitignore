@@ -1,4 +1,5 @@
 node_modules
+src/data
 src/data/images/actors
 src/data/images/actors_merged.png
 src/data/images/coins_merged.png

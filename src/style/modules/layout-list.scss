@@ -1,0 +1,17 @@
+.layout-list__layout {
+  display: inline-block;
+  color: #fff;
+  margin-right: 20px;
+  margin-bottom: 30px;
+  font-size: 44px;
+  cursor: pointer;
+
+  &.is-selected {
+    color: $c-accent-1;
+  }
+
+  &.is-disabled {
+    cursor: auto;
+    color: rgba(#fff, 0.2);
+  }
+}

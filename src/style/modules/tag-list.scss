@@ -1,0 +1,23 @@
+.tag-list__tag {
+  display: inline-block;
+  background-color: #fff;
+  padding: 8px 17px;
+  border-radius: 32px;
+  margin-bottom: 10px;
+  margin-right: 4px;
+  color: $c-dark-1;
+  cursor: pointer;
+
+  &.is-selected {
+    background-color: $c-accent-1;
+    color: $c-dark-1;
+  }
+
+  &:hover {
+    background-color: rgba(#fff, .8);
+
+    &.is-selected {
+      background-color: rgba($c-accent-1, .9);
+    }
+  }
+}
