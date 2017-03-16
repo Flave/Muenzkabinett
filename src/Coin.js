@@ -8,7 +8,9 @@ import rebind from 'utility/rebind';
 
 export default function Coin(texture, data) {
   var coin = new PIXI.Sprite(texture),
+      parentTransform,
       dispatch = d3_dispatch('dragstart', 'drag', 'dragend', 'click');
+
   coin.data = data;
   coin.interactive = true;
   //coin.visible = false;
@@ -35,7 +37,7 @@ export default function Coin(texture, data) {
 
   function onMouseOver(event) {
     var coinCenter = new Point(coin.position.x + coin.width/2, coin.position.y),
-        projectedPoint = this.parent.transform.localTransform.apply(coinCenter),
+        projectedPoint = parentTransform.apply(coinCenter),
         state = stateStore.get(),
         tooltipData = {
           title: coin.data.title,
@@ -61,9 +63,8 @@ export default function Coin(texture, data) {
     this.dragging = true;
     this.moved = null;
 
-    var transform = this.parent.transform.localTransform;
     var pos = new Point(this.position.x, this.position.y)
-    var posProjected = transform.apply(pos);
+    var posProjected = parentTransform.apply(pos);
 
     var offsetX = event.data.originalEvent.clientX - posProjected.x,
         offsetY = event.data.originalEvent.clientY - posProjected.y;
@@ -78,10 +79,9 @@ export default function Coin(texture, data) {
           mouseY = this.event.originalEvent.clientY,
           offsetX = this.event.eventOffset.x,
           offsetY = this.event.eventOffset.y,
-          // parent is the PIXI container object the coin is contained in
-          transform = this.parent.transform.localTransform,
+          // transform is the PIXI container object the coin is contained in
           originalPoint = new Point(mouseX - offsetX, mouseY - offsetY),
-          projectedPoint = transform.applyInverse(originalPoint);
+          projectedPoint = parentTransform.applyInverse(originalPoint);
       // to check insie clickhandler whether coin has been moved
       this.moved = true;
       this.position.x = projectedPoint.x;
@@ -111,6 +111,12 @@ export default function Coin(texture, data) {
         oy = coin.position.y,
         os = coin.scale;
   */
+
+  coin.parentTransform = function(_) {
+    if(!arguments.length) return parentTransform;
+    parentTransform = _;
+    return coin;
+  }
 
   coin.move = function(x, y, duration, delay, cb) {
     var dx = x - coin.position.x,

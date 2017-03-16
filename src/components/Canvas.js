@@ -2,6 +2,7 @@ import {Point, Matrix, Texture, utils, Sprite, autoDetectRenderer, Container, Re
 import {select as d3_select} from 'd3-selection';
 import {event as d3_event} from 'd3-selection';
 import {zoom as d3_zoom} from 'd3-zoom';
+import coinsContainer from 'app/components/Coins';
 import coinsStore from 'app/coinsStore';
 import stateStore from 'app/stateStore';
 import layouter from 'app/layouts';
@@ -16,14 +17,16 @@ export default function Canvas() {
       zoomCanvas,
       size = {width: 200, height: 200},
       initialized = false,
-      zoomBehavior = d3_zoom().scaleExtent([0.1, 1.2]).on("zoom", zoom).on('end', zoomEnd),
-      counter = 0;
+      zoomBehavior = d3_zoom().scaleExtent([0.1, 1.2]).on("zoom", zoom),
+      counter = 0,
+      renderer = autoDetectRenderer(size.width, size.height, {transparent: true}),
+      stage = new Container();
+
+  stage.interactiveChildren = true;
+  coinsContainer.parent(stage);
 
   function canvas(container) {
-    renderer = autoDetectRenderer(size.width, size.height, {transparent: true});
-    container.appendChild(renderer.view);
-    stage = new Container();
-    stage.interactiveChildren = true;
+    container.appendChild(renderer.view);    
     zoomCanvas = d3_select(renderer.view).call(zoomBehavior);
     renderer.render(stage);
     return canvas;
@@ -46,8 +49,7 @@ export default function Canvas() {
   }
 
   function initialize() {
-    coinsStore.get().forEach(function(coin, i) {
-      coin
+    coinsContainer
       .on('dragstart', function() {
         zoomCanvas.on('.zoom', null);
       })
@@ -63,10 +65,7 @@ export default function Canvas() {
           stateStore.set('selectedCoin', this.data.id);
       });
 
-      stage.addChild(coin);
-    });
-
-    stateStore.on('change.canvas', update);
+    stage.addChild(coinsContainer.stage);
 
     requestAnimationFrame( animate );
     initialized = true;
@@ -81,14 +80,6 @@ export default function Canvas() {
     stage.setTransform(d3_event.transform.x, d3_event.transform.y, d3_event.transform.k, d3_event.transform.k);
     renderer.render(stage);
     updateCoinInfo();
-  }
-
-  function zoomEnd() {
-
-  }
-
-  function update() {
-
   }
 
   function updateCoinInfo() {

@@ -3,7 +3,7 @@ import {loaders as pixiLoaders} from 'pixi.js';
 import {dispatch as d3_dispatch} from 'd3-dispatch';
 import {range as d3_range} from 'd3-array';
 import {csv as d3_csv} from 'd3-request';
-import coinsStore from 'app/coinsStore';
+import coinsContainer from 'app/components/Coins';
 import Coin from 'app/Coin';
 import rebind from 'utility/rebind';
 import stateStore from 'app/stateStore';
@@ -31,7 +31,7 @@ function loadCoins() {
 function handleDataLoaded(err, _coinsData) {
   if(err) console.log(err);
   else {
-    coinsData = _coinsData;
+    coinsData = _coinsData.slice(0, 2001);
     
     loadSpriteSheets(handleLoadingComplete, handleResourceLoaded);
   }
@@ -63,7 +63,7 @@ function createCoins(spriteLoader, resource) {
         texture = new Texture(spriteLoader.resources[resource.name].texture),
         rectangle = new Rectangle(coinData.x, coinData.y, coinData.width, coinData.height);
     texture.frame = rectangle;
-    coinsStore.add(Coin(texture, coinData));
+    coinsContainer.add(Coin(texture, coinData));
   });
 }
 
