@@ -3,9 +3,7 @@ import {randomNormal as d3_randomNormal} from 'd3-random';
 import _find from 'lodash/find';
 import _forEach from 'lodash/forEach';
 import Victor from 'victor';
-import constants from 'constants/coinProperties';
-
-var coinProperties = constants.coinProperties;
+import coinProperties from 'constants/coinProperties';
 
 function getSimilarity(selectedCoin, coin) {
   var similarity = {properties: [], value: 0};
@@ -19,7 +17,7 @@ function getSimilarity(selectedCoin, coin) {
 }
 
 export default {
-  create: function plainGrid(coins, state, bounds, coinsBounds) {
+  create: function(coins, state, bounds, coinsBounds) {
     var width = bounds.right - bounds.left,
         height = bounds.bottom - bounds.top,
         centerX = bounds.left + width/2,
@@ -40,7 +38,7 @@ export default {
       var similarity = getSimilarity(selectedCoin, coin),
           similarityOffset = similarity.value / maxSimilarity * similarityWidth - d3_randomNormal(0, 30)(),
           radiusScatter = Math.abs(d3_randomNormal(0, width/10)()) + baseRadius - d3_randomNormal(0, 20)(),
-          radius = similarity.properties.length ? baseRadius - similarityOffset - outerBelt : radiusScatter,
+          radius = similarity.properties.length ? (baseRadius - similarityOffset - outerBelt) : radiusScatter,
           delta = new Victor(coin.x - centerX, coin.y - centerY);
 
           delta.normalize().multiply(new Victor(radius, radius))

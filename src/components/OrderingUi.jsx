@@ -9,7 +9,7 @@ class OrderingUi extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeProperty: null
+      activeIndex: null
     }
     this.boundHidePropertiesList = this.hidePropertiesList.bind(this);
     //hack to make dropdown menu not close when other property is clicked
@@ -21,19 +21,37 @@ class OrderingUi extends React.Component {
   }
 
   createPropertiesList() {
-    return properties.map(function(property, i) {
-      var className = "ordering-ui__tag";
-      if(this.props.state.selectedProperties.indexOf(property) !== -1)
-        className += " is-selected";
-      return <div key={i} onClick={this.handlePropertyClick.bind(this, property, i)} className={className}>{property.value}</div>
-    }.bind(this));
+    var state = this.props.state,
+        componentState = this.state,
+        activeIndex = componentState.activeIndex,
+        otherIndex = activeIndex + 1 - 2 * activeIndex,
+        selectedProperty = state.selectedProperties[activeIndex],
+        otherSelectedProperty = state.selectedProperties[otherIndex]
+
+    return (
+      <div className="ordering-ui__property-list">
+        { 
+          properties.map(function(property, i) {
+            if(property.key === "title") return undefined;
+            var className = "btn ordering-ui__property";
+            if(selectedProperty && selectedProperty.key === property.key)
+              className += " is-selected";
+            if(otherSelectedProperty && otherSelectedProperty.key === property.key)
+              className += " is-disabled is-selected";
+            return <div key={i} onClick={this.handlePropertyClick.bind(this, property, i)} className={className}>{property.value}</div>
+          }.bind(this))
+        }
+        <div onClick={this.handlePropertyClick.bind(this, null)} className="btn">Clear Property</div>
+      </div>
+    )
   }
 
   createSelectedPropertyButton(property, propertyIndex) {
-    var className = "ordering-ui__selected-property",
+    var className = "btn ordering-ui__selected-property",
         value = property ? property.value : "Select a property";
 
-    className += !property && "is-empty";
+    className += !property ? " is-empty" : "";
+    className += this.state.activeIndex === propertyIndex ? " is-selected" : "";
 
     return <div onClick={this.handleSelectionClick.bind(this, propertyIndex)} className={className}>{value}</div>
   }
@@ -43,43 +61,44 @@ class OrderingUi extends React.Component {
       this.stopHiding = false;
     } else {
       document.removeEventListener('click', this.boundHidePropertiesList);
-      this.setState({activeProperty: null});
+      this.setState({activeIndex: null});
     }
   }
 
   handleSelectionClick(propertyIndex, proxy, event) {
-    if(this.state.activeProperty === propertyIndex)
-      this.setState({activeProperty: null});
+    if(this.state.activeIndex === propertyIndex)
+      this.setState({activeIndex: null});
     else
-      this.setState({activeProperty: propertyIndex});
+      this.setState({activeIndex: propertyIndex});
 
     document.addEventListener('click', this.boundHidePropertiesList);
 
     // if dropdown was already open and now the other property button was clicked, don't hide the menu
-    if(this.state.activeProperty !== null && this.state.activeProperty !== propertyIndex)
+    if(this.state.activeIndex !== null && this.state.activeIndex !== propertyIndex)
       this.stopHiding = true;
   }
 
-  handlePropertyClick(tag, i) {
-    var newState = stateStore.get(true),
-        newSelectedProps = newState.selectedProperties;
+  handlePropertyClick(property, i) {
+    var state = stateStore.get(),
+        selectedProps = state.selectedProperties,
+        activeIndex = this.state.activeIndex,
+        selectedProperty = selectedProps[activeIndex];
+    
+    // property is "null" or if selected property was already selected set property to null
+    if(!property || (selectedProperty && (selectedProperty.key === property.key)))
+      selectedProps[activeIndex] = null;
+    else
+      selectedProps[activeIndex] = property;
 
-    newSelectedProps.push(tag);
-    if(newSelectedProps.length > 2)
-      newSelectedProps.shift();
-
-    var newLayout = layouts.getApplicableLayout(newState)
-    stateStore.set({selectedProperties: newSelectedProps, selectedLayout: newLayout});
+    var newLayout = layouts.getApplicableLayout(state)
+    stateStore.set({selectedProperties: selectedProps, selectedLayout: newLayout});
   }
 
   render() {
     var state = this.props.state
-
     return (
       <div className="ordering-ui">
-        <div className="ordering-ui__property-list">
-          {this.state.activeProperty === null ? undefined : this.createPropertiesList()}
-        </div>
+        {this.state.activeIndex === null ? undefined : this.createPropertiesList()}
         <div className="ordering-ui__selection">
           {this.createSelectedPropertyButton(state.selectedProperties[0], 0)}
           {this.createSelectedPropertyButton(state.selectedProperties[1], 1)}

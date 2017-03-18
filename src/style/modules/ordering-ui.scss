@@ -1,28 +1,45 @@
 .ordering-ui__property-list {
   position: absolute;
   left: 100%;
+  margin-left: 25px;
+  top: 0;
+  padding: 15px;
+  border-radius: 3px;
   width: 250px;
+  background-color: $c-background;
+  box-shadow: 0 0 15px rgba(0, 0, 0, .3);
 }
 
-.ordering-ui__tag {
-  background-color: #fff;
-  padding: 8px 17px;
+.ordering-ui__property {
+
+}
+
+.btn {
+  border: 1px solid $c-accent-1;
+  padding: 12px 17px;
   border-radius: 32px;
   margin-bottom: 10px;
   margin-right: 4px;
-  color: $c-dark-1;
+  color: $c-accent-1;
   cursor: pointer;
 
   &.is-selected {
     background-color: $c-accent-1;
-    color: $c-dark-1;
+    color: $c-background;
+  }
+
+  &.is-disabled {
+    pointer-events: none;
+    opacity: .5;
+  }
+
+  &.is-empty {
+    font-style: italic;
   }
 
   &:hover {
-    background-color: rgba(#fff, .8);
-
-    &.is-selected {
-      background-color: rgba($c-accent-1, .9);
-    }
+    background-color: $c-accent-1;
+    color: $c-background;
   }
 }
+

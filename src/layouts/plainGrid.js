@@ -2,14 +2,14 @@ export default {
   key: 'plain_grid',
   value: 'Plain Grid',
   requiredTypes: ['continuous'],
-  create: function plainGrid(coins, state, bounds, coinsBounds) {
+  create: function plainGrid(coins, properties, bounds) {
     var paddingRatio = 0.03,
         width = bounds.right - bounds.left,
         padding = width * paddingRatio,
         paddedBounds = {left: bounds.left + padding, right: bounds.right - padding*2, top: bounds.top + padding};
 
     coins.sort(function(a, b) {
-      return a.data[state.selectedProperties[0].key] - b.data[state.selectedProperties[0].key];
+      return a.data[properties[0].key] - b.data[properties[0].key];
     });
 
     var x = paddedBounds.left,

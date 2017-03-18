@@ -42,13 +42,13 @@ coinsContainer.add = function(coin) {
     dispatch.call('dragend');
   })
   .on('click', function() {
-    dispatch.call('click');
+    //dispatch.call('click');
     var state = stateStore.get();
     //coinInfo.hide();
     if(state.selectedCoin === this.data.id)
-      stateStore.set('selectedCoin', undefined);
+      stateStore.set({'selectedCoin': undefined});
     else
-      stateStore.set('selectedCoin', this.data.id);
+      stateStore.set({'selectedCoin': this.data.id});
   });
 }
 

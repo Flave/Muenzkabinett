@@ -18,7 +18,6 @@ class CanvasController extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('canvas controller did update')
     if(stateStore.get().coinsProgress === 1)
       this.updateCanvas();
   }

@@ -1,12 +1,15 @@
 import _findIndex from 'lodash/findIndex';
 import _find from 'lodash/find';
 import coinProperties from 'constants/coinProperties';
+import {removeFalsy} from 'app/utility';
 
 import pile from './pile';
 import scatterLine from './scatterLine';
 import plainGrid from './plainGrid';
 import scatterPlot from './scatterPlot';
 import clusters from './clusters';
+import scatterLines from './scatterLines';
+import clusterGrid from './clusterGrid';
 
 import coinLayout from './coin';
 import introLayout from './intro';
@@ -17,50 +20,42 @@ const layouts = [
   plainGrid,
   scatterPlot,
   clusters,
+  clusterGrid,
   {
     key: 'cluster_list',
     value: 'Clusters List',
     requiredTypes: ['discrete'],
-    create: function pile(coins, size) {
-      coins.forEach(function(coin, i) {
-        var x = d3.randomNormal(size.width/2, 100)();
-        var y = d3.randomNormal(size.height/2, 100)();
-        coin.move({x:x, y:y});
-      });
-    }
+    create: pile.create
   },
-  {
-    key: 'cluster_grid',
-    value: 'Clusters Grid',
-    requiredTypes: ['discrete', 'discrete']
-  },
-  {
-    key: 'scatter_lines',
-    value: 'Scatter Lines',
-    requiredTypes: ['discrete', 'continuous']
-  },
+  scatterLines,
   {
     key: 'nested_grid',
     value: 'Nested Grid',
-    requiredTypes: ['discrete', 'continuous']
+    requiredTypes: ['discrete', 'continuous'],
+    create: pile.create
   }
 ]
 
-var layouter = {}
+var layouter = {};
 
-
-function isLayoutApplicable(layout, properties) {
+function isLayoutApplicable(layout, selectedProperties) {
   var applicable = false,
       requiredTypes = layout.requiredTypes,
-      propertiesCheck = requiredTypes.slice();
+      propertiesCheck = requiredTypes.slice(),
+      properties = [];
 
+  // lazily create a new array only containing the layouts that are defined
+  selectedProperties[0] && properties.push(selectedProperties[0]);
+  selectedProperties[1] && properties.push(selectedProperties[1]);
+
+  // if no properties are selected but properties are required, return false
   if(layout.requiredTypes.length !== properties.length)
     return false;
 
+  // no types are required and no properties are selected, return true
   if(properties.length === 0) return true;
 
   for(var i = 0; i < propertiesCheck.length; i++) {
-    // check if property
     var index = propertiesCheck.indexOf(properties[i].type)
     if(index === -1)
       break;
@@ -88,9 +83,10 @@ layouter.getLayouts = function() {
   return layouts;
 }
 
+
 layouter.update = function(coins, state, bounds) {
-  var layout = _find(layouts, {key: state.selectedLayout}),
-      coinsBounds = getCoinsBounds(coins);
+  var layout = state.selectedLayout,
+      properties = removeFalsy(state.selectedProperties);
 
 /*  if(state.onboardingState === 0) {
     introLayout.create(coins, state, bounds, coinsBounds);
@@ -99,20 +95,28 @@ layouter.update = function(coins, state, bounds) {
   if(state.selectedCoin !== null)
     coinLayout.create(coins, state, bounds);
   else
-    layout.create(coins, state, bounds, coinsBounds);
+    layout.create(coins, properties, bounds, state);
 
 }
 
+/*
+  Returns the default layout for the given selected properties. If there is 
+  already a layout selected check if it is still applicable. If not, return first applicable layout.
+*/
 layouter.getApplicableLayout = function(state) {
-  var selectedLayout = _find(layouts, {key: state.selectedLayout}),
+  var selectedLayout = state.selectedLayout,
       applicableLayouts = layouter.getApplicableLayouts(state.selectedProperties);
 
   if(isLayoutApplicable(selectedLayout, state.selectedProperties))
-    return selectedLayout.key;
+    return selectedLayout;
 
-  return applicableLayouts[0].key;
+  return applicableLayouts[0];
 }
 
+
+/*
+  Returns a list of applicable layouts given a set of selected properties
+*/
 layouter.getApplicableLayouts = function(properties) {
   var applicableLayouts = [];
 

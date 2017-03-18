@@ -3,10 +3,11 @@ import layouter from 'app/layouts';
 import rebind from 'utility/rebind';
 import _cloneDeep from 'lodash/cloneDeep';
 import _assign from 'lodash/assign';
+import _find from 'lodash/find';
 
 var _state = {
   selectedProperties: [],
-  selectedLayout: 'pile',
+  selectedLayout: _find(layouter.getLayouts(), {key: 'pile'}),
   selectedCoin: null,
   coinsProgress: 0,
   onboardingState: 0
@@ -28,8 +29,8 @@ var setters = {
   }
 }
 
-stateStore.get = function(clone) {
-  return clone ? _cloneDeep(_state) : _state;
+stateStore.get = function() {
+  return _state;
 }
 
 stateStore.getPrevious = function() {

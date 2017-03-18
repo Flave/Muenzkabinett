@@ -44,7 +44,6 @@ export default function Coin(texture, data) {
           date_earliest: coin.data.date_earliest,
           date_latest: coin.data.date_latest,
           selectedProperty: state.selectedProperties.length && {value: coin.data[state.selectedProperties[0].key], label: state.selectedProperties[0].value}
-
         }
 
 /*    window.setTimeout(function() {

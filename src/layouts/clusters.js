@@ -1,11 +1,10 @@
-import {pack as d3_pack} from 'd3-hierarchy';
 import {hierarchy as d3_hierarchy} from 'd3-hierarchy';
+import {pack as d3_pack} from 'd3-hierarchy';
 import {randomNormal as d3_randomNormal} from 'd3-random';
 import _groupBy from 'lodash/groupBy';
 import _forEach from 'lodash/forEach';
 
 var cache = {};
-
 
 function createGroupHierarchy(coins, property) {
   if(cache[property.key]) return cache[property.key];
@@ -38,18 +37,19 @@ export default {
   key: 'clusters',
   value: 'Clusters',
   requiredTypes: ['discrete'],
-  create: function pile(coins, state, bounds, coinsBounds) {
+  create: function pile(coins, properties, bounds) {
     var width = bounds.right - bounds.left,
         height = bounds.bottom - bounds.top,
-        property = state.selectedProperties[0],
+        property = properties[0],
         pack = d3_pack()
+          .padding(100)
           .size([width, height]),
         hierarchy = createGroupHierarchy(coins, property);
 
     pack(hierarchy).leaves().forEach(function(group, i) {
       group.data.coins.forEach(function(coin, i) {
-        var x = d3_randomNormal(group.x, width/55)() + bounds.left,
-            y = d3_randomNormal(group.y, width/55)() + bounds.top;
+        var x = d3_randomNormal(group.x, group.r/3.5)() + bounds.left,
+            y = d3_randomNormal(group.y, group.r/3.5)() + bounds.top;
         coin.move(x, y);
       })
     });

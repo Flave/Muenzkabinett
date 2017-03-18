@@ -4,7 +4,7 @@ export default {
   key: 'pile',
   value: 'Pile',
   requiredTypes: [],
-  create: function pile(coins, state, bounds) {
+  create: function pile(coins, properties, bounds) {
     var width = bounds.right - bounds.left,
         height = bounds.bottom - bounds.top;
     coins.forEach(function(coin, i) {

@@ -1,13 +1,16 @@
 .layout-list__layout {
   display: inline-block;
-  color: #fff;
+  color: $c-accent-1;
+  border: 1px solid $c-accent-1;
+  border-radius: 100%;
   margin-right: 20px;
   margin-bottom: 30px;
   font-size: 44px;
   cursor: pointer;
 
   &.is-selected {
-    color: $c-accent-1;
+    color: $c-background;
+    background-color: $c-accent-1;
   }
 
   &.is-disabled {
