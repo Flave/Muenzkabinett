@@ -20,7 +20,7 @@ function updateCoinInfo() {
   var state = stateStore.get(),
       coins = coinsStore.get();
 
-  if(state.selectedCoin !== undefined) {
+  if(state.selectedCoin !== null) {
     var coin = _find(coins, function(coin) {return coin.data.id === state.selectedCoin});
     //coinInfo.show(coin, stage.transform);
   } else {
@@ -46,7 +46,7 @@ coinsContainer.add = function(coin) {
     var state = stateStore.get();
     //coinInfo.hide();
     if(state.selectedCoin === this.data.id)
-      stateStore.set({'selectedCoin': undefined});
+      stateStore.set({'selectedCoin': null});
     else
       stateStore.set({'selectedCoin': this.data.id});
   });
