@@ -26,9 +26,28 @@ export default function Canvas() {
   coinsContainer.parent(stage);
 
   function canvas(container) {
-    container.appendChild(renderer.view);    
+    container.appendChild(renderer.view);
     zoomCanvas = d3_select(renderer.view).call(zoomBehavior);
-    renderer.render(stage);
+
+    coinsContainer
+      .on('dragstart', function() {
+        zoomCanvas.on('.zoom', null);
+      })
+      .on('dragend', function() {
+        zoomCanvas.call(zoomBehavior);
+      })
+      .on('click', function() {
+        var state = stateStore.get();
+        //coinInfo.hide();
+        if(state.selectedCoin === this.data.id)
+          stateStore.set('selectedCoin', undefined);
+        else
+          stateStore.set('selectedCoin', this.data.id);
+      });
+
+    stage.addChild(coinsContainer.stage);
+
+    requestAnimationFrame(animate);
     return canvas;
   }
 
@@ -48,29 +67,6 @@ export default function Canvas() {
     return stage.transform.localTransform.applyInverse(mousePos);
   }
 
-  function initialize() {
-    coinsContainer
-      .on('dragstart', function() {
-        zoomCanvas.on('.zoom', null);
-      })
-      .on('dragend', function() {
-        zoomCanvas.call(zoomBehavior);
-      })
-      .on('click', function() {
-        var state = stateStore.get();
-        //coinInfo.hide();
-        if(state.selectedCoin === this.data.id)
-          stateStore.set('selectedCoin', undefined);
-        else
-          stateStore.set('selectedCoin', this.data.id);
-      });
-
-    stage.addChild(coinsContainer.stage);
-
-    requestAnimationFrame( animate );
-    initialized = true;
-  }
-
   function animate() {
     requestAnimationFrame(animate);
     renderer.render(stage);
@@ -78,43 +74,16 @@ export default function Canvas() {
 
   function zoom() {
     stage.setTransform(d3_event.transform.x, d3_event.transform.y, d3_event.transform.k, d3_event.transform.k);
-    renderer.render(stage);
-    updateCoinInfo();
   }
 
-  function updateCoinInfo() {
-    var state = stateStore.get(),
-        coins = coinsStore.get();
-
-    if(state.selectedCoin !== undefined) {
-      var coin = _find(coins, function(coin) {return coin.data.id === state.selectedCoin});
-      //coinInfo.show(coin, stage.transform);
-    } else {
-      //coinInfo.hide();
-    }
-  }
 
   canvas.update = function() {
     var state = stateStore.get(),
         bounds = getCanvasBounds(),
-        coins = coinsStore.get();
-
-    if(!initialized) {
-      initialize();
-    }
+        coins = coinsContainer.coins;
 
     renderer.resize(size.width, size.height);
-
     layouter.update(coins, state, bounds);
-/*    window.setTimeout(function() {
-      updateCoinInfo();
-    }, 1200);*/
-  }
-
-  canvas.coins = function(_) {
-    if(!arguments.length) return coins;
-    coins = _;
-    return canvas;
   }
 
   canvas.size = function(_) {

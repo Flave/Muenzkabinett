@@ -9,6 +9,7 @@ import scatterPlot from './scatterPlot';
 import clusters from './clusters';
 
 import coinLayout from './coin';
+import introLayout from './intro';
 
 const layouts = [
   pile,
@@ -91,10 +92,15 @@ layouter.update = function(coins, state, bounds) {
   var layout = _find(layouts, {key: state.selectedLayout}),
       coinsBounds = getCoinsBounds(coins);
 
+/*  if(state.onboardingState === 0) {
+    introLayout.create(coins, state, bounds, coinsBounds);
+  }*/
+
   if(state.selectedCoin !== null)
     coinLayout.create(coins, state, bounds);
   else
     layout.create(coins, state, bounds, coinsBounds);
+
 }
 
 layouter.getApplicableLayout = function(state) {

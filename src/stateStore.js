@@ -8,7 +8,8 @@ var _state = {
   selectedProperties: [],
   selectedLayout: 'pile',
   selectedCoin: null,
-  coinsProgress: 0
+  coinsProgress: 0,
+  onboardingState: 0
 };
 
 var _prevState = {};

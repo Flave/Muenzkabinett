@@ -1,6 +1,6 @@
 import React from 'react';
-import TagList from 'components/TagList';
-import LayoutList from 'components/LayoutList';
+import OrderingUi from 'components/OrderingUi';
+import LayoutUi from 'components/LayoutUi';
 
 import stateStore from 'app/stateStore';
 
@@ -11,12 +11,12 @@ class Ui extends React.Component {
     return (
       <div className="ui is-visible">
         <div className="ui__section">
-          <h3 className="ui__section-title">Coin Properties</h3>
-          <TagList state={state}/>
+          <h3 className="ui__section-title">Order Coins by&hellip;</h3>
+          <OrderingUi state={state}/>
         </div>
         <div className="ui__section">
-          <h3 className="ui__section-title">Layouts</h3>
-          <LayoutList state={state} />
+          <h3 className="ui__section-title">Possible Layouts</h3>
+          <LayoutUi state={state} />
         </div>
       </div>
     );

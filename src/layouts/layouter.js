@@ -48,6 +48,7 @@ function getCoinsBounds(coins) {
 }
 
 layouter.update = function(coins, state, bounds) {
+  console.log('updating layout');
   var layout = _find(layouter.layouts, {key: state.selectedLayout}),
       coinsBounds = getCoinsBounds(coins);
   if(state.selectedCoin !== null)

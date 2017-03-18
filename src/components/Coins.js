@@ -30,6 +30,7 @@ function updateCoinInfo() {
 
 
 coinsContainer.add = function(coin) {
+  coins.push(coin);
   coin.parentTransform(parent.transform.localTransform);
   stage.addChild(coin);
 

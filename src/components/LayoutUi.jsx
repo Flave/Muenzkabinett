@@ -2,7 +2,7 @@ import React from 'react';
 import layouts from 'app/layouts';
 import stateStore from 'app/stateStore';
 
-class LayoutList extends React.Component {
+class LayoutUi extends React.Component {
 
   handleClick(layout) {
     stateStore.set({selectedLayout: layout.key});
@@ -26,4 +26,4 @@ class LayoutList extends React.Component {
   }
 }
 
-export default LayoutList;
+export default LayoutUi;

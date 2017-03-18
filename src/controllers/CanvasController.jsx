@@ -1,7 +1,6 @@
 import React from 'react';
 import Display from 'components/Canvas';
 import stateStore from 'app/stateStore';
-import coinsStore from 'app/coinsStore';
 import _debounce from 'lodash/debounce';
 
 class CanvasController extends React.Component {
@@ -19,6 +18,7 @@ class CanvasController extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log('canvas controller did update')
     if(stateStore.get().coinsProgress === 1)
       this.updateCanvas();
   }
