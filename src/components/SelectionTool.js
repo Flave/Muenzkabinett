@@ -95,12 +95,16 @@ export default function SelectionTool() {
 
   function getSelection() {
     var polygon,
-        selectedCoins = [];
+        selectedCoins = [],
+        centerX,
+        centerY;
 
     polygonsData.forEach((polygonData) => {
       polygon = new Polygon(polygonData);
       coins.forEach((coin, i) => {
-        if(selectedCoins.indexOf(coin) === -1 && polygon.contains(coin.x, coin.y))
+        centerX = coin.x + coin.width/2;
+        centerY = coin.y + coin.height/2;
+        if(selectedCoins.indexOf(coin) === -1 && polygon.contains(centerX, centerY))
           selectedCoins.push(coin);
       });
     });

@@ -109,8 +109,6 @@ export default function Canvas() {
         notSelectedCoins.push(coin);
     });
 
-    console.log(selectedCoins.length);
-
     coinsContainer.update(!state.selecting);
     selectionTool.update(state.selecting);
     togglePan(!state.selecting);
