@@ -3,8 +3,7 @@ import {scaleLinear as d3_scaleLinear} from 'd3-scale';
 import {randomNormal as d3_randomNormal} from 'd3-random';
 import {getPaddedDimensions} from 'app/utility';
 
-var cache = {},
-    property2X = d3_scaleLinear(),
+var property2X = d3_scaleLinear(),
     property2Y = d3_scaleLinear();
 
 function createGrouping(coins, propertyOne, propertyTwo) {

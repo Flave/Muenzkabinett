@@ -1,7 +1,6 @@
 import {scaleLinear as d3_scaleLinear} from 'd3-scale';
 import {extent as d3_extent} from 'd3-array';
-var cache = {},
-    property2X = d3_scaleLinear(),
+var property2X = d3_scaleLinear(),
     property2Y = d3_scaleLinear();
 
 function getPaddedBounds(bounds, paddingRatio) {

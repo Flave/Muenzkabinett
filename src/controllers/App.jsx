@@ -15,10 +15,11 @@ class App extends React.Component {
   }
 
   render() {
+    var state = stateStore.get();
     return (
       <div className="app">
-        <Ui />
-        <CanvasController />
+        <Ui state={state} />
+        <CanvasController state={state} />
       </div>
     );
   }

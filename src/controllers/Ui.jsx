@@ -1,6 +1,7 @@
 import React from 'react';
 import OrderingUi from 'components/OrderingUi';
 import LayoutUi from 'components/LayoutUi';
+import SelectionUi from 'components/SelectionUi';
 
 import stateStore from 'app/stateStore';
 
@@ -17,6 +18,10 @@ class Ui extends React.Component {
         <div className="ui__section">
           <h3 className="ui__section-title">Possible Layouts</h3>
           <LayoutUi state={state} />
+        </div>
+        <div className="ui__section">
+          <h3 className="ui__section-title">Selection</h3>
+          <SelectionUi state={state} />
         </div>
       </div>
     );

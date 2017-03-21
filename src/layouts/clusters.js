@@ -4,10 +4,7 @@ import {randomNormal as d3_randomNormal} from 'd3-random';
 import _groupBy from 'lodash/groupBy';
 import _forEach from 'lodash/forEach';
 
-var cache = {};
-
 function createGroupHierarchy(coins, property) {
-  if(cache[property.key]) return cache[property.key];
   var groups = _groupBy(coins, function(coin, i) {
     return coin.data[property.key]
   });
@@ -29,7 +26,6 @@ function createGroupHierarchy(coins, property) {
     .sum(function(group) { 
       return group.coins ? group.coins.length : 1; 
     });
-  cache[property.key] = hierarchy;
   return hierarchy;
 }
 

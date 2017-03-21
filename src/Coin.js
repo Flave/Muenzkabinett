@@ -36,7 +36,7 @@ export default function Coin(texture, data) {
   }
 
   function onMouseOver(event) {
-    var coinCenter = new Point(coin.position.x + coin.width/2, coin.position.y),
+/*    var coinCenter = new Point(coin.position.x + coin.width/2, coin.position.y),
         projectedPoint = parentTransform.apply(coinCenter),
         state = stateStore.get(),
         tooltipData = {
@@ -44,7 +44,7 @@ export default function Coin(texture, data) {
           date_earliest: coin.data.date_earliest,
           date_latest: coin.data.date_latest,
           selectedProperty: state.selectedProperties.length && {value: coin.data[state.selectedProperties[0].key], label: state.selectedProperties[0].value}
-        }
+        }*/
 
 /*    window.setTimeout(function() {
       tooltip.show(tooltipData, projectedPoint);

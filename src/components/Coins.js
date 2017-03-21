@@ -12,6 +12,7 @@ var coinsContainer = {},
     coins = [],
     parent,
     dispatch = d3_dispatch('dragstart', 'dragend', 'click'),
+    interactive = false,
     stage = new Container();
 
 stage.interactiveChildren = true;
@@ -28,34 +29,63 @@ function updateCoinInfo() {
   }
 }
 
+function handleCoinClick() {
+  console.log('coin clicked');
+  var state = stateStore.get();
+  //coinInfo.hide();
+  if(state.selectedCoin === this.data.id)
+    stateStore.set({'selectedCoin': null});
+  else
+    stateStore.set({'selectedCoin': this.data.id});
+}
+
+function handleCoinDragStart() {
+  dispatch.call('dragstart');
+}
+
+function handleCoinDragEnd() {
+  dispatch.call('dragend');
+}
 
 coinsContainer.add = function(coin) {
   coins.push(coin);
   coin.parentTransform(parent.transform.localTransform);
   stage.addChild(coin);
+}
 
-  coin
-  .on('dragstart', function() {
-    dispatch.call('dragstart');
-  })
-  .on('dragend', function() {
-    dispatch.call('dragend');
-  })
-  .on('click', function() {
-    //dispatch.call('click');
-    var state = stateStore.get();
-    //coinInfo.hide();
-    if(state.selectedCoin === this.data.id)
-      stateStore.set({'selectedCoin': null});
-    else
-      stateStore.set({'selectedCoin': this.data.id});
+function toggleInteractivity() {
+  coins.forEach((coin, i) => {
+    if(interactive) {
+      coin.dragstart = handleCoinDragStart;
+      coin.dragend = handleCoinDragEnd;
+      coin.click = handleCoinClick;
+    }
+    else {
+      coin.dragstart = null;
+      coin.dragend = null;
+      coin.click = null;
+    }
   });
+}
+
+function bringToFront() {
+  parent.removeChild(stage);
+  parent.addChild(stage);
 }
 
 coinsContainer.parent = function(_) {
   if(!arguments.length) return parent;
   parent = _;
   return coinsContainer;
+}
+
+coinsContainer.update = function(activateInteractivity) {
+  if(interactive === activateInteractivity) return;
+  interactive = activateInteractivity;
+  toggleInteractivity();
+
+  if(interactive)
+    bringToFront();
 }
 
 coinsContainer.stage = stage;

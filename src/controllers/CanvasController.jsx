@@ -5,21 +5,28 @@ import _debounce from 'lodash/debounce';
 
 class CanvasController extends React.Component {
   updateCanvas() {
+    var shouldCanvasRelayout,
+        state = this.props.state,
+        canvasPropertiesChanged = stateStore.didPropertiesChange(['selectedLayout', 'coinsProgress', 'selectedProperties', 'selectedCoin', 'selectedCoins']);
+    shouldCanvasRelayout = canvasPropertiesChanged && (state.coinsProgress === 1);
     this.resizeCanvas();
-    this.display.update();
+    this.display.update(shouldCanvasRelayout);
   }
 
   componentDidMount() {
     var debouncedUpdateCanvas = _debounce(this.updateCanvas, 500).bind(this);
     window.addEventListener('resize', debouncedUpdateCanvas);
     this.display = Display();
+    this.display.on('zoom', function() {
+      this.forceUpdate();
+    }.bind(this));
+
     this.resizeCanvas();
     this.display(this.root);
   }
 
-  componentDidUpdate() {
-    if(stateStore.get().coinsProgress === 1)
-      this.updateCanvas();
+  componentDidUpdate(prevProps) {
+    this.updateCanvas();
   }
 
   resizeCanvas() {
@@ -30,7 +37,7 @@ class CanvasController extends React.Component {
     this.display.size(size);
   }
 
-  render() {  
+  render() {
     return (
       <div ref={(root) => this.root = root} className="canvas-container"></div>
     );
