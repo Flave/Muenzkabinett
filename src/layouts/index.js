@@ -1,7 +1,7 @@
 import _findIndex from 'lodash/findIndex';
 import _find from 'lodash/find';
 import coinProperties from 'constants/coinProperties';
-import {removeFalsy} from 'app/utility';
+import {removeFalsy, getCoinsBounds} from 'app/utility';
 
 import pile from './pile';
 import scatterLine from './scatterLine';
@@ -67,36 +67,10 @@ function isLayoutApplicable(layout, selectedProperties) {
   return applicable;
 }
 
-function getCoinsBounds(coins) {
-  var bounds = {top: Infinity, right: -Infinity, bottom: -Infinity, left: Infinity};
 
-  coins.forEach(function(coin) {
-    bounds.top = coin.y < bounds.top ? coin.y : bounds.top;
-    bounds.right = coin.x > bounds.right ? coin.x : bounds.right;
-    bounds.bottom = coin.y > bounds.bottom ? coin.y : bounds.bottom;
-    bounds.left = coin.x < bounds.top ? coin.x : bounds.top;
-  });
-  return bounds;
-}
 
 layouter.getLayouts = function() {
   return layouts;
-}
-
-
-layouter.update = function(coins, state, bounds) {
-  var layout = state.selectedLayout,
-      properties = removeFalsy(state.selectedProperties);
-
-/*  if(state.onboardingState === 0) {
-    introLayout.create(coins, state, bounds, coinsBounds);
-  }*/
-
-  if(state.selectedCoin !== null)
-    coinLayout.create(coins, state, bounds);
-  else
-    layout.create(coins, properties, bounds, state);
-
 }
 
 /*
@@ -126,6 +100,19 @@ layouter.getApplicableLayouts = function(properties) {
       applicableLayouts.push(layout);
   });
   return applicableLayouts;
+}
+
+layouter.update = function(selectedCoins, notSelected, state, bounds) {
+  var layout = state.selectedLayout,
+      properties = removeFalsy(state.selectedProperties),
+      newCoinPositions;
+
+  if(state.selectedCoin !== null)
+    newCoinPositions = coinLayout.create(selectedCoins, state, bounds);
+  else {
+    newCoinPositions = layout.create(selectedCoins, properties, bounds, state);
+  }
+  console.log(newCoinPositions);
 }
 
 export default layouter;

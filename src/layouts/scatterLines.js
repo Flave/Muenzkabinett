@@ -13,7 +13,8 @@ export default {
         paddedDimensions = getPaddedDimensions(bounds, 0.05),
         lineSpacing = paddedDimensions.height / showTop,
         maxSpreadY = bounds.height / groups.length,
-        extentX = getExtent(coins, continuousProperty.key);
+        extentX = getExtent(coins, continuousProperty.key),
+        newCoinPositions = [];
 
     groups.forEach((group, groupIndex) => {
       if(groupIndex > showTop) {
@@ -30,7 +31,8 @@ export default {
         extentX: extentX,
         spreadDivider: 5
       }
-      scatterLine.create(group, properties, bounds, options);
+      newCoinPositions.push.apply(newCoinPositions, scatterLine.create(group, properties, bounds, options));
     });
+    return newCoinPositions;
   }
 }

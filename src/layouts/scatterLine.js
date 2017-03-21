@@ -19,7 +19,8 @@ export default {
         maxGroupLength = d3_max(groups, function(group) {return group.length}),
         maxSpreadY = height / 1000,
         spreadX = spacingX/2,
-        spreadDivider = options.spreadDivider || 1;
+        spreadDivider = options.spreadDivider || 1,
+        newCoinPositions = [];
 
     groups.forEach(function(group, groupIndex) {
       group.forEach(function(coin, coinIndex) {
@@ -28,8 +29,10 @@ export default {
             x = paddedDimensions.left + xOffset,
             y = baseY + d3_randomNormal(0, spreadY)();
 
+        newCoinPositions.push({x: x, y: y});
         coin.move(x, y, 1000, Math.random() * 500);
       });
     });
+    return newCoinPositions;
   }
 }

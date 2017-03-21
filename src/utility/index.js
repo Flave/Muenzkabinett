@@ -73,3 +73,15 @@ export function getDiscreteProperty(properties) {
 export function getContinuousProperty(properties) {
   return _find(properties, {type: 'continuous'});
 }
+
+export function getCoinsBounds(coins) {
+  var bounds = {top: Infinity, right: -Infinity, bottom: -Infinity, left: Infinity};
+
+  coins.forEach(function(coin) {
+    bounds.top = coin.y < bounds.top ? coin.y : bounds.top;
+    bounds.right = coin.x > bounds.right ? coin.x : bounds.right;
+    bounds.bottom = coin.y > bounds.bottom ? coin.y : bounds.bottom;
+    bounds.left = coin.x < bounds.top ? coin.x : bounds.top;
+  });
+  return bounds;
+}

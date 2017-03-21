@@ -117,7 +117,7 @@ export default function Canvas() {
 
     renderer.resize(size.width, size.height);
     if(doRelayout)
-      layouter.update(selectedCoins, state, bounds);
+      layouter.update(selectedCoins, notSelectedCoins, state, bounds);
   }
 
   canvas.size = function(_) {

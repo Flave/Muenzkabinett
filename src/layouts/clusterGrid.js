@@ -59,7 +59,8 @@ export default {
         showTop = 20,
         grouping = createGrouping(coins, propertyOne, propertyTwo),
         xSpacing = paddedDimensions.width / showTop,
-        ySpacing = paddedDimensions.height / showTop;
+        ySpacing = paddedDimensions.height / showTop,
+        newCoinPositions = [];
 
     grouping.groups.forEach((xGroup, xIndex) => {
       xGroup.forEach((yGroup, yIndex) => {
@@ -73,10 +74,12 @@ export default {
             x = bounds.left + 20;
             y = bounds.bottom + 20;
           }
-
+          newCoinPositions.push({x: x, y:y});
           coin.move(x, y, 1000, Math.random() * 500);
         })
       });
     });
+
+    return newCoinPositions;
   }
 }

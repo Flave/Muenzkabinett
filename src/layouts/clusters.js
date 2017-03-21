@@ -40,14 +40,17 @@ export default {
         pack = d3_pack()
           .padding(100)
           .size([width, height]),
-        hierarchy = createGroupHierarchy(coins, property);
+        hierarchy = createGroupHierarchy(coins, property),
+        newCoinPositions = [];
 
     pack(hierarchy).leaves().forEach(function(group, i) {
       group.data.coins.forEach(function(coin, i) {
         var x = d3_randomNormal(group.x, group.r/3.5)() + bounds.left,
             y = d3_randomNormal(group.y, group.r/3.5)() + bounds.top;
+        newCoinPositions.push({x: x, y:y});
         coin.move(x, y);
       })
     });
+    return newCoinPositions;
   }
 }
