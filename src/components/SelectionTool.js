@@ -13,6 +13,7 @@ export default function SelectionTool() {
       bounds = {top: 0, left: 0, right: 1, bottom: 1},
       parentContainer,
       coins,
+      zoom = 1,
       active = false,
       recording = false;
 
@@ -39,7 +40,8 @@ export default function SelectionTool() {
   }
 
   function setLineStyle() {
-    graphics.lineStyle(2, 0xffd900, 1);
+    var strokeWidth = 1 / zoom * 2.5;
+    graphics.lineStyle(strokeWidth, 0xffd900, 1);
   }
 
   function startRecording(event) {
@@ -148,6 +150,12 @@ export default function SelectionTool() {
     if(!arguments.length) return bounds;
     bounds = _;
     setBackgroundSize();
+    return selectionTool;
+  }
+
+  selectionTool.zoom = function(_) {
+    if(!arguments.length) return zoom;
+    zoom = _;
     return selectionTool;
   }
 

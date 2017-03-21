@@ -77,7 +77,9 @@ export default function Canvas() {
     if(d3_event.transform)
       stage.setTransform(d3_event.transform.x, d3_event.transform.y, d3_event.transform.k, d3_event.transform.k);
 
-    selectionTool.bounds(getCanvasBounds());
+    selectionTool
+      .zoom(d3_event.transform.k)
+      .bounds(getCanvasBounds());
   }
 
   function togglePan(doPan) {
