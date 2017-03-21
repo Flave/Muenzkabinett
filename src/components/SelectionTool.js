@@ -43,7 +43,6 @@ export default function SelectionTool() {
   }
 
   function startRecording(event) {
-    console.log('start recording');
     if(recording) return;
     var position = projectPixel(event.data.global.x, event.data.global.y);
     setLineStyle();
@@ -108,7 +107,6 @@ export default function SelectionTool() {
           selectedCoins.push(coin);
       });
     });
-    console.log(selectedCoins.length);
     return selectedCoins;
   }
 
