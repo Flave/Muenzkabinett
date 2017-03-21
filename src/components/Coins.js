@@ -56,14 +56,16 @@ coinsContainer.add = function(coin) {
 function toggleInteractivity() {
   coins.forEach((coin, i) => {
     if(interactive) {
-      coin.dragstart = handleCoinDragStart;
-      coin.dragend = handleCoinDragEnd;
-      coin.click = handleCoinClick;
+      coin
+        .on('dragstart', handleCoinDragStart)
+        .on('dragend', handleCoinDragEnd)
+        .on('click', handleCoinClick);
     }
     else {
-      coin.dragstart = null;
-      coin.dragend = null;
-      coin.click = null;
+      coin
+        .off('dragstart', handleCoinDragStart)
+        .off('dragend', handleCoinDragEnd)
+        .off('click', handleCoinClick);
     }
   });
 }

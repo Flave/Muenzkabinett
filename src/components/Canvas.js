@@ -22,13 +22,11 @@ export default function Canvas() {
       shouldUpdate = true; // used for to prevent updating after zooming
 
   stage.interactiveChildren = true;
-  stage.interactive = true;
   coinsContainer.parent(stage);
 
   function canvas(container) {
     container.appendChild(renderer.view);
-    //initialize zoom behavior
-    zoomCanvas = d3_select(renderer.view).call(zoomBehavior);
+    zoomCanvas = d3_select(renderer.view);
 
     selectionTool
       .bounds(getCanvasBounds())
