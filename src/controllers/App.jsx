@@ -20,10 +20,10 @@ class App extends React.Component {
     var state = stateStore.get();
     return (
       <div className="app">
-        <Ui state={state} />
+        {state.showUi && <Ui state={state} />}
         <CanvasController state={state} />
-        <IntroController state={state} />
-        {/*<LoadingIndicator state={state}/>*/}
+        {!state.onboardingComplete && <IntroController state={state} />}
+        {!state.canvasInitialized && <LoadingIndicator state={state}/>}
       </div>
     );
   }

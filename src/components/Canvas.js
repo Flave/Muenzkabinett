@@ -117,29 +117,6 @@ export default function Canvas() {
   }
 
 
-  function slowlyAddCoins(coins) {
-    var numBatches = 10,
-        batchCounter = 0,
-        batchSize = Math.floor(coins.length/numBatches),
-        batch = [];
-
-    var interval = window.setInterval(() => {
-      console.log('adding batch ' + batchCounter);
-      batch = coins.slice(batchCounter * batchSize, (batchCounter + 1) * batchSize)
-      batch.forEach((coin) => {
-        coin.position.x = size.width / 2;
-        coin.position.y = size.height;
-        coinsContainer.stage.addChild(coin);
-        //coin.move(Math.random() * 1000, Math.random() * 1000);
-      });
-
-      batchCounter++;
-      if(batchCounter === numBatches)
-        window.clearInterval(interval);
-    }, 1000)
-  }
-
-
   canvas.update = function(doRelayout) {
     var state = stateStore.get(),
         bounds = getCanvasBounds(),
@@ -153,7 +130,7 @@ export default function Canvas() {
       return; 
     }
 
-    if(state.onboardingState === 0) {
+    if(state.canvasInitialized === false) {
 
       zoomTo(0.15, function() {
         bounds = getCanvasBounds();
@@ -166,7 +143,7 @@ export default function Canvas() {
           coin.move(x, y, 2000, Math.abs(d3_randomNormal(0, 200)()));
         });
         zoomTo(0.4);
-        stateStore.set({onboardingState: 1});
+        stateStore.set({canvasInitialized: true});
       });
     }
 
@@ -180,7 +157,7 @@ export default function Canvas() {
     togglePan(!state.selecting);
 
     renderer.resize(size.width, size.height);
-    if(doRelayout && state.onboardingState > 0)
+    if(doRelayout && state.canvasInitialized === true)
       layouter.update(selectedCoins, notSelectedCoins, state, bounds);
   }
 

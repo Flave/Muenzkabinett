@@ -13,8 +13,10 @@ var _state = {
   selectedCoins: [],
   notSelectedCoins: [],
   coinsProgress: 0,
-  onboardingState: 0,
-  selecting: false
+  selecting: false,
+  canvasInitialized: false,
+  showUi: false,
+  onboardingComplete: false
 };
 
 var _prevState = {};
