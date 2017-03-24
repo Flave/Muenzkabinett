@@ -107,8 +107,10 @@ layouter.update = function(selectedCoins, notSelected, state, bounds) {
       properties = removeFalsy(state.selectedProperties),
       newCoinPositions;
 
-  if(state.selectedCoin !== null)
-    newCoinPositions = coinLayout.create(selectedCoins, state, bounds);
+  if(state.selectedCoin !== null) {
+    newCoinPositions = coinLayout.create(selectedCoins, state, bounds);    
+  }
+
   else {
     newCoinPositions = layout.create(selectedCoins, properties, bounds, state);
   }

@@ -30,7 +30,6 @@ function updateCoinInfo() {
 }
 
 function handleCoinClick() {
-  console.log('coin clicked');
   var state = stateStore.get();
   //coinInfo.hide();
   if(state.selectedCoin === this.data.id)

@@ -1,6 +1,8 @@
 import React from 'react';
 import Ui from 'controllers/Ui';
 import CanvasController from 'controllers/CanvasController';
+import IntroController from 'controllers/IntroController';
+import LoadingIndicator from 'components/LoadingIndicator';
 import stateStore from 'app/stateStore';
 import loader from 'utility/loader';
 
@@ -20,6 +22,8 @@ class App extends React.Component {
       <div className="app">
         <Ui state={state} />
         <CanvasController state={state} />
+        <IntroController state={state} />
+        {/*<LoadingIndicator state={state}/>*/}
       </div>
     );
   }
