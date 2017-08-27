@@ -5,14 +5,14 @@ import stateStore from 'app/stateStore';
 class LayoutUi extends React.Component {
 
   handleClick(layout) {
-    stateStore.set({selectedLayout: layout});
+    stateStore.set({selectedLayout: layout.key});
   }
 
   createLayoutsList() {
     var state = this.props.state;
     return layouts.getApplicableLayouts(state.selectedProperties).map(function(layout) {
       var className = "layout-list__layout";
-      className += state.selectedLayout.key === layout.key ? " is-selected" : "";
+      className += state.selectedLayout === layout.key ? " is-selected" : "";
       return (
         <span key={layout.key} onClick={this.handleClick.bind(this, layout)} className={`${className} icon icon-${layout.key}`}></span>
       )

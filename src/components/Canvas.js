@@ -109,7 +109,7 @@ export default function Canvas() {
     dk = nt.k - ot.k;
     dx = nt.x - ot.x;
     dy = nt.y - ot.y;
-    duration = 3000;
+    duration = 1500;
 
     var timer = d3_timer(function(elapsed) {
       var t = elapsed / duration,
@@ -126,7 +126,6 @@ export default function Canvas() {
         timer.stop();
         cb && cb();
         let nt = d3_zoomTransform(zoomCanvas.node());
-        console.log(nt);
       }
     }, 0);
   }
@@ -143,7 +142,6 @@ export default function Canvas() {
   }
 
   function scaleToBounds(bounds) {
-
       dx = bounds[1][0] - bounds[0][0],
       dy = bounds[1][1] - bounds[0][1],
       x = (bounds[0][0] + bounds[1][0]) / 2,
@@ -167,7 +165,6 @@ export default function Canvas() {
     zoomBehavior.translateTo(zoomCanvas, 0, 0);
 
     let transform = {k: .6, x: 0, y: 0};
-    console.log(getNextBounds(transform));
 
     transformTo(transform, function() {
       bounds = getCanvasBounds();      
@@ -188,6 +185,9 @@ export default function Canvas() {
         .on("touchend.zoom", null);
   }
 
+  function getNewTransform(state) {
+
+  }
 
   canvas.update = function(doRelayout) {
     var state = stateStore.get(),
@@ -215,7 +215,6 @@ export default function Canvas() {
     renderer.resize(size.width, size.height);
 
     if(doRelayout && state.canvasInitialized === true) {
-      // TODO: Figure out how to get the new bounds before the transform transition has finished
       transformTo({k: .6})
       let bounds = getNextBounds({k: .6});
       layouter.update(selectedCoins, notSelectedCoins, state, bounds);

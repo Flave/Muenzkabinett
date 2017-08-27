@@ -8,7 +8,7 @@ import _forEach from 'lodash/forEach';
 
 var _state = {
   selectedProperties: [],
-  selectedLayout: _find(layouter.getLayouts(), {key: 'pile'}),
+  selectedLayout: 'pile',
   selectedCoin: null,
   selectedCoins: [],
   selecting: false,

@@ -38,6 +38,8 @@ const layouts = [
 
 var layouter = {};
 
+// Checks whether a specific layout is applicable for the selected properties
+// I guess there's a less complicated way to do this
 function isLayoutApplicable(layout, selectedProperties) {
   var applicable = false,
       requiredTypes = layout.requiredTypes,
@@ -78,8 +80,8 @@ layouter.getLayouts = function() {
   already a layout selected check if it is still applicable. If not, return first applicable layout.
 */
 layouter.getApplicableLayout = function(state) {
-  var selectedLayout = state.selectedLayout,
-      applicableLayouts = layouter.getApplicableLayouts(state.selectedProperties);
+  let selectedLayout = _find(layouts, {key: state.selectedLayout});
+  let applicableLayouts = layouter.getApplicableLayouts(state.selectedProperties);
 
   if(isLayoutApplicable(selectedLayout, state.selectedProperties))
     return selectedLayout;
@@ -103,7 +105,7 @@ layouter.getApplicableLayouts = function(properties) {
 }
 
 layouter.update = function(selectedCoins, notSelected, state, bounds) {
-  var layout = state.selectedLayout,
+  var layout = _find(layouts, {key: state.selectedLayout}),
       properties = removeFalsy(state.selectedProperties),
       newCoinPositions;
 
