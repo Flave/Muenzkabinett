@@ -10,13 +10,19 @@ class Ui extends React.Component {
     var state = stateStore.get();
 
     return (
-      <div className="ui is-visible">
+      <div className="ui">
         <div className="ui__section">
-          <h3 className="ui__section-title">Order Coins by&hellip;</h3>
+          <h3 className="ui__section-title">
+            <span className="ui__section-number">1</span>
+            Order by
+          </h3>
           <OrderingUi state={state}/>
         </div>
         <div className="ui__section">
-          <h3 className="ui__section-title">Possible Layouts</h3>
+          <h3 className="ui__section-title">
+            <span className="ui__section-number">2</span>
+            Layout
+          </h3>
           <LayoutUi state={state} />
         </div>
         <div className="ui__section">

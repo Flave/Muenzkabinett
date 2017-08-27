@@ -46,14 +46,19 @@ class OrderingUi extends React.Component {
     )
   }
 
-  createSelectedPropertyButton(property, propertyIndex) {
-    var className = "btn ordering-ui__selected-property",
+  createPropertyUi(property, propertyIndex) {
+    var className = "ordering-ui__ui",
         value = property ? property.value : "Select a property";
 
     className += !property ? " is-empty" : "";
     className += this.state.activeIndex === propertyIndex ? " is-selected" : "";
 
-    return <div onClick={this.handleSelectionClick.bind(this, propertyIndex)} className={className}>{value}</div>
+    return <div className={className}>
+      {this.createPropertiesList()}
+      <div 
+        onClick={this.handleSelectionClick.bind(this, propertyIndex)} 
+        className="btn ordering-ui__selection">{value}</div>
+    </div>
   }
 
   hidePropertiesList() {
@@ -98,11 +103,8 @@ class OrderingUi extends React.Component {
     var state = this.props.state
     return (
       <div className="ordering-ui">
-        {this.state.activeIndex === null ? undefined : this.createPropertiesList()}
-        <div className="ordering-ui__selection">
-          {this.createSelectedPropertyButton(state.selectedProperties[0], 0)}
-          {this.createSelectedPropertyButton(state.selectedProperties[1], 1)}
-        </div>
+        {this.createPropertyUi(state.selectedProperties[0], 0)}
+        {this.createPropertyUi(state.selectedProperties[1], 1)}
       </div>
     );
   }

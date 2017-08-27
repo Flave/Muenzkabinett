@@ -1,6 +1,6 @@
 import React from 'react';
 
-class SelectionUi extends React.Component {
+class Overlays extends React.Component {
   render() {
     var {transform} = this.props;
 
@@ -16,4 +16,4 @@ class SelectionUi extends React.Component {
   }
 }
 
-export default SelectionUi;
+export default Overlays;
