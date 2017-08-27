@@ -114,6 +114,7 @@ layouter.update = function(selectedCoins, notSelected, state, bounds) {
   else {
     newCoinPositions = layout.create(selectedCoins, properties, bounds, state);
   }
+  return newCoinPositions;
 }
 
 export default layouter;

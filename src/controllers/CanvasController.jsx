@@ -1,28 +1,29 @@
 import React from 'react';
-import Display from 'components/Canvas';
+import Canvas from 'components/Canvas';
 import stateStore from 'app/stateStore';
 import _debounce from 'lodash/debounce';
 
 class CanvasController extends React.Component {
   updateCanvas() {
-    var shouldCanvasRelayout,
-        state = this.props.state,
-        canvasPropertiesChanged = stateStore.didPropertiesChange(['selectedLayout', 'coinsProgress', 'selectedProperties', 'selectedCoin', 'selectedCoins']);
+    let shouldCanvasRelayout;
+    let state = this.props.state;
+    let canvasPropertiesChanged = stateStore.didPropertiesChange(['selectedLayout', 'coinsProgress', 'selectedProperties', 'selectedCoin', 'selectedCoins']);
+
     shouldCanvasRelayout = canvasPropertiesChanged && (state.coinsProgress === 1);
     this.resizeCanvas();
-    this.display.update(shouldCanvasRelayout);
+    this.canvas.update(shouldCanvasRelayout);
   }
 
   componentDidMount() {
     var debouncedUpdateCanvas = _debounce(this.updateCanvas, 500).bind(this);
     window.addEventListener('resize', debouncedUpdateCanvas);
-    this.display = Display();
-    this.display.on('zoom', function() {
+    this.canvas = Canvas();
+    this.canvas.on('zoom', function() {
       this.forceUpdate();
     }.bind(this));
 
     this.resizeCanvas();
-    this.display(this.root);
+    this.canvas(this.root);
   }
 
   componentDidUpdate(prevProps) {
@@ -34,7 +35,7 @@ class CanvasController extends React.Component {
       width: window.innerWidth,
       height: window.innerHeight
     };
-    this.display.size(size);
+    this.canvas.size(size);
   }
 
   render() {

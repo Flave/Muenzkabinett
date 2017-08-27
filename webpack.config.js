@@ -55,7 +55,8 @@ module.exports = {
           presets: [
             ['es2015', {"modules": false}],
             'react'
-          ]
+          ],
+          plugins: [require('babel-plugin-transform-object-rest-spread')]
         }
       },
       {

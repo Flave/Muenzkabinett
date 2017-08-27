@@ -11,12 +11,12 @@ var _state = {
   selectedLayout: _find(layouter.getLayouts(), {key: 'pile'}),
   selectedCoin: null,
   selectedCoins: [],
-  notSelectedCoins: [],
-  coinsProgress: 0,
   selecting: false,
+
+  coinsProgress: 0,
   canvasInitialized: false,
-  showUi: false,
-  onboardingComplete: false
+  showUi: true,
+  onboardingComplete: true
 };
 
 var _prevState = {};
@@ -72,6 +72,7 @@ stateStore.set = function(key, value, update) {
 stateStore.set = function(newProps, update) {
   _prevState = _state;
   changedProperties = [];
+
   /*
     Question is whether properties should be new clones of the old ones or not...the updating of canvas object depends on it
   */

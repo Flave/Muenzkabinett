@@ -5,7 +5,6 @@ import rebind from 'utility/rebind';
 import {event as d3_event} from 'd3-selection';
 import {zoom as d3_zoom} from 'd3-zoom';
 import {zoomTransform as d3_zoomTransform} from 'd3-zoom';
-import {randomNormal as d3_randomNormal} from 'd3-random';
 import {timer as d3_timer} from 'd3-timer';
 import {easePolyInOut as d3_easePolyInOut} from 'd3-ease';
 import coinsContainer from 'app/components/Coins';
@@ -21,7 +20,7 @@ export default function Canvas() {
       stage = new Container(),
       dispatch = d3_dispatch('zoom'),
       zoomCanvas,
-      initialZoom = 0.4,
+      initialZoom = 1,
       zoomBehavior = d3_zoom().scaleExtent([0.1, 1.2]).on("zoom", handleZoom),
       selectionTool = SelectionTool()(stage).coins(coinsContainer.coins),
       shouldUpdate = true; // used for to prevent updating after zooming
@@ -45,6 +44,11 @@ export default function Canvas() {
         zoomCanvas.call(zoomBehavior);
       });
 
+    renderer.view.addEventListener('click', function(event) {
+      var projected = projectPixel(event.clientX, event.clientY);
+      console.log(projected);
+    })
+
     requestAnimationFrame(animate);
     return canvas;
   }
@@ -60,7 +64,6 @@ export default function Canvas() {
       bottom: bottomRight.y
     }
   }
-
 
   function projectPixel(x, y) {
     var mousePos = new Point(x, y);
@@ -86,22 +89,91 @@ export default function Canvas() {
       .bounds(getCanvasBounds());
   }
 
+  function getNextBounds(nt) {
+    let ot = d3_zoomTransform(zoomCanvas.node());
+    nt = {...ot, ...nt};
+    return {
+      left: nt.x - size.width/2 * (1/nt.k),
+      top: nt.y - size.height/2 * (1/nt.k),
+      right: nt.x + size.width/2 * (1/nt.k),
+      bottom: nt.y + size.height/2 * (1/nt.k)
+    }
+  }
 
-  function zoomTo(s, cb) {
-    var os = d3_zoomTransform(zoomCanvas.node()).k,
-        ds = s - os,
-        duration = 3000;
+  function transformTo(nt, cb) {
+    var ot, dk, dx, dy, duration;
+    ot = d3_zoomTransform(zoomCanvas.node());
+    ot.x = (size.width / 2 - ot.x) * (1/ot.k);
+    ot.y = (size.height / 2 - ot.y) * (1/ot.k);
+    nt = {...ot, ...nt};
+    dk = nt.k - ot.k;
+    dx = nt.x - ot.x;
+    dy = nt.y - ot.y;
+    duration = 3000;
 
     var timer = d3_timer(function(elapsed) {
       var t = elapsed / duration,
-          scale = os + (ds * d3_easePolyInOut(t, 3));
-      zoomBehavior.scaleTo(zoomCanvas, scale);
+          k = ot.k + (dk * d3_easePolyInOut(t, 3)),
+          x = ot.x + dx * d3_easePolyInOut(t, 3),
+          y = ot.y + dy * d3_easePolyInOut(t, 3);
+
+      zoomBehavior
+        .scaleTo(zoomCanvas, k);
+      zoomBehavior
+        .translateTo(zoomCanvas, x, y);
 
       if(elapsed > duration) {
         timer.stop();
         cb && cb();
+        let nt = d3_zoomTransform(zoomCanvas.node());
+        console.log(nt);
       }
     }, 0);
+  }
+
+  function getCoinsBounds(positions) {
+    let bounds = {top: Infinity, right: -Infinity, bottom: -Infinity, left: Infinity};
+    positions.forEach(({x, y}) => {
+      bounds.top = y < bounds.top ? y : bounds.top;
+      bounds.right = x > bounds.right ? x : bounds.right;
+      bounds.bottom = y > bounds.bottom ? y : bounds.bottom;
+      bounds.left = x < bounds.left ? x : bounds.left;
+    });
+    return bounds;
+  }
+
+  function scaleToBounds(bounds) {
+
+      dx = bounds[1][0] - bounds[0][0],
+      dy = bounds[1][1] - bounds[0][1],
+      x = (bounds[0][0] + bounds[1][0]) / 2,
+      y = (bounds[0][1] + bounds[1][1]) / 2,
+      scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
+      translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+    svg.transition()
+        .duration(750)
+        .call(zoom.translate(translate).scale(scale).event);
+  }
+
+  function initializeCanvas() {
+    var state = stateStore.get(),
+        bounds,
+        coins = coinsContainer.coins,
+        selectedCoins = state.selectedCoins.length ? state.selectedCoins : coins;
+
+    // needed to initially center the canvas
+    zoomBehavior.scaleTo(zoomCanvas, 1);
+    zoomBehavior.translateTo(zoomCanvas, 0, 0);
+
+    let transform = {k: .6, x: 0, y: 0};
+    console.log(getNextBounds(transform));
+
+    transformTo(transform, function() {
+      bounds = getCanvasBounds();      
+      layouter.update(selectedCoins, [], state, bounds);
+      stateStore.set({canvasInitialized: true});
+    });
   }
 
 
@@ -119,7 +191,6 @@ export default function Canvas() {
 
   canvas.update = function(doRelayout) {
     var state = stateStore.get(),
-        bounds = getCanvasBounds(),
         coins = coinsContainer.coins,
         selectedCoins = state.selectedCoins.length ? state.selectedCoins : coins,
         notSelectedCoins = [];
@@ -130,22 +201,8 @@ export default function Canvas() {
       return; 
     }
 
-    if(state.canvasInitialized === false) {
-
-      zoomTo(0.15, function() {
-        bounds = getCanvasBounds();
-        var width = bounds.right - bounds.left,
-            height = bounds.bottom - bounds.top;
-        selectedCoins.forEach(function(coin, i) {
-          coin.visible = true;
-          var x = d3_randomNormal(bounds.left + width/2, width/10)();
-          var y = d3_randomNormal(bounds.top + height/2, height/10)();
-          coin.move(x, y, 2000, Math.abs(d3_randomNormal(0, 200)()));
-        });
-        zoomTo(0.4);
-        stateStore.set({canvasInitialized: true});
-      });
-    }
+    if(state.canvasInitialized === false)
+      initializeCanvas();
 
     notSelectedCoins = coins.map(function(coin) {
       if(selectedCoins.indexOf(coin) === -1)
@@ -155,11 +212,16 @@ export default function Canvas() {
     coinsContainer.update(!state.selecting);
     selectionTool.update(state.selecting);
     togglePan(!state.selecting);
-
     renderer.resize(size.width, size.height);
-    if(doRelayout && state.canvasInitialized === true)
+
+    if(doRelayout && state.canvasInitialized === true) {
+      // TODO: Figure out how to get the new bounds before the transform transition has finished
+      transformTo({k: .6})
+      let bounds = getNextBounds({k: .6});
       layouter.update(selectedCoins, notSelectedCoins, state, bounds);
+    }
   }
+
 
   canvas.size = function(_) {
     if(!arguments.length) return size;

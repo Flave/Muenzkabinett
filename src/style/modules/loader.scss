@@ -18,3 +18,9 @@
   margin-top: -80px;
   background-image: url("../data/images/sprites/loading_sprite.png");
 }
+
+.loader__indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}

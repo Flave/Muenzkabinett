@@ -1,6 +1,6 @@
 node_modules
-src/data/images
-!src/data/images/sprites
+src/data/images/actors
+src/data/images/thumbs_front_m
 src/data/json
 src/data/meta_stats
 src/data/xml

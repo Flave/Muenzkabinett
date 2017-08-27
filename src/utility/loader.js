@@ -11,8 +11,7 @@ import stateStore from 'app/stateStore';
 var loader = {},
     dispatch = d3_dispatch('coinsLoaded', 'actorsLoaded', 'linksLoaded', 'coinsProgress');
 
-var numCoins = 26705,
-    coinsData = null,
+var coinsData = null,
     spritesLoaded = 0;
 
 loader.load = function() {
@@ -24,15 +23,14 @@ loader.load = function() {
 * Loads coins.csv and afterwards the corresponding spritesheets
 */
 function loadCoins() {
-  
   loadCsv("data/csv/coins.csv", handleDataLoaded);
 }
 
 function handleDataLoaded(err, _coinsData) {
   if(err) console.log(err);
   else {
-    //coinsData = _coinsData.slice(0, 6001);
-    coinsData = _coinsData;
+    coinsData = _coinsData.slice(0, 6001);
+    //coinsData = _coinsData;
     
     loadSpriteSheets(handleLoadingComplete, handleResourceLoaded);
   }
@@ -81,7 +79,8 @@ function loadSpriteSheets(onComplete, onProgress) {
   spriteLoader.load(function(loader, results) {
     onComplete(null);
   })
-  .onProgress.add(onProgress);
+  .onProgress
+  .add(onProgress);
 }
 
 /*

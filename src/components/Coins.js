@@ -80,6 +80,7 @@ coinsContainer.parent = function(_) {
   return coinsContainer;
 }
 
+// Updates whether or not canvas should be interactive
 coinsContainer.update = function(activateInteractivity) {
   if(interactive === activateInteractivity) return;
   interactive = activateInteractivity;

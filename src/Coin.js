@@ -13,7 +13,7 @@ export default function Coin(texture, data) {
 
   coin.data = data;
   coin.interactive = true;
-  coin.visible = false;
+  coin.visible = true;
 
   coin
     .on('click', onClick)
