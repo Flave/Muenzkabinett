@@ -1,6 +1,6 @@
 import {randomNormal as d3_randomNormal} from 'd3-random';
 import {scaleLinear as d3_scaleLinear} from 'd3-scale';
-import {max as d3_max} from 'd3-array';
+import {extent as d3_extent} from 'd3-array';
 import {getPaddedDimensions, groupContinuous, getExtent} from 'app/utility';
 
 export default {
@@ -8,19 +8,21 @@ export default {
   value: 'Scatter Line',
   requiredTypes: ['continuous'],
   create: function plainGrid(coins, properties, bounds, options={}) {
-    var property = options.property || properties[0],
-        extentX = options.extentX || getExtent(coins, property.key),
-        groups = groupContinuous(coins, property, extentX),
-        height = bounds.bottom - bounds.top,
-        paddedDimensions = getPaddedDimensions(bounds, 0.03),
-        value2X = d3_scaleLinear().domain(extentX).range([paddedDimensions.top, paddedDimensions.height]),
-        baseY = options.baseY !== undefined ? options.baseY : bounds.top + height/2,
-        spacingX = paddedDimensions.width / groups.length,
-        maxGroupLength = d3_max(groups, function(group) {return group.length}),
-        maxSpreadY = height / 1000,
-        spreadX = spacingX/2,
-        spreadDivider = options.spreadDivider || 1,
-        newCoinPositions = [];
+    var property = options.property || properties[0];
+    var extentX = options.extentX || getExtent(coins, property.key);
+    var groups = groupContinuous(coins, property, extentX);
+    var height = bounds.bottom - bounds.top;
+    var paddedDimensions = getPaddedDimensions(bounds, 0.03);
+    var baseY = options.baseY !== undefined ? options.baseY : bounds.top + height/2;
+    var spacingX = paddedDimensions.width / groups.length;
+    var maxSpreadY = height / 1000;
+    var spreadX = spacingX/2;
+    var spreadDivider = options.spreadDivider || 1;
+    var positions = [];
+    var labels = [];
+    var value2X = d3_scaleLinear().domain(extentX).range([bounds.left, bounds.right]);
+    var ticks = value2X.nice().ticks();
+    var yPositionExtent = [Infinity, -Infinity];
 
     groups.forEach(function(group, groupIndex) {
       group.forEach(function(coin, coinIndex) {
@@ -29,10 +31,21 @@ export default {
             x = paddedDimensions.left + xOffset,
             y = baseY + d3_randomNormal(0, spreadY)();
 
-        newCoinPositions.push({x: x, y: y});
+        positions.push({x: x, y: y});
         coin.move(x, y, 1000, Math.random() * 500);
+        yPositionExtent[0] = yPositionExtent[0] < y ? yPositionExtent[0] : y;
+        yPositionExtent[1] = yPositionExtent[1] > y ? yPositionExtent[1] : y;
       });
     });
-    return newCoinPositions;
+
+    labels = ticks.map(tick => {
+      return {
+        value: tick,
+        y: yPositionExtent[1],
+        x: value2X(tick)
+      }
+    });
+
+    return {positions, labels};
   }
 }

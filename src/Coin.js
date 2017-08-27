@@ -99,17 +99,6 @@ export default function Coin(texture, data) {
     dispatch.call('dragend');
   }
 
-  /*
-    var x = properties.x !== undefined ? properties.x : coin.position.x,
-        y = properties.y !== undefined ? properties.y : coin.position.y,
-        scale = properties.scale !== undefined ? properties.scale : coin.scale,
-        dx = x - coin.position.x,
-        dy = y - coin.position.y,
-        ds = scale - coin.scale,
-        ox = coin.position.x,
-        oy = coin.position.y,
-        os = coin.scale;
-  */
 
   coin.parentTransform = function(_) {
     if(!arguments.length) return parentTransform;

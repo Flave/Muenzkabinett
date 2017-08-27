@@ -23,6 +23,7 @@ export default function Canvas() {
       initialZoom = 1,
       zoomBehavior = d3_zoom().scaleExtent([0.1, 1.2]).on("zoom", handleZoom),
       selectionTool = SelectionTool()(stage).coins(coinsContainer.coins),
+      labels = [],
       shouldUpdate = true; // used for to prevent updating after zooming
 
   stage.interactiveChildren = true;
@@ -46,13 +47,12 @@ export default function Canvas() {
 
     renderer.view.addEventListener('click', function(event) {
       var projected = projectPixel(event.clientX, event.clientY);
-      console.log(projected);
+      console.log(event.clientX, event.clientY, projected);
     })
 
     requestAnimationFrame(animate);
     return canvas;
   }
-
 
   function getCanvasBounds() {
     var topLeft = projectPixel(0, 0),
@@ -80,12 +80,13 @@ export default function Canvas() {
   function handleZoom() {
     shouldUpdate = false;
     dispatch.call('zoom');
+    const {transform} = d3_event;
 
-    if(d3_event.transform)
-      stage.setTransform(d3_event.transform.x, d3_event.transform.y, d3_event.transform.k, d3_event.transform.k);
+    if(transform)
+      stage.setTransform(transform.x, transform.y, transform.k, transform.k);
 
     selectionTool
-      .zoom(d3_event.transform.k)
+      .zoom(transform.k)
       .bounds(getCanvasBounds());
   }
 
@@ -138,6 +139,8 @@ export default function Canvas() {
       bounds.bottom = y > bounds.bottom ? y : bounds.bottom;
       bounds.left = x < bounds.left ? x : bounds.left;
     });
+    bounds.cx = bounds.left + (bounds.right - bounds.left) / 2;
+    bounds.cy = bounds.top + (bounds.bottom - bounds.top) / 2;
     return bounds;
   }
 
@@ -185,8 +188,13 @@ export default function Canvas() {
         .on("touchend.zoom", null);
   }
 
-  function getNewTransform(state) {
-
+  function getNextScale() {
+    let ot = d3_zoomTransform(zoomCanvas.node());
+    if(ot.k > .4)
+      return .4
+    if(ot.k < .2)
+      return .2
+    return ot.k;
   }
 
   canvas.update = function(doRelayout) {
@@ -195,7 +203,7 @@ export default function Canvas() {
         selectedCoins = state.selectedCoins.length ? state.selectedCoins : coins,
         notSelectedCoins = [];
 
-    // to prevent updating after zooming...maybe zoomlevel should be stored on state as well so it's easier to check if canvas should relayout?
+    // prevent updating when zooming
     if(!shouldUpdate) {
       shouldUpdate = true;
       return; 
@@ -215,12 +223,25 @@ export default function Canvas() {
     renderer.resize(size.width, size.height);
 
     if(doRelayout && state.canvasInitialized === true) {
-      transformTo({k: .6})
-      let bounds = getNextBounds({k: .6});
-      layouter.update(selectedCoins, notSelectedCoins, state, bounds);
+      let nextScale = getNextScale();
+      let coinsBounds = getCoinsBounds(coins);
+      let bounds = getNextBounds({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
+      transformTo({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
+      labels = layouter.update(selectedCoins, notSelectedCoins, state, bounds).labels;
     }
   }
 
+  canvas.labels = function() {
+    return labels;
+  }
+
+  canvas.transform = function() {
+    return d3_zoomTransform(zoomCanvas.node());
+  }
+
+  canvas.bounds = function() {
+    return getCanvasBounds();
+  }
 
   canvas.size = function(_) {
     if(!arguments.length) return size;

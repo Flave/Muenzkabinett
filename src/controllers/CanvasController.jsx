@@ -1,4 +1,6 @@
 import React from 'react';
+import Labels from 'components/Labels';
+import Overlays from 'components/Overlays';
 import Canvas from 'components/Canvas';
 import stateStore from 'app/stateStore';
 import _debounce from 'lodash/debounce';
@@ -10,8 +12,10 @@ class CanvasController extends React.Component {
     let canvasPropertiesChanged = stateStore.didPropertiesChange(['selectedLayout', 'coinsProgress', 'selectedProperties', 'selectedCoin', 'selectedCoins']);
 
     shouldCanvasRelayout = canvasPropertiesChanged && (state.coinsProgress === 1);
+
     this.resizeCanvas();
-    this.canvas.update(shouldCanvasRelayout);
+    this.canvas
+      .update(shouldCanvasRelayout);
   }
 
   componentDidMount() {
@@ -40,7 +44,11 @@ class CanvasController extends React.Component {
 
   render() {
     return (
-      <div ref={(root) => this.root = root} className="canvas-container"></div>
+      <div ref={(root) => this.root = root} className="canvas-container">
+        {this.canvas && <Overlays transform={this.canvas.transform()}>
+          <Labels transform={this.canvas.transform()} labels={this.canvas.labels()}/>
+        </Overlays>}
+      </div>
     );
   }
 }

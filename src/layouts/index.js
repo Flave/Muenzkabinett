@@ -107,16 +107,16 @@ layouter.getApplicableLayouts = function(properties) {
 layouter.update = function(selectedCoins, notSelected, state, bounds) {
   var layout = _find(layouts, {key: state.selectedLayout}),
       properties = removeFalsy(state.selectedProperties),
-      newCoinPositions;
+      positionSpec;
 
   if(state.selectedCoin !== null) {
-    newCoinPositions = coinLayout.create(selectedCoins, state, bounds);    
+    positionSpec = coinLayout.create(selectedCoins, state, bounds);    
   }
 
   else {
-    newCoinPositions = layout.create(selectedCoins, properties, bounds, state);
+    positionSpec = layout.create(selectedCoins, properties, bounds, state);
   }
-  return newCoinPositions;
+  return positionSpec;
 }
 
 export default layouter;
