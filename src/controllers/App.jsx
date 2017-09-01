@@ -5,6 +5,7 @@ import IntroController from 'controllers/IntroController';
 import LoadingIndicator from 'components/LoadingIndicator';
 import stateStore from 'app/stateStore';
 import loader from 'utility/loader';
+import _debounce from 'lodash/debounce';
 
 class App extends React.Component {
   componentWillMount() {
@@ -14,6 +15,16 @@ class App extends React.Component {
       if(state.coinsProgress === 1)
         this.forceUpdate();
     }.bind(this));
+
+    var debouncedResize = _debounce(this.resize, 500).bind(this);
+    window.addEventListener('resize', debouncedResize);
+  }
+
+  resize() {
+    stateStore.set({
+      width: window.innerWidth,
+      height: window.innerHeight - 64
+    });
   }
 
   render() {

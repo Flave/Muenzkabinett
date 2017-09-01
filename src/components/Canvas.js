@@ -57,7 +57,7 @@ export default function Canvas() {
 
   function getCanvasBounds() {
     var topLeft = projectPixel(0, 0),
-        bottomRight = projectPixel(window.innerWidth, window.innerHeight);
+        bottomRight = projectPixel(size.width, size.height);
     return {
       left: topLeft.x,
       top: topLeft.y,

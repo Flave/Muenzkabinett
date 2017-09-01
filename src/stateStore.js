@@ -16,7 +16,10 @@ var _state = {
   coinsProgress: 0,
   canvasInitialized: false,
   showUi: true,
-  onboardingComplete: true
+  onboardingComplete: true,
+
+  width: window.innerWidth,
+  height: window.innerHeight
 };
 
 var _prevState = {};
