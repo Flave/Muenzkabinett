@@ -3,9 +3,14 @@ import Labels from 'components/Labels';
 import Overlays from 'components/Overlays';
 import Canvas from 'components/Canvas';
 import stateStore from 'app/stateStore';
+import coinsContainer from 'app/components/Coins';
 import _debounce from 'lodash/debounce';
 
 class CanvasController extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleLabelClick = this.handleLabelClick.bind(this);
+  }
   updateCanvas() {
     let shouldCanvasRelayout;
     let {state} = this.props;
@@ -57,6 +62,13 @@ class CanvasController extends React.Component {
     )
   }
 
+  handleLabelClick({key, value}) {
+    const {state} = this.props;
+    const coins = state.selectedCoins.length ? state.selectedCoins : coinsContainer.coins;
+    const selectedCoins = coins.filter((coin) => coin.data[key] === value);
+    stateStore.set({selectedCoins});
+  }
+
   render() {
     const {state} = this.props;
     let className = "canvas-container";
@@ -64,7 +76,7 @@ class CanvasController extends React.Component {
     return (
       <div ref={(root) => this.root = root} className={className}>
         {this.canvas && <Overlays transform={this.canvas.transform()}>
-          <Labels transform={this.canvas.transform()} labels={this.canvas.labels()}/>
+          <Labels onLabelClick={this.handleLabelClick} transform={this.canvas.transform()} labels={this.canvas.labels()}/>
         </Overlays>}
         {state.selecting && this.createSvgOverlay()}
       </div>

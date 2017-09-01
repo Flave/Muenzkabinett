@@ -10,29 +10,32 @@ export default {
         continuousProperty = getContinuousProperty(properties),
         showTop = 10,
         groups = groupDiscrete(coins, discreteProperty.key),
-        paddedDimensions = getPaddedDimensions(bounds, 0.05),
+        paddedDimensions = getPaddedDimensions(bounds, {left: 300, right: 0.05, top: 0.05, bottom: 0.05}),
         lineSpacing = paddedDimensions.height / showTop,
         maxSpreadY = bounds.height / groups.length,
         extentX = getExtent(coins, continuousProperty.key),
-        positions = [];
+        positions = [],
+        labels = [];
 
     groups.forEach((group, groupIndex) => {
-      if(groupIndex > showTop) {
-        group.forEach((coin) => {
-          coin.move(bounds.left - 100, bounds.top - 100, 1000, Math.random() * 500);
-        });
-        return;
-      }
-
-      var options = {
-        baseY: paddedDimensions.top + lineSpacing * groupIndex + (lineSpacing/2),
-        property: getContinuousProperty(properties),
+      const baseY = paddedDimensions.top + lineSpacing * groupIndex + (lineSpacing/2);
+      const options = {
+        baseY,
+        property: continuousProperty,
         maxSpreadY: maxSpreadY,
         extentX: extentX,
         spreadDivider: 5
       }
-      positions.push.apply(positions, scatterLine.create(group, properties, bounds, options));
+      labels.push({
+        value: group.key,
+        key: discreteProperty.key,
+        x: paddedDimensions.left - 280,
+        y: baseY,
+        minZoom: groupIndex % 2 === 0 ? .2 : .3,
+        selectable: true
+      });
+      positions.push.apply(positions, scatterLine.create(group.coins, properties, paddedDimensions, options));
     });
-    return {positions};
+    return {positions, labels};
   }
 }

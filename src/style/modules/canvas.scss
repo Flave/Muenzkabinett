@@ -30,3 +30,24 @@
   stroke-width: 3px;
   stroke-dasharray: 5 6;
 }
+
+.label {
+  pointer-events: all;
+  display: inline-block;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  color: rgba($c-dark-1, .7);
+  padding: 4px 10px;
+  text-align: center;
+  background: rgba(#fff, .4);
+  border-radius: 20px;
+  transition: opacity .2s;
+
+  &--selectable {
+    background: $c-accent-1;
+    cursor: pointer;
+  }
+}

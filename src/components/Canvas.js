@@ -31,7 +31,9 @@ export default function Canvas() {
   coinsContainer.parent(stage);
 
   function canvas(container) {
-    container.appendChild(renderer.view);
+    //container.appendChild(renderer.view);
+    container.insertBefore(renderer.view, container.firstChild);
+
     zoomCanvas = d3_select(renderer.view);
 
     selectionTool

@@ -1,7 +1,7 @@
 export default [
   {
     key: 'title',
-    value: 'Title',
+    label: 'Title',
     type: 'discrete',
     similarityWeight: 1,
     type: 'individual',
@@ -9,28 +9,28 @@ export default [
   },
   {
     key: 'production_country',
-    value: 'Country',
+    label: 'Country',
     type: 'discrete',
     similarityWeight: 0.3,
     selectable: true
   },
   {
     key: 'production_region',
-    value: 'Region',
+    label: 'Region',
     type: 'discrete',
     similarityWeight: 0.6,
     selectable: true
   },
   {
     key: 'production_minting_place',
-    value: 'Minting Place',
+    label: 'Minting Place',
     type: 'discrete',
     similarityWeight: 0.8,
     selectable: true
   },
   {
     key: 'weight',
-    value: 'Weight',
+    label: 'Weight',
     type: 'continuous',
     similarityWeight: 0.1,
     grouping: 10,
@@ -38,7 +38,7 @@ export default [
   },
   {
     key: 'diameter',
-    value: 'Diameter',
+    label: 'Diameter',
     type: 'continuous',
     similarityWeight: 0.1,
     grouping: 5,
@@ -46,21 +46,21 @@ export default [
   },
   {
     key: 'production_material',
-    value: 'Material',
+    label: 'Material',
     type: 'discrete',
     similarityWeight: 0.3,
     selectable: true
   },
   {
     key: 'nominal',
-    value: 'Nominal',
+    label: 'Nominal',
     type: 'discrete',
     similarityWeight: 0.6,
     selectable: false,
   },
   {
     key: 'date_earliest',
-    value: 'Earliest Date',
+    label: 'Earliest Date',
     type: 'continuous',
     similarityWeight: 0.1,
     grouping: 100,
@@ -68,7 +68,7 @@ export default [
   },
   {
     key: 'date_latest',
-    value: 'Last Date',
+    label: 'Last Date',
     type: 'continuous',
     similarityWeight: 0.1,
     grouping: 100,

@@ -45,7 +45,7 @@ class OrderingUi extends React.Component {
               onClick={!alreadySelected && this.handlePropertyClick.bind(this, property, i)} 
               className={className}>
               <i className={`icon-${property.key}`}></i>
-              {property.value}
+              {property.label}
               {selected && <i className="icon-cross ordering-ui__clear-icon"></i>}
               </div>
           }.bind(this))
@@ -56,7 +56,7 @@ class OrderingUi extends React.Component {
 
   createPropertyUi(property, propertyIndex) {
     var className = "ordering-ui__ui",
-        value = property ? property.value : "Select a property";
+        label = property ? property.label : "Select a property";
 
     className += !property ? " is-empty" : "";
     className += this.state.activeIndex === propertyIndex ? " is-selected" : "";
@@ -67,7 +67,7 @@ class OrderingUi extends React.Component {
         onClick={this.handleSelectionClick.bind(this, propertyIndex)} 
         className="ordering-ui__selection">
         {property && <i className={`icon-${property.key}`}></i>}
-          {value}
+          {label}
         </div>
     </div>
   }

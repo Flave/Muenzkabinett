@@ -2,23 +2,24 @@ import {range as d3_range} from 'd3-array';
 import {extent as d3_extent} from 'd3-array';
 import _find from 'lodash/find';
 
-export function getPaddedDimensions(bounds, paddingRatio) {
-  var width = bounds.right - bounds.left,
-      height = bounds.bottom - bounds.top,
-      padding = width * paddingRatio,
-      left = bounds.left + padding, 
-      right = bounds.right - padding, 
-      top = bounds.top + padding, 
-      bottom = bounds.bottom - padding;
+export function getPaddedDimensions(bounds, padding) {
+  if(typeof padding !== 'object')
+    padding = {left: padding, right: padding, bottom: padding, top: padding};
+  const width = bounds.right - bounds.left;
+  const height = bounds.bottom - bounds.top;
+  const left = padding.left < 1 ? bounds.left + width * padding.left : bounds.left + padding.left;
+  const right = padding.right < 1 ? bounds.right - width * padding.right : bounds.right - padding.right;
+  const top = padding.top < 1 ? bounds.top + height * padding.top : bounds.top + padding.top;
+  const bottom = padding.bottom < 1 ? bounds.bottom - height * padding.bottom : bounds.bottom - padding.bottom;
 
   return {
-    left: left,
-    right: right,
-    top: top,
-    bottom: bottom,
+    left,
+    right,
+    top,
+    bottom,
     width: right - left,
     height: bottom - top,
-    padding: padding
+    padding: padding.left * width
   };
 }
 
@@ -48,21 +49,20 @@ export function groupContinuous(coins, property, extent) {
 export function groupDiscrete(coins, key) {
   var values = [],
       groups;
+  // Collect all the possible values
   coins.forEach((coin, i) => {
     if(values.indexOf(coin.data[key]) === -1)
       values.push(coin.data[key]);
   });
 
-  groups = d3_range(values.length).map(() => {
-    return [];
-  });
+  groups = values.map((value) => ({coins: [], key: value}));
 
   coins.forEach((coin, i) => {
     var value = coin.data[key];
-    groups[values.indexOf(value)].push(coin);
+    groups[values.indexOf(value)].coins.push(coin);
   });
 
-  groups.sort((groupA, groupB) => { return groupB.length - groupA.length; });
+  groups.sort((groupA, groupB) => { return groupB.coins.length - groupA.coins.length; });
   return groups;
 }
 
