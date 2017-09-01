@@ -1,4 +1,5 @@
 import {hierarchy as d3_hierarchy} from 'd3-hierarchy';
+import {max as d3_max} from 'd3-array';
 import {pack as d3_pack} from 'd3-hierarchy';
 import {randomNormal as d3_randomNormal} from 'd3-random';
 import _groupBy from 'lodash/groupBy';
@@ -34,23 +35,36 @@ export default {
   value: 'Clusters',
   requiredTypes: ['discrete'],
   create: function pile(coins, properties, bounds) {
-    var width = bounds.right - bounds.left,
-        height = bounds.bottom - bounds.top,
-        property = properties[0],
-        pack = d3_pack()
-          .padding(100)
-          .size([width, height]),
-        hierarchy = createGroupHierarchy(coins, property),
-        positions = [];
+    const width = bounds.right - bounds.left;
+    const height = bounds.bottom - bounds.top;
+    const property = properties[0];
+    const pack = d3_pack()
+       .padding(100)
+       .size([width, height]);
+    const hierarchy = createGroupHierarchy(coins, property);
+    const positions = [];
+    const labels = [];
+    const groups = pack(hierarchy).leaves();
+    const maxGroupSize = d3_max(groups, (group) => group.data.coins.length);
 
-    pack(hierarchy).leaves().forEach(function(group, i) {
+    groups.forEach(function(group, i) {
       group.data.coins.forEach(function(coin, i) {
         var x = d3_randomNormal(group.x, group.r/3.5)() + bounds.left,
             y = d3_randomNormal(group.y, group.r/3.5)() + bounds.top;
         positions.push({x: x, y:y});
         coin.move(x, y);
-      })
+      });
+
+      labels.push({
+        value: group.data.name,
+        key: property.key,
+        x: group.x + bounds.left,
+        y: group.y + bounds.top,
+        minZoom: 1.1 - group.data.coins.length / maxGroupSize,
+        z: group.data.coins.length / maxGroupSize,
+        selectable: true
+      });
     });
-    return {positions};
+    return {positions, labels};
   }
 }

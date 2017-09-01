@@ -76,7 +76,11 @@ class CanvasController extends React.Component {
     return (
       <div ref={(root) => this.root = root} className={className}>
         {this.canvas && <Overlays transform={this.canvas.transform()}>
-          <Labels onLabelClick={this.handleLabelClick} transform={this.canvas.transform()} labels={this.canvas.labels()}/>
+          <Labels 
+            onLabelClick={this.handleLabelClick} 
+            transform={this.canvas.transform()}
+            bounds={this.canvas.bounds()}
+            labels={this.canvas.labels()}/>
         </Overlays>}
         {state.selecting && this.createSvgOverlay()}
       </div>

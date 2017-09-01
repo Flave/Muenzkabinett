@@ -50,4 +50,9 @@
     background: $c-accent-1;
     cursor: pointer;
   }
+
+  &.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
