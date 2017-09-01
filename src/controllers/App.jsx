@@ -1,5 +1,6 @@
 import React from 'react';
 import Ui from 'controllers/Ui';
+import { MARGIN } from 'constants/dimensions';
 import CanvasController from 'controllers/CanvasController';
 import IntroController from 'controllers/IntroController';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -23,7 +24,7 @@ class App extends React.Component {
   resize() {
     stateStore.set({
       width: window.innerWidth,
-      height: window.innerHeight - 64
+      height: window.innerHeight - MARGIN.BOTTOM
     });
   }
 

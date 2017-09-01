@@ -39,6 +39,24 @@ class CanvasController extends React.Component {
     this.updateCanvas();
   }
 
+  createSvgOverlay() {
+    const {state} = this.props;
+    return (
+      <svg 
+        className="selection-overlay"
+        width={state.width} 
+        height={state.height}>
+        <rect
+          className="selection-overlay__frame"
+          width={state.width - 20}
+          height={state.height - 20}
+          x={10}
+          y={10}
+        ></rect>
+      </svg>
+    )
+  }
+
   render() {
     const {state} = this.props;
     let className = "canvas-container";
@@ -48,7 +66,7 @@ class CanvasController extends React.Component {
         {this.canvas && <Overlays transform={this.canvas.transform()}>
           <Labels transform={this.canvas.transform()} labels={this.canvas.labels()}/>
         </Overlays>}
-        {/*state.selecting && <svg width={state.}></svg>*/}
+        {state.selecting && this.createSvgOverlay()}
       </div>
     );
   }

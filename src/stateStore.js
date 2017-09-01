@@ -5,6 +5,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _assign from 'lodash/assign';
 import _find from 'lodash/find';
 import _forEach from 'lodash/forEach';
+import { MARGIN } from 'constants/dimensions';
 
 var _state = {
   selectedProperties: [],
@@ -19,7 +20,7 @@ var _state = {
   onboardingComplete: true,
 
   width: window.innerWidth,
-  height: window.innerHeight
+  height: window.innerHeight - MARGIN.BOTTOM
 };
 
 var _prevState = {};
