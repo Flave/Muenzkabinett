@@ -2,6 +2,7 @@ import {Point, Matrix, Texture, utils, Sprite, autoDetectRenderer, Container, Re
 import {select as d3_select} from 'd3-selection';
 import {dispatch as d3_dispatch} from 'd3-dispatch';
 import rebind from 'utility/rebind';
+import { getCoinsBounds } from 'utility';
 import {event as d3_event} from 'd3-selection';
 import {zoom as d3_zoom} from 'd3-zoom';
 import {zoomTransform as d3_zoomTransform} from 'd3-zoom';
@@ -47,7 +48,7 @@ export default function Canvas() {
 
     renderer.view.addEventListener('click', function(event) {
       var projected = projectPixel(event.clientX, event.clientY);
-      console.log(event.clientX, event.clientY, projected);
+      //console.log(event.clientX, event.clientY, projected);
     })
 
     requestAnimationFrame(animate);
@@ -131,19 +132,6 @@ export default function Canvas() {
     }, 0);
   }
 
-  function getCoinsBounds(positions) {
-    let bounds = {top: Infinity, right: -Infinity, bottom: -Infinity, left: Infinity};
-    positions.forEach(({x, y}) => {
-      bounds.top = y < bounds.top ? y : bounds.top;
-      bounds.right = x > bounds.right ? x : bounds.right;
-      bounds.bottom = y > bounds.bottom ? y : bounds.bottom;
-      bounds.left = x < bounds.left ? x : bounds.left;
-    });
-    bounds.cx = bounds.left + (bounds.right - bounds.left) / 2;
-    bounds.cy = bounds.top + (bounds.bottom - bounds.top) / 2;
-    return bounds;
-  }
-
   function scaleToBounds(bounds) {
       dx = bounds[1][0] - bounds[0][0],
       dy = bounds[1][1] - bounds[0][1],
@@ -167,7 +155,7 @@ export default function Canvas() {
     zoomBehavior.scaleTo(zoomCanvas, 1);
     zoomBehavior.translateTo(zoomCanvas, 0, 0);
 
-    let transform = {k: .6, x: 0, y: 0};
+    let transform = {k: .5, x: 0, y: 0};
 
     transformTo(transform, function() {
       bounds = getCanvasBounds();      
@@ -212,7 +200,7 @@ export default function Canvas() {
     if(state.canvasInitialized === false)
       initializeCanvas();
 
-    notSelectedCoins = coins.map(function(coin) {
+    coins.forEach(function(coin) {
       if(selectedCoins.indexOf(coin) === -1)
         notSelectedCoins.push(coin);
     });

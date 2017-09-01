@@ -20,7 +20,7 @@ export default {
         extentX = d3_extent(coins, (coin) => {return coin.data[propertyX]}),
         extentY = d3_extent(coins, (coin) => {return coin.data[propertyY]}),
         paddedBounds = getPaddedBounds(bounds, 0.03),
-        newCoinPositions = [];
+        positions = [];
 
     property2X.domain(extentX).range([paddedBounds.left, paddedBounds.right]);
     property2Y.domain(extentY).range([paddedBounds.bottom, paddedBounds.top]);
@@ -29,9 +29,9 @@ export default {
       var x = property2X(coin.data[propertyX]),
           y = property2Y(coin.data[propertyY]);
 
-      newCoinPositions.push({x: x, y: y});
+      positions.push({x: x, y: y});
       coin.move(x, y, 1000, Math.random() * 500);
     });
-    return newCoinPositions;
+    return {positions};
   }
 }

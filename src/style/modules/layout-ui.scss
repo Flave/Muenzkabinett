@@ -7,16 +7,12 @@
   color: $c-accent-1;
   border: 1px solid $c-accent-1;
   border-radius: 100%;
-  font-size: 44px;
+  font-size: 42px;
   cursor: pointer;
+  margin-right: 5px;
 
   &.is-selected {
     color: $c-background;
     background-color: $c-accent-1;
-  }
-
-  &.is-disabled {
-    cursor: auto;
-    color: rgba(#fff, 0.2);
   }
 }

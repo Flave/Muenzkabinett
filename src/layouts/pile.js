@@ -7,14 +7,14 @@ export default {
   create: function pile(coins, properties, bounds) {
     var width = bounds.right - bounds.left,
         height = bounds.bottom - bounds.top,
-        newCoinPositions = [];
+        positions = [];
 
     coins.forEach(function(coin, i) {
       var x = d3_randomNormal(bounds.left + width/2, width/10)();
       var y = d3_randomNormal(bounds.top + height/2, height/10)();
       coin.move(x, y);
-      newCoinPositions.push({x: x, y:y});
+      positions.push({x: x, y:y});
     });
-    return newCoinPositions;
+    return {positions};
   }
 }

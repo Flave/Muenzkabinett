@@ -1,12 +1,33 @@
 .ordering-ui {
   display: flex;
+  align-items: center;
+}
+
+.ordering-ui__meta {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $c-accent-1;
+  font-size: 14px;
+  margin: 0;
+  text-align: center;
+  margin-right: 15px;
+  font-weight: 600;
 }
 
 .ordering-ui__ui {
+  &.is-empty {
+
+  }
+
   &.is-selected {
     .ordering-ui__property-list {
       visibility: visible;
       opacity: 1;
+    }
+
+    .ordering-ui__selection {
+      background-color: $c-accent-1;
+      color: $c-background;
     }
   }
 
@@ -16,8 +37,7 @@
   visibility: hidden;
   opacity: 0;
   position: absolute;
-  top: 70px;
-  padding: 15px;
+  bottom: 70px;
   border-radius: 3px;
   width: 250px;
   background-color: $c-background;
@@ -25,39 +45,46 @@
 }
 
 .ordering-ui__property {
-
-}
-
-.ordering-ui__selection {
-
-}
-
-.btn {
-  border: 1px solid $c-accent-1;
-  padding: 12px 17px;
-  border-radius: 32px;
-  margin-right: 4px;
   color: $c-accent-1;
+  padding: 15px 10px;
+  border-bottom: 1px solid rgba($c-dark-1, .5);
   cursor: pointer;
-  display: inline-block;
+  display: flex;
+  align-items: justify;
 
   &.is-selected {
-    background-color: $c-accent-1;
-    color: $c-background;
+    background-color: $c-dark-1;
+    color: #fff;
+
+    &:hover {
+      background-color: $c-dark-1;
+    }
   }
 
   &.is-disabled {
-    pointer-events: none;
     opacity: .5;
-  }
-
-  &.is-empty {
-    font-style: italic;
+    pointer-events: none;
+    cursor: auto;
   }
 
   &:hover {
-    background-color: $c-accent-1;
-    color: $c-background;
+    background-color: $c-dark-1;
+  }
+
+  [class^="icon-"] {
+    font-size: 1.3em;
+    display: inline-block;
+    margin: -2px 6px -2px 0
   }
 }
 
+.ordering-ui__clear-icon {
+  position: absolute;
+  right: 10px;
+}
+
+.ordering-ui__selection {
+  @extend %btn;
+  margin-right: 10px;
+  min-width: 150px;
+}

@@ -1,6 +1,4 @@
-import _findIndex from 'lodash/findIndex';
 import _find from 'lodash/find';
-import coinProperties from 'constants/coinProperties';
 import {removeFalsy, getCoinsBounds} from 'app/utility';
 
 import pile from './pile';
@@ -12,6 +10,7 @@ import scatterLines from './scatterLines';
 import clusterGrid from './clusterGrid';
 
 import coinLayout from './coin';
+import notSelected from './notSelected';
 import introLayout from './intro';
 
 const layouts = [
@@ -104,19 +103,23 @@ layouter.getApplicableLayouts = function(properties) {
   return applicableLayouts;
 }
 
-layouter.update = function(selectedCoins, notSelected, state, bounds) {
+layouter.update = function(selectedCoins, notSelectedCoins, state, canvasBounds) {
   var layout = _find(layouts, {key: state.selectedLayout}),
       properties = removeFalsy(state.selectedProperties),
-      positionSpec;
+      positionSpec,
+      newCoinsBounds;
 
   if(state.selectedCoin !== null) {
-    positionSpec = coinLayout.create(selectedCoins, state, bounds);    
+    positionSpec = coinLayout.create(selectedCoins, state, canvasBounds);    
   }
 
   else {
-    positionSpec = layout.create(selectedCoins, properties, bounds, state);
+    positionSpec = layout.create(selectedCoins, properties, canvasBounds, state);
+    newCoinsBounds = getCoinsBounds(positionSpec.positions);
+    notSelectedCoins.length && notSelected.create(notSelectedCoins, newCoinsBounds, canvasBounds);
   }
   return positionSpec;
 }
 
 export default layouter;
+

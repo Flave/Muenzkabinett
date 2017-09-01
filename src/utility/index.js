@@ -76,12 +76,13 @@ export function getContinuousProperty(properties) {
 
 export function getCoinsBounds(coins) {
   var bounds = {top: Infinity, right: -Infinity, bottom: -Infinity, left: Infinity};
-
   coins.forEach(function(coin) {
     bounds.top = coin.y < bounds.top ? coin.y : bounds.top;
     bounds.right = coin.x > bounds.right ? coin.x : bounds.right;
     bounds.bottom = coin.y > bounds.bottom ? coin.y : bounds.bottom;
     bounds.left = coin.x < bounds.top ? coin.x : bounds.top;
   });
+  bounds.cx = bounds.left + (bounds.right - bounds.left) / 2;
+  bounds.cy = bounds.top + (bounds.bottom - bounds.top) / 2;
   return bounds;
 }

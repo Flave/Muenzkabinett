@@ -1,42 +1,57 @@
 .ui {
   position: fixed;
   z-index: 1;
-  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   background-color: $c-background;
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   display: flex;
+  align-items: center;
 }
 
 .ui__section {
   padding: 10px 20px;
   display: flex;
   align-items: center;
+
+  &--divider {
+    border-right: 1px solid rgba($c-dark-1, .6);
+  }
 }
 
-.ui__section-title {
+.ui__section-title,
+.ui__arrow {
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: $c-accent-1;
+  color: rgba(#fff, .6);
   font-size: 16px;
   margin: 0;
   text-align: center;
-  margin-right: 10px;
+  margin-right: 15px;
+}
+
+.ui__arrow {
+  font-size: 20px;
+  margin-left: -12px;
+  margin-right: -5px;
 }
 
 .ui__section-number {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
   display: inline-block;
   background: black;
   text-align: center;
-  line-height: 22px;
-  margin-right: 5px;
+  line-height: 20px;
+  margin-right: 7px;
+  font-size: 14px;
   color: $c-background;
-  background: $c-accent-1;
+  background-color: rgba(#fff, .6);
+  padding-left: 1px;
 }
+
 
 .ui__toggle {
   position: absolute;

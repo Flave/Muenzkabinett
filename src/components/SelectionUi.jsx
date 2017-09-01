@@ -6,7 +6,11 @@ class SelectionUi extends React.Component {
   createSelectingButton() {
     var className = 'btn';
     className += this.props.state.selecting ? " is-selected" : "";
-    return <span onClick={this.handleSelectClick.bind(this)} className={className}>Select</span>
+    return (
+      <span onClick={this.handleSelectClick.bind(this)} className={className}>
+        <i className="icon-selection"></i>Make Selection
+      </span>
+    )
   }
 
   createClearButton() {

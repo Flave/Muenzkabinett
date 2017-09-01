@@ -26,22 +26,30 @@ class OrderingUi extends React.Component {
         activeIndex = componentState.activeIndex,
         otherIndex = activeIndex + 1 - 2 * activeIndex,
         selectedProperty = state.selectedProperties[activeIndex],
-        otherSelectedProperty = state.selectedProperties[otherIndex]
+        otherSelectedProperty = state.selectedProperties[otherIndex];
 
     return (
       <div className="ordering-ui__property-list">
-        { 
+        {
           properties.map(function(property, i) {
-            if(property.key === "title") return undefined;
-            var className = "btn ordering-ui__property";
-            if(selectedProperty && selectedProperty.key === property.key)
+            if(!property.selectable) return undefined;
+            const alreadySelected = otherSelectedProperty && otherSelectedProperty.key === property.key;
+            const selected = selectedProperty && selectedProperty.key === property.key;
+            let className = "ordering-ui__property";
+            if(selected)
               className += " is-selected";
-            if(otherSelectedProperty && otherSelectedProperty.key === property.key)
+            if(alreadySelected)
               className += " is-disabled is-selected";
-            return <div key={i} onClick={this.handlePropertyClick.bind(this, property, i)} className={className}>{property.value}</div>
+            return <div 
+              key={i} 
+              onClick={!alreadySelected && this.handlePropertyClick.bind(this, property, i)} 
+              className={className}>
+              <i className={`icon-${property.key}`}></i>
+              {property.value}
+              {selected && <i className="icon-cross ordering-ui__clear-icon"></i>}
+              </div>
           }.bind(this))
         }
-        <div onClick={this.handlePropertyClick.bind(this, null)} className="btn">Clear Property</div>
       </div>
     )
   }
@@ -57,7 +65,10 @@ class OrderingUi extends React.Component {
       {this.createPropertiesList()}
       <div 
         onClick={this.handleSelectionClick.bind(this, propertyIndex)} 
-        className="btn ordering-ui__selection">{value}</div>
+        className="ordering-ui__selection">
+        {property && <i className={`icon-${property.key}`}></i>}
+          {value}
+        </div>
     </div>
   }
 
@@ -104,6 +115,7 @@ class OrderingUi extends React.Component {
     return (
       <div className="ordering-ui">
         {this.createPropertyUi(state.selectedProperties[0], 0)}
+        <span className="ordering-ui__meta">and</span>
         {this.createPropertyUi(state.selectedProperties[1], 1)}
       </div>
     );

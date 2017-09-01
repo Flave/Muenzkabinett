@@ -30,7 +30,7 @@ export default {
         duration = 1000,
         maxSimilarity = d3_sum(coinProperties, function(property) {return property.similarityWeight;}),
         similarityWidth = baseRadius - outerBelt - innerBelt,
-        newCoinPositions = [];
+        positions = [];
 
     coins.forEach(function(coin, i) {
       if(coin.data.id === selectedCoin.data.id) {
@@ -48,9 +48,9 @@ export default {
         y = centerY + delta.y;
       }
 
-      newCoinPositions.push({x: x, y: y});
+      positions.push({x: x, y: y});
       coin.move(x, y, duration, Math.random() * 500);
     });
-    return newCoinPositions;
+    return {positions};
   }
 }

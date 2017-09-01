@@ -24,30 +24,69 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-scatter_lines:before {
-  content: "\e908";
+.icon-cross:before {
+  content: "\e915";
 }
-.icon-cluster_grid:before {
+.icon-weight:before {
+  content: "\e914";
+}
+.icon-arrow_right:before {
   content: "\e900";
 }
-.icon-cluster_list:before {
+.icon-carret_down:before {
   content: "\e901";
 }
-.icon-clusters:before {
+.icon-carret_up:before {
   content: "\e902";
 }
-.icon-nested_grid:before {
+.icon-cluster_grid:before {
   content: "\e903";
 }
-.icon-pile:before {
+.icon-cluster_list:before {
   content: "\e904";
 }
-.icon-plain_grid:before {
+.icon-clusters:before {
   content: "\e905";
 }
-.icon-scatter_line:before {
+.icon-date_earliest:before {
   content: "\e906";
 }
-.icon-scatter_plot:before {
+.icon-date_latest:before {
   content: "\e907";
+}
+.icon-diameter:before {
+  content: "\e908";
+}
+.icon-nested_grid:before {
+  content: "\e909";
+}
+.icon-pile:before {
+  content: "\e90a";
+}
+.icon-plain_grid:before {
+  content: "\e90b";
+}
+.icon-production_country:before {
+  content: "\e90c";
+}
+.icon-production_material:before {
+  content: "\e90d";
+}
+.icon-production_minting_place:before {
+  content: "\e90e";
+}
+.icon-production_region:before {
+  content: "\e90f";
+}
+.icon-scatter_line:before {
+  content: "\e910";
+}
+.icon-scatter_lines:before {
+  content: "\e911";
+}
+.icon-scatter_plot:before {
+  content: "\e912";
+}
+.icon-selection:before {
+  content: "\e913";
 }

@@ -18,7 +18,8 @@ class Ui extends React.Component {
           </h3>
           <OrderingUi state={state}/>
         </div>
-        <div className="ui__section">
+        <div className="icon-arrow_right ui__arrow"></div>
+        <div className="ui__section ui__section--divider">
           <h3 className="ui__section-title">
             <span className="ui__section-number">2</span>
             Layout
@@ -26,7 +27,6 @@ class Ui extends React.Component {
           <LayoutUi state={state} />
         </div>
         <div className="ui__section">
-          <h3 className="ui__section-title">Selection</h3>
           <SelectionUi state={state} />
         </div>
       </div>

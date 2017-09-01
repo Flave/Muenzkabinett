@@ -14,7 +14,10 @@ class LayoutUi extends React.Component {
       var className = "layout-list__layout";
       className += state.selectedLayout === layout.key ? " is-selected" : "";
       return (
-        <span key={layout.key} onClick={this.handleClick.bind(this, layout)} className={`${className} icon icon-${layout.key}`}></span>
+        <span 
+          key={layout.key} 
+          onClick={this.handleClick.bind(this, layout)} 
+          className={`${className} icon icon-${layout.key}`}></span>
       )
     }.bind(this))
   }

@@ -1,0 +1,49 @@
+.btn,
+%btn {
+  border: 1px solid $c-accent-1;
+  padding: 10px 20px;
+  color: $c-accent-1;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+      justify-content: center;
+
+  &--primary {
+    background-color: $c-accent-1;
+    color: $c-background;
+    border: none;
+  }
+
+  &--secondary {
+    background-color: $c-dark-1;
+    color: #fff;
+    border: none;
+  }
+
+  &.is-selected {
+    background-color: $c-accent-1;
+    color: $c-background;
+  }
+
+  &.is-disabled {
+    pointer-events: none;
+    opacity: .5;
+  }
+
+  &.is-empty {
+    font-style: italic;
+  }
+
+  &:hover {
+    background-color: $c-accent-1;
+    color: $c-background;
+  }
+
+  [class^="icon-"] {
+    font-size: 1.3em;
+    display: inline-block;
+    margin: -2px 5px -2px 0
+  }
+}

@@ -7,7 +7,7 @@ export default {
         width = bounds.right - bounds.left,
         padding = width * paddingRatio,
         paddedBounds = {left: bounds.left + padding, right: bounds.right - padding*2, top: bounds.top + padding},
-        newCoinPositions = [];
+        positions = [];
 
     coins.sort(function(a, b) {
       return a.data[properties[0].key] - b.data[properties[0].key];
@@ -24,9 +24,9 @@ export default {
       y = yIndex * 40 + paddedBounds.top;
 
       coin.move(x, y, 1000, Math.random() * 500);
-      newCoinPositions.push({x: x, y: y});
+      positions.push({x: x, y: y});
       x += coin.width;
     });
-    return newCoinPositions;
+    return {positions};
   }
 }
