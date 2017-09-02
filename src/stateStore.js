@@ -15,6 +15,7 @@ var _state = {
   selecting: false,
   hoveredCoin: undefined,
   transform: {x: 0, y: 0, k: 1},
+  transitioning: false,
 
   coinsProgress: 0,
   canvasInitialized: false,

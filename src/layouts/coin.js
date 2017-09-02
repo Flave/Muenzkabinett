@@ -17,17 +17,15 @@ function getSimilarity(selectedCoin, coin) {
 }
 
 export default {
-  create: function(coins, state, bounds, coinsBounds) {
+  create: function(coins, selectedCoin, bounds, cb) {
     var width = bounds.right - bounds.left,
         height = bounds.bottom - bounds.top,
         centerX = bounds.left + width/2,
         centerY = bounds.top + height/2,
         x, y,
-        selectedCoin = _find(coins, function(coin) {return coin.data.id === state.selectedCoin; }),
         baseRadius = 1000,
         outerBelt = 0,
         innerBelt = 300,
-        duration = 1000,
         maxSimilarity = d3_sum(coinProperties, function(property) {return property.similarityWeight;}),
         similarityWidth = baseRadius - outerBelt - innerBelt,
         positions = [];
@@ -49,7 +47,7 @@ export default {
       }
 
       positions.push({x: x, y: y});
-      coin.move(x, y, duration, Math.random() * 500);
+      coin.move(x, y);
     });
     return {positions};
   }

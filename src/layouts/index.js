@@ -110,7 +110,7 @@ layouter.update = function(selectedCoins, notSelectedCoins, state, canvasBounds)
       newCoinsBounds;
 
   if(state.selectedCoin !== null) {
-    positionSpec = coinLayout.create(selectedCoins, state, canvasBounds);    
+    positionSpec = coinLayout.create(selectedCoins, state.selectedCoin, canvasBounds);    
   }
 
   else {

@@ -17,25 +17,12 @@ var coinsContainer = {},
 
 stage.interactiveChildren = true;
 
-function updateCoinInfo() {
-  var state = stateStore.get(),
-      coins = coinsStore.get();
-
-  if(state.selectedCoin !== null) {
-    var coin = _find(coins, function(coin) {return coin.data.id === state.selectedCoin});
-    //coinInfo.show(coin, stage.transform);
-  } else {
-    //coinInfo.hide();
-  }
-}
-
 function handleCoinClick() {
   var state = stateStore.get();
-  //coinInfo.hide();
-  if(state.selectedCoin === this.data.id)
+  if(state.selectedCoin && (state.selectedCoin.data.id === this.data.id))
     stateStore.set({'selectedCoin': null});
   else
-    stateStore.set({'selectedCoin': this.data.id});
+    stateStore.set({'selectedCoin': this});
 }
 
 function handleCoinDragStart() {

@@ -3,6 +3,7 @@ import Labels from 'components/Labels';
 import Overlays from 'components/Overlays';
 import Canvas from 'components/Canvas';
 import Tooltip from 'components/Tooltip';
+import CoinInfo from 'components/CoinInfo';
 import stateStore from 'app/stateStore';
 import coinsContainer from 'app/components/Coins';
 import _debounce from 'lodash/debounce';
@@ -90,20 +91,28 @@ class CanvasController extends React.Component {
   render() {
     const {state} = this.props;
     let className = "canvas-container";
+    const showCoinInfo = state.selectedCoin && !state.transitioning;
+    const showLabels = !state.transitioning;
+    const showTooltip = state.hoveredCoin && !state.transitioning;
     className += state.selecting ? " is-in-selection-mode" : "";
+
+
     return (
       <div ref={(root) => this.root = root} className={className}>
         {this.canvas && <Overlays transform={state.transform}>
-          <Labels 
-            onLabelClick={this.handleLabelClick} 
-            transform={state.transform}
-            bounds={this.canvas.bounds()}
-            labels={this.canvas.labels()}/>
-          {state.hoveredCoin && <Tooltip 
+          {showLabels && <Labels 
+              onLabelClick={this.handleLabelClick} 
+              transform={state.transform}
+              bounds={this.canvas.bounds()}
+              labels={this.canvas.labels()}/>}
+          {showTooltip && <Tooltip 
             coin={state.hoveredCoin}
             transform={state.transform}
             properties={state.selectedProperties}/>
           }
+          {showCoinInfo && <CoinInfo 
+            coin={state.selectedCoin}
+            transform={state.transform}/>}
         </Overlays>}
         {state.selecting && this.createSvgOverlay()}
       </div>

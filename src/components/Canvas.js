@@ -230,6 +230,9 @@ export default function Canvas() {
       let bounds = getNextBounds({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
       transformTo({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
       labels = layouter.update(selectedCoins, notSelectedCoins, state, bounds).labels;
+
+      stateStore.set({transitioning: true});
+      window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
     }
   }
 
