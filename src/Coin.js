@@ -9,7 +9,7 @@ import rebind from 'utility/rebind';
 export default function Coin(texture, data) {
   var coin = new PIXI.Sprite(texture),
       parentTransform,
-      dispatch = d3_dispatch('dragstart', 'drag', 'dragend', 'click');
+      dispatch = d3_dispatch('dragstart', 'drag', 'dragend', 'click', 'mouseenter', 'mouseleave');
 
   coin.data = data;
   coin.interactive = true;
@@ -32,28 +32,16 @@ export default function Coin(texture, data) {
   function onClick(event) {
     if(this.moved)
       return;
-    dispatch.call('click', coin);
+    dispatch.call('click', coin, coin);
   }
 
   function onMouseOver(event) {
-/*    var coinCenter = new Point(coin.position.x + coin.width/2, coin.position.y),
-        projectedPoint = parentTransform.apply(coinCenter),
-        state = stateStore.get(),
-        tooltipData = {
-          title: coin.data.title,
-          date_earliest: coin.data.date_earliest,
-          date_latest: coin.data.date_latest,
-          selectedProperty: state.selectedProperties.length && {value: coin.data[state.selectedProperties[0].key], label: state.selectedProperties[0].value}
-        }*/
-
-/*    window.setTimeout(function() {
-      tooltip.show(tooltipData, projectedPoint);
-    });*/
+    dispatch.call('mouseenter', null, coin);
     this.overCoin = true;
   }
 
   function onMouseOut(event) {
-    //tooltip.hide();
+    dispatch.call('mouseleave', null, coin);
     this.overCoin = false;
   }
 
@@ -69,7 +57,7 @@ export default function Coin(texture, data) {
         offsetY = event.data.originalEvent.clientY - posProjected.y;
 
     this.event.eventOffset = {x: offsetX, y: offsetY};
-    dispatch.call('dragstart');
+    dispatch.call('dragstart', null, coin);
   }
 
   function onDragMove(event) {
@@ -81,7 +69,7 @@ export default function Coin(texture, data) {
           // transform is the PIXI container object the coin is contained in
           originalPoint = new Point(mouseX - offsetX, mouseY - offsetY),
           projectedPoint = parentTransform.applyInverse(originalPoint);
-      // to check insie clickhandler whether coin has been moved
+      // to check inside clickhandler whether coin has been moved
       this.moved = true;
       this.position.x = projectedPoint.x;
       this.position.y = projectedPoint.y;
@@ -96,7 +84,7 @@ export default function Coin(texture, data) {
     // set the interaction data to null
     this.dragging = false;
     this.event = null;
-    dispatch.call('dragend');
+    dispatch.call('dragend', null, coin);
   }
 
 

@@ -19,10 +19,13 @@ export default function Canvas() {
   var size = {width: 200, height: 200},
       renderer = autoDetectRenderer(size.width, size.height, {transparent: true}),
       stage = new Container(),
-      dispatch = d3_dispatch('zoom'),
+      dispatch = d3_dispatch('zoom', 'zoomstart', 'zoomend'),
       zoomCanvas,
       initialZoom = 1,
-      zoomBehavior = d3_zoom().scaleExtent([0.1, 1.2]).on("zoom", handleZoom),
+      zoomBehavior = d3_zoom().scaleExtent([0.1, 1.2])
+        .on("zoom", handleZoom)
+        .on("start", handleZoomStart)
+        .on("end", handleZoomEnd),
       selectionTool = SelectionTool()(stage).coins(coinsContainer.coins),
       labels = [],
       shouldUpdate = true; // used for to prevent updating after zooming
@@ -79,11 +82,15 @@ export default function Canvas() {
     renderer.render(stage);
   }
 
+  function handleZoomStart() {
+    const {transform} = d3_event;
+    dispatch.call('zoomstart', null, transform);
+  }
 
   function handleZoom() {
     shouldUpdate = false;
-    dispatch.call('zoom');
     const {transform} = d3_event;
+    dispatch.call('zoom', null, transform);
 
     if(transform)
       stage.setTransform(transform.x, transform.y, transform.k, transform.k);
@@ -91,6 +98,11 @@ export default function Canvas() {
     selectionTool
       .zoom(transform.k)
       .bounds(getCanvasBounds());
+  }
+
+  function handleZoomEnd() {
+    const {transform} = d3_event;
+    dispatch.call('zoomend', null, transform);
   }
 
   function getNextBounds(nt) {

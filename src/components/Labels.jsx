@@ -28,7 +28,6 @@ class SelectionUi extends React.Component {
   // }
 
   handleClick(label) {
-    console.log(arguments);
     //TODO: Check for shift to be pressed if you figure out fucking react events
     this.props.onLabelClick(label);
   }
@@ -56,7 +55,7 @@ class SelectionUi extends React.Component {
             className={className}
             onClick={this.handleClick.bind(this, label)}
             style={{
-              position: "absolute",
+              /*transform: `translate(${label.x * transform.k}px, ${label.y * transform.k}px)`,*/
               left: `${label.x * transform.k}px`, 
               top:`${label.y * transform.k}px`
             }}>
