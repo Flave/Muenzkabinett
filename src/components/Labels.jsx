@@ -6,33 +6,31 @@ class SelectionUi extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+    this.selectedLabels = [];
+    document.addEventListener('keyup', this.handleKeyUp);
   }
-  componentDidUpdate() {
-    //console.dir(this.root);
+
+  componentWillUnmount() {
+   document.removeEventListener('keyup', this.handleKeyUp); 
   }
 
-  // function onMouseUp(event) {
-  //   if(!recording) return;
-  //   recording = false;
-  //   setLineStyle();
-  //   graphics.lineTo(currentPolygonData[0].x, currentPolygonData[0].y);
-  //   polygonsData.push(currentPolygonData);
-  //   currentPolygonData = [];
-  //   dispatch.call('selection');
-
-  //   if(!event.data.originalEvent.shiftKey)
-  //     stopRecording();
-  // }
-
-  // function onKeyUp(event) {
-  //   if(event.key === 'Shift')
-  //     stopRecording();
-  // }
+  handleKeyUp(event) {
+    if(event.key === 'Shift')
+      this.submitSelection();
+  }
 
   handleClick(propertyKey, value, e) {
     const labelGroup = _find(this.props.labels, {key: propertyKey});
     const label = _find(labelGroup.labels, {value});
-    this.props.onLabelClick([label]);
+    this.selectedLabels.push(label);
+    if(!e.nativeEvent.shiftKey)
+      this.submitSelection();
+  }
+
+  submitSelection() {
+    this.props.onLabelClick(this.selectedLabels);
+    this.selectedLabels = [];
   }
 
   isInsideBounds({x, y}, {left, top, right, bottom}) {

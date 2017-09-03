@@ -83,13 +83,6 @@ class CanvasController extends React.Component {
     )
   }
 
-// [
-//   {
-//     key: "production_material",
-//     values: ["Silber", "Gold"]
-//   }
-// ]
-
   handleLabelClick(labels) {
     const {state} = this.props;
     let coinFilters = state.coinFilters.slice();

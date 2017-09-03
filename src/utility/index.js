@@ -85,3 +85,28 @@ export function getCoinsBounds(coins) {
   bounds.cy = bounds.top + (bounds.bottom - bounds.top) / 2;
   return bounds;
 }
+/*
+export function filterCoins(coins, filters) {
+  const selected = [];
+  const notSelected = [];
+  return coins.forEach(coin => {
+    let isSelected = false;
+
+    filters.forEach({key, values} => {
+      values.forEach(filter => {
+
+      });
+    });
+  });
+}
+*/
+
+
+
+
+
+
+
+
+
+

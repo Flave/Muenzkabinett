@@ -46,6 +46,7 @@
   background: rgba(#fff, .4);
   border-radius: 20px;
   transition: opacity .2s;
+  user-select: none;
   
 
   &--selectable {
