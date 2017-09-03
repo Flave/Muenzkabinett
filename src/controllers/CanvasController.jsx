@@ -19,13 +19,13 @@ class CanvasController extends React.Component {
     let shouldCanvasRelayout;
     let {state} = this.props;
     let canvasPropertiesChanged = stateStore.didPropertiesChange([
-      'selectedLayout', 
-      'coinsProgress', 
-      'selectedProperties', 
-      'selectedCoin', 
-      'selectedCoins', 
-      'width', 
-      'height'
+      'selectedLayout',
+      'coinsProgress',
+      'selectedProperties',
+      'selectedCoin',
+      'width',
+      'height',
+      'coinFilters'
     ]);
 
     shouldCanvasRelayout = canvasPropertiesChanged && (state.coinsProgress === 1);
