@@ -53,14 +53,15 @@ export default {
   value: 'Cluster Grid',
   requiredTypes: ['discrete', 'discrete'],
   create: function plainGrid(coins, properties, bounds) {
-    var paddedDimensions = getPaddedDimensions(bounds, 0.05),
-        propertyOne = properties[0].key,
-        propertyTwo = properties[1].key,
-        showTop = 20,
-        grouping = createGrouping(coins, propertyOne, propertyTwo),
-        xSpacing = paddedDimensions.width / showTop,
-        ySpacing = paddedDimensions.height / showTop,
-        newCoinPositions = [];
+    const paddedDimensions = getPaddedDimensions(bounds, 0.05);
+    const propertyOne = properties[0].key;
+    const propertyTwo = properties[1].key;
+    const showTop = 20;
+    const grouping = createGrouping(coins, propertyOne, propertyTwo);
+    const xSpacing = paddedDimensions.width / showTop;
+    const ySpacing = paddedDimensions.height / showTop;
+    const positions = [];
+    const labels = [];
 
     grouping.groups.forEach((xGroup, xIndex) => {
       xGroup.forEach((yGroup, yIndex) => {
@@ -74,12 +75,12 @@ export default {
             x = bounds.left + 20;
             y = bounds.bottom + 20;
           }
-          newCoinPositions.push({x: x, y:y});
+          positions.push({x: x, y:y});
           coin.move(x, y, 1000, Math.random() * 500);
         })
       });
     });
 
-    return newCoinPositions;
+    return {positions, labels};
   }
 }

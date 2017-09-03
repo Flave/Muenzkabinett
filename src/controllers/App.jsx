@@ -1,6 +1,6 @@
 import React from 'react';
-import Ui from 'controllers/Ui';
 import { MARGIN } from 'constants';
+import Ui from 'controllers/Ui';
 import CanvasController from 'controllers/CanvasController';
 import IntroController from 'controllers/IntroController';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -32,7 +32,7 @@ class App extends React.Component {
     var state = stateStore.get();
     return (
       <div className="app">
-        {state.showUi && <Ui state={state} />}
+        <Ui/>
         <CanvasController state={state} />
         {!state.onboardingComplete && <IntroController state={state} />}
         {!state.canvasInitialized && <LoadingIndicator state={state}/>}

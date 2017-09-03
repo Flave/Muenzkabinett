@@ -46,12 +46,12 @@
   background: rgba(#fff, .4);
   border-radius: 20px;
   transition: opacity .2s;
-  user-select: none;
-  
+  user-select: none; 
 
   &--selectable {
     background: $c-accent-1;
     cursor: pointer;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .1);
   }
 
   &--center{

@@ -87,19 +87,27 @@ class CanvasController extends React.Component {
     const {state} = this.props;
     let coinFilters = state.coinFilters.slice();
     labels.forEach(({key, value}) => {
-      let propertyFilters = _find(coinFilters, {key});
-      let valueIndex;
-      if(!propertyFilters) {
-        coinFilters.push({key, values:[value]});
+      const currentFilter = _find(coinFilters, {key, value});
+      if(!currentFilter) {
+        coinFilters.push({key, value});
       } else {
-        valueIndex = propertyFilters.values.indexOf(value);
-        if(valueIndex > -1)
-          propertyFilters.values.splice(valueIndex, 1);
-        else
-          propertyFilters.values.push(value);
+        const index = coinFilters.indexOf(currentFilter);
+        coinFilters.splice(index, 1);
       }
+
+      // let propertyFilters = _find(coinFilters, {key});
+      // let valueIndex;
+      // if(!propertyFilters) {
+      //   coinFilters.push({key, values:[value]});
+      // } else {
+      //   valueIndex = propertyFilters.values.indexOf(value);
+      //   if(valueIndex > -1)
+      //     propertyFilters.values.splice(valueIndex, 1);
+      //   else
+      //     propertyFilters.values.push(value);
+      // }
     });
-    coinFilters = coinFilters.filter(filter => filter.values.length);
+    // coinFilters = coinFilters.filter(filter => filter.values.length);
     stateStore.set({coinFilters});
   }
 

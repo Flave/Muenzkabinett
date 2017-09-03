@@ -1,7 +1,7 @@
 export const MARGIN = {
   TOP: 0,
   LEFT: 0,
-  BOTTOM: 65,
+  BOTTOM: 0,
   RIGHT: 0
 }
 
