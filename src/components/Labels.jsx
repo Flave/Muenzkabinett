@@ -29,9 +29,11 @@ class SelectionUi extends React.Component {
   //     stopRecording();
   // }
 
-  handleClick(value) {
+  handleClick(propertyKey, value) {
     //TODO: Check for shift to be pressed if you figure out fucking react events
-    const label = _find(this.props.labels, label => label.value === value)
+    const labelGroup = _find(this.props.labels, {key: propertyKey});
+    const label = _find(labelGroup.labels, {value});
+    console.log(propertyKey, labelGroup, value, label);
     this.props.onLabelClick(label);
   }
 
@@ -39,7 +41,7 @@ class SelectionUi extends React.Component {
     return (x > left) && (x < right) && (y > top) && (y < bottom);
   }
 
-  createLabel(label, i) {
+  createLabel(key, label, i) {
     const {bounds, transform} = this.props;
     const isInside = this.isInsideBounds(label, bounds);
     if(transform.k < label.minZoom || !isInside) return;
@@ -48,7 +50,7 @@ class SelectionUi extends React.Component {
         {...label}
         key={i}
         transform={transform} 
-        onClick={this.handleClick}/>
+        onClick={this.handleClick.bind(this, key)}/>
     )
   }
 
@@ -60,7 +62,7 @@ class SelectionUi extends React.Component {
       <div ref={(root) => this.root = root} className="labels">
         {labels.map((labelGroup, i) =>
           <div key={i}>
-            {labelGroup.labels.map(this.createLabel.bind(this))}
+            {labelGroup.labels.map(this.createLabel.bind(this, labelGroup.key))}
           </div>
         )}
       </div>

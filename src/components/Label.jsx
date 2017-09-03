@@ -22,7 +22,7 @@ class Label extends React.Component {
     return (
       <span 
         className={className}
-        onClick={onClick.bind(this, value)}
+        onClick={() => onClick(value)}
         style={{
           left: `${x * transform.k}px`, 
           top:`${y * transform.k}px`
