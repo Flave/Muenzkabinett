@@ -1,6 +1,6 @@
 import React from 'react';
 import Ui from 'controllers/Ui';
-import { MARGIN } from 'constants/dimensions';
+import { MARGIN } from 'constants';
 import CanvasController from 'controllers/CanvasController';
 import IntroController from 'controllers/IntroController';
 import LoadingIndicator from 'components/LoadingIndicator';

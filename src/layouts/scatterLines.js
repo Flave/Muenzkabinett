@@ -29,10 +29,11 @@ export default {
       labels.push({
         value: group.key,
         key: discreteProperty.key,
-        x: paddedDimensions.left - 280,
+        x: paddedDimensions.left - 50,
         y: baseY,
         minZoom: groupIndex % 2 === 0 ? .2 : .3,
-        selectable: true
+        selectable: true,
+        alignment: "right"
       });
       positions.push.apply(positions, scatterLine.create(group.coins, properties, paddedDimensions, options));
     });

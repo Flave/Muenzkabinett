@@ -8,6 +8,8 @@ import scatterPlot from './scatterPlot';
 import clusters from './clusters';
 import scatterLines from './scatterLines';
 import clusterGrid from './clusterGrid';
+import clusterList from './clusterList';
+import nestedGrid from './nestedGrid';
 
 import coinLayout from './coin';
 import notSelected from './notSelected';
@@ -20,19 +22,9 @@ const layouts = [
   scatterPlot,
   clusters,
   clusterGrid,
-  {
-    key: 'cluster_list',
-    value: 'Clusters List',
-    requiredTypes: ['discrete'],
-    create: pile.create
-  },
+  clusterList,
   scatterLines,
-  {
-    key: 'nested_grid',
-    value: 'Nested Grid',
-    requiredTypes: ['discrete', 'continuous'],
-    create: pile.create
-  }
+  nestedGrid
 ]
 
 var layouter = {};

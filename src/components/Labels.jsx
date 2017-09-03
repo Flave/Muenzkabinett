@@ -1,4 +1,6 @@
 import React from 'react';
+import Label from 'components/Label';
+import _find from 'lodash/find';
 
 class SelectionUi extends React.Component {
   constructor(props) {
@@ -27,8 +29,9 @@ class SelectionUi extends React.Component {
   //     stopRecording();
   // }
 
-  handleClick(label) {
+  handleClick(value) {
     //TODO: Check for shift to be pressed if you figure out fucking react events
+    const label = _find(this.props.labels, label => label.value === value)
     this.props.onLabelClick(label);
   }
 
@@ -45,22 +48,14 @@ class SelectionUi extends React.Component {
         {labels.map((label, i) => {
           const isInside = this.isInsideBounds(label, bounds);
           if(transform.k < label.minZoom || !isInside) return;
-
-          let className = "label";
-          className += label.selectable ? " label--selectable" : "";
-          label.minZoom = (label.minZoom === undefined) ? 0 : label.minZoom;
-
-          return <span 
-            key={i}
-            className={className}
-            onClick={this.handleClick.bind(this, label)}
-            style={{
-              /*transform: `translate(${label.x * transform.k}px, ${label.y * transform.k}px)`,*/
-              left: `${label.x * transform.k}px`, 
-              top:`${label.y * transform.k}px`
-            }}>
-            { label.value === "" ? "Unknown" : label.value }
-          </span>
+          //return <span key={i}>blabla</span>;
+          return (
+            <Label 
+              {...label}
+              key={i}
+              transform={transform} 
+              onClick={this.handleClick}/>
+          )
         })}
       </div>
     );

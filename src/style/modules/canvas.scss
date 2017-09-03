@@ -46,9 +46,18 @@
   background: rgba(#fff, .4);
   border-radius: 20px;
   transition: opacity .2s;
+  
 
   &--selectable {
     background: $c-accent-1;
     cursor: pointer;
+  }
+
+  &--center{
+    transform: translate(-50%, -50%);
+  }
+
+  &--right {
+    transform: translateX(-100%);
   }
 }

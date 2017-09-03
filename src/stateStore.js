@@ -5,7 +5,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _assign from 'lodash/assign';
 import _find from 'lodash/find';
 import _forEach from 'lodash/forEach';
-import { MARGIN } from 'constants/dimensions';
+import { MARGIN } from 'constants';
 
 var _state = {
   selectedProperties: [],

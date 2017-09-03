@@ -4,3 +4,5 @@ export const MARGIN = {
   BOTTOM: 65,
   RIGHT: 0
 }
+
+export const COIN_HEIGHT = 40;

@@ -2,19 +2,16 @@ import {hierarchy as d3_hierarchy} from 'd3-hierarchy';
 import {max as d3_max} from 'd3-array';
 import {pack as d3_pack} from 'd3-hierarchy';
 import {randomNormal as d3_randomNormal} from 'd3-random';
-import _groupBy from 'lodash/groupBy';
-import _forEach from 'lodash/forEach';
+import {groupDiscrete} from 'utility';
+import {COIN_HEIGHT} from 'constants';
 
 function createGroupHierarchy(coins, property) {
-  var groups = _groupBy(coins, function(coin, i) {
-    return coin.data[property.key]
-  });
-
+  var groups = groupDiscrete(coins, property.key);
   var children = []
-  _forEach(groups, function(group, key) {
+  groups.forEach(function(group) {
     children.push({
-        name: key,
-        coins: group
+        key: group.key,
+        coins: group.coins
       });
   })
 
@@ -56,13 +53,14 @@ export default {
       });
 
       labels.push({
-        value: group.data.name,
+        value: group.data.key,
         key: property.key,
-        x: group.x + bounds.left,
-        y: group.y + bounds.top,
-        minZoom: 1.1 - group.data.coins.length / maxGroupSize,
+        x: group.x + bounds.left + COIN_HEIGHT/2,
+        y: group.y + bounds.top + COIN_HEIGHT/2,
         z: group.data.coins.length / maxGroupSize,
-        selectable: true
+        minZoom: 1.1 - group.data.coins.length / maxGroupSize,
+        selectable: true,
+        alignment: 'center'
       });
     });
     return {positions, labels};
