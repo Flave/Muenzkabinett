@@ -7,6 +7,8 @@ import CoinInfo from 'components/CoinInfo';
 import stateStore from 'app/stateStore';
 import coinsContainer from 'app/components/Coins';
 import _debounce from 'lodash/debounce';
+import _find from 'lodash/find';
+import _merge from 'lodash/merge';
 
 class CanvasController extends React.Component {
   constructor(props) {
@@ -81,11 +83,31 @@ class CanvasController extends React.Component {
     )
   }
 
-  handleLabelClick({key, value}) {
+// [
+//   {
+//     key: "production_material",
+//     values: ["Silber", "Gold"]
+//   }
+// ]
+
+  handleLabelClick(labels) {
     const {state} = this.props;
-    const coins = state.selectedCoins.length ? state.selectedCoins : coinsContainer.coins;
-    const selectedCoins = coins.filter((coin) => coin.data[key] === value);
-    stateStore.set({selectedCoins});
+    let coinFilters = state.coinFilters.slice();
+    labels.forEach(({key, value}) => {
+      let propertyFilters = _find(coinFilters, {key});
+      let valueIndex;
+      if(!propertyFilters) {
+        coinFilters.push({key, values:[value]});
+      } else {
+        valueIndex = propertyFilters.values.indexOf(value);
+        if(valueIndex > -1)
+          propertyFilters.values.splice(valueIndex, 1);
+        else
+          propertyFilters.values.push(value);
+      }
+    });
+    coinFilters = coinFilters.filter(filter => filter.values.length);
+    stateStore.set({coinFilters});
   }
 
   render() {

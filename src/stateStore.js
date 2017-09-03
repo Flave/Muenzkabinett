@@ -12,6 +12,7 @@ var _state = {
   selectedLayout: 'pile',
   selectedCoin: null,
   selectedCoins: [],
+  coinFilters: [],
   selecting: false,
   hoveredCoin: undefined,
   transform: {x: 0, y: 0, k: 1},

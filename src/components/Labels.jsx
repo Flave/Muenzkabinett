@@ -29,12 +29,10 @@ class SelectionUi extends React.Component {
   //     stopRecording();
   // }
 
-  handleClick(propertyKey, value) {
-    //TODO: Check for shift to be pressed if you figure out fucking react events
+  handleClick(propertyKey, value, e) {
     const labelGroup = _find(this.props.labels, {key: propertyKey});
     const label = _find(labelGroup.labels, {value});
-    console.log(propertyKey, labelGroup, value, label);
-    this.props.onLabelClick(label);
+    this.props.onLabelClick([label]);
   }
 
   isInsideBounds({x, y}, {left, top, right, bottom}) {
