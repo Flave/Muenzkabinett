@@ -27,7 +27,7 @@ export default function Canvas() {
         .on("start", handleZoomStart)
         .on("end", handleZoomEnd),
       selectionTool = SelectionTool()(stage).coins(coinsContainer.coins),
-      labels = [],
+      labelGroups = [],
       shouldUpdate = true; // used for to prevent updating after zooming
 
   stage.interactiveChildren = true;
@@ -229,15 +229,15 @@ export default function Canvas() {
       let coinsBounds = getCoinsBounds(coins);
       let bounds = getNextBounds({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
       transformTo({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
-      labels = layouter.update(selectedCoins, notSelectedCoins, state, bounds).labels;
+      labelGroups = layouter.update(selectedCoins, notSelectedCoins, state, bounds).labelGroups;
 
       stateStore.set({transitioning: true});
       window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
     }
   }
 
-  canvas.labels = function() {
-    return labels;
+  canvas.labelGroups = function() {
+    return labelGroups;
   }
 
   canvas.transform = function() {

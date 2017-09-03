@@ -32,18 +32,17 @@ export function removeFalsy(array) {
 }
 
 export function groupContinuous(coins, property, extent) {
-  var key = property.key,
-      bins = d3_range(extent[0], extent[1], property.grouping),
-      groups = bins.map(function(stepIndex) {
+  const key = property.key;
+  const bins = d3_range(extent[0], extent[1], property.grouping);
+  return bins.map(function(stepIndex) {
       var coinsInStep = [];
       coins.forEach(function(coin) {
         var floored = Math.floor(coin.data[key])
-        if(floored >= stepIndex && floored <= (stepIndex + property.grouping))
+        if(floored >= stepIndex && floored < (stepIndex + property.grouping))
           coinsInStep.push(coin);
       });
     return coinsInStep;
   });
-  return groups;
 }
 
 export function groupDiscrete(coins, key) {

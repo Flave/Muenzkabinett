@@ -73,7 +73,13 @@ export default [
     similarityWeight: 0.1,
     grouping: 100,
     selectable: true,
-    unit: 'y'
+    unit: 'y',
+    labelGenerator: (value) => (
+      {
+        value: value < 0 ? `${value} B.C.` : `${value} A.D.`,
+        modifiers: value === 0 ? ["highlight"] : []
+      }
+    )
   },
   {
     key: 'date_latest',

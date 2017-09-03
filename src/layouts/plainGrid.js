@@ -1,32 +1,58 @@
+import {getPaddedDimensions, groupContinuous, getExtent} from 'utility';
+import {scaleLinear as d3_scaleLinear} from 'd3-scale';
+import {COIN_HEIGHT} from 'constants';
+
 export default {
   key: 'plain_grid',
   value: 'Plain Grid',
   requiredTypes: ['continuous'],
   create: function plainGrid(coins, properties, bounds) {
-    var paddingRatio = 0.03,
-        width = bounds.right - bounds.left,
-        padding = width * paddingRatio,
-        paddedBounds = {left: bounds.left + padding, right: bounds.right - padding*2, top: bounds.top + padding},
-        positions = [];
-
+    const paddingRatio = 0.03;
+    const property = properties[0];
+    const key = property.key;
+    const extentX = getExtent(coins, key);
+    const paddedDimensions = getPaddedDimensions(bounds, {left: 200, right: 0.05, top: 0.05, bottom: 0.05});
+    const value2X = d3_scaleLinear().domain(extentX).range([0, 1]);
+    const ticks = value2X.nice().ticks();
+    const positions = [];
+    const labelGroups = [{key: property.key, labels: []}];
+    let labelIndex = 0;
+    let x = paddedDimensions.left;
+    let yIndex = 0;
+    let y = 0;
     coins.sort(function(a, b) {
-      return a.data[properties[0].key] - b.data[properties[0].key];
+      return a.data[key] - b.data[key];
     });
 
-    var x = paddedBounds.left,
-        yIndex = 0,
-        y = 0;
+    //const groups = groupContinuous(coins, properties[0], extentX);
+
     coins.forEach(function(coin, i) {
-      if(x > paddedBounds.right) {
-        x = paddedBounds.left;
+      if(x > paddedDimensions.right) {
+        x = paddedDimensions.left;
         yIndex++;
       }
-      y = yIndex * 40 + paddedBounds.top;
+      y = yIndex * COIN_HEIGHT + paddedDimensions.top;
 
-      coin.move(x, y, 1000, Math.random() * 500);
-      positions.push({x: x, y: y});
+      coin.move(x, y);
+      positions.push({x, y});
       x += coin.width;
+
+      const tick = ticks[labelIndex];
+
+      if(coin.data[key] >= tick) {
+        labelGroups[0].labels.push({
+          value: tick,
+          key,
+          x: paddedDimensions.left - 50,
+          y,
+          minZoom: labelIndex % 2 === 0 ? .2 : .3,
+          alignment: "right"
+        });
+
+        labelIndex++;
+      }
     });
-    return {positions};
+
+    return {positions, labelGroups};
   }
 }

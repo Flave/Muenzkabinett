@@ -104,7 +104,7 @@ class CanvasController extends React.Component {
               onLabelClick={this.handleLabelClick} 
               transform={state.transform}
               bounds={this.canvas.bounds()}
-              labels={this.canvas.labels()}/>}
+              labels={this.canvas.labelGroups()}/>}
           {showTooltip && <Tooltip 
             coin={state.hoveredCoin}
             transform={state.transform}

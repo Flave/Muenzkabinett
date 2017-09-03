@@ -42,7 +42,7 @@ export default {
     const groups = groupDiscrete(coins, discreteProperty.key);
     const sorter = groupSorter(continuousProperty.key);
     const positions = [];
-    const labels = [];
+    const labelGroups = [{key: discreteProperty.key, labels: []}];
     const PADDING = 60;
     let lastGroupEnd = paddedDimensions.left;
     const maxGroupSize = d3_max(groups, (group) => group.coins.length);
@@ -56,7 +56,7 @@ export default {
       const labelY = numCoins < 10 ? paddedDimensions.top - 40 : paddedDimensions.top + height/2;
       let labelMinZoom = .4 - numCoins / maxGroupSize;
 
-      labels.push({
+      labelGroups[0].labels.push({
         value: group.key,
         key: discreteProperty.key,
         x: labelX,
@@ -76,6 +76,6 @@ export default {
       lastGroupEnd = groupX + width;
     });
 
-    return {positions, labels};
+    return {positions, labelGroups};
   }
 }

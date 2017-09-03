@@ -39,24 +39,30 @@ class SelectionUi extends React.Component {
     return (x > left) && (x < right) && (y > top) && (y < bottom);
   }
 
+  createLabel(label, i) {
+    const {bounds, transform} = this.props;
+    const isInside = this.isInsideBounds(label, bounds);
+    if(transform.k < label.minZoom || !isInside) return;
+    return (
+      <Label 
+        {...label}
+        key={i}
+        transform={transform} 
+        onClick={this.handleClick}/>
+    )
+  }
+
   render() {
-    var {labels, transform, bounds} = this.props;
+    var {labels} = this.props;
     if(!labels || !labels.length) return <div/>;
 
     return (
       <div ref={(root) => this.root = root} className="labels">
-        {labels.map((label, i) => {
-          const isInside = this.isInsideBounds(label, bounds);
-          if(transform.k < label.minZoom || !isInside) return;
-          //return <span key={i}>blabla</span>;
-          return (
-            <Label 
-              {...label}
-              key={i}
-              transform={transform} 
-              onClick={this.handleClick}/>
-          )
-        })}
+        {labels.map((labelGroup, i) =>
+          <div key={i}>
+            {labelGroup.labels.map(this.createLabel.bind(this))}
+          </div>
+        )}
       </div>
     );
   }

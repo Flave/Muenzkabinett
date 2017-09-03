@@ -19,10 +19,10 @@ export default {
     var spreadX = spacingX/2;
     var spreadDivider = options.spreadDivider || 1;
     var positions = [];
-    var labels = [];
     var value2X = d3_scaleLinear().domain(extentX).range([bounds.left, bounds.right]);
     var ticks = value2X.nice().ticks();
     var yPositionExtent = [Infinity, -Infinity];
+    const labelGroups = [{key: property.key}];
 
     groups.forEach(function(group, groupIndex) {
       group.forEach(function(coin, coinIndex) {
@@ -38,7 +38,7 @@ export default {
       });
     });
 
-    labels = ticks.map(tick => {
+    labelGroups[0].labels = ticks.map(tick => {
       return {
         value: tick,
         y: yPositionExtent[1],
@@ -46,6 +46,6 @@ export default {
       }
     });
 
-    return {positions, labels};
+    return {positions, labelGroups};
   }
 }

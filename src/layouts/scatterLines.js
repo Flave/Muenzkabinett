@@ -6,16 +6,16 @@ export default {
   value: 'Scatter Lines',
   requiredTypes: ['discrete', 'continuous'],
   create: function plainGrid(coins, properties, bounds) {
-    var discreteProperty = getDiscreteProperty(properties),
-        continuousProperty = getContinuousProperty(properties),
-        showTop = 10,
-        groups = groupDiscrete(coins, discreteProperty.key),
-        paddedDimensions = getPaddedDimensions(bounds, {left: 300, right: 0.05, top: 0.05, bottom: 0.05}),
-        lineSpacing = paddedDimensions.height / showTop,
-        maxSpreadY = bounds.height / groups.length,
-        extentX = getExtent(coins, continuousProperty.key),
-        positions = [],
-        labels = [];
+    const discreteProperty = getDiscreteProperty(properties);
+    const continuousProperty = getContinuousProperty(properties);
+    const showTop = 10;
+    const groups = groupDiscrete(coins, discreteProperty.key);
+    const paddedDimensions = getPaddedDimensions(bounds, {left: 300, right: 0.05, top: 0.05, bottom: 0.05});
+    const lineSpacing = paddedDimensions.height / showTop;
+    const maxSpreadY = bounds.height / groups.length;
+    const extentX = getExtent(coins, continuousProperty.key);
+    const positions = [];
+    const labelGroups = [{key: discreteProperty.key, labels: []}];
 
     groups.forEach((group, groupIndex) => {
       const baseY = paddedDimensions.top + lineSpacing * groupIndex + (lineSpacing/2);
@@ -26,7 +26,7 @@ export default {
         extentX: extentX,
         spreadDivider: 5
       }
-      labels.push({
+      labelGroups[0].labels.push({
         value: group.key,
         key: discreteProperty.key,
         x: paddedDimensions.left - 50,
@@ -37,6 +37,6 @@ export default {
       });
       positions.push.apply(positions, scatterLine.create(group.coins, properties, paddedDimensions, options));
     });
-    return {positions, labels};
+    return {positions, labelGroups};
   }
 }

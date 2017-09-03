@@ -40,7 +40,7 @@ export default {
        .size([width, height]);
     const hierarchy = createGroupHierarchy(coins, property);
     const positions = [];
-    const labels = [];
+    const labelGroups = [{key: property.key, labels: []}];
     const groups = pack(hierarchy).leaves();
     const maxGroupSize = d3_max(groups, (group) => group.data.coins.length);
 
@@ -52,7 +52,7 @@ export default {
         coin.move(x, y);
       });
 
-      labels.push({
+      labelGroups[0].labels.push({
         value: group.data.key,
         key: property.key,
         x: group.x + bounds.left + COIN_HEIGHT/2,
@@ -63,6 +63,6 @@ export default {
         alignment: 'center'
       });
     });
-    return {positions, labels};
+    return {positions, labelGroups};
   }
 }
