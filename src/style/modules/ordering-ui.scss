@@ -5,18 +5,22 @@
 
 .ordering-ui__meta {
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: $c-accent-1;
-  font-size: 14px;
+  font-size: 12px;
   margin: 0;
   text-align: center;
-  margin-right: 15px;
+  margin: 0 10px;
   font-weight: 600;
 }
 
 .ordering-ui__ui {
   &.is-empty {
-
+    .ordering-ui__selection {
+      color: $c-accent-1;
+      background-color: transparent;
+      justify-content: center;
+    }
   }
 
   &.is-selected {
@@ -40,13 +44,13 @@
   bottom: 70px;
   border-radius: 3px;
   width: 250px;
-  background-color: $c-background;
+  background-color: rgba($c-background, .93);
   box-shadow: 0 0 15px rgba(0, 0, 0, .3);
 }
 
 .ordering-ui__property {
   color: $c-accent-1;
-  padding: 15px 10px;
+  padding: 13px 10px;
   border-bottom: 1px solid rgba($c-dark-1, .5);
   cursor: pointer;
   display: flex;
@@ -67,12 +71,16 @@
     cursor: auto;
   }
 
+  &:last-child {
+    border: none;
+  }
+
   &:hover {
     background-color: $c-dark-1;
   }
 
   [class^="icon-"] {
-    font-size: 1.3em;
+    font-size: 1.4em;
     display: inline-block;
     margin: -2px 6px -2px 0
   }
@@ -85,6 +93,15 @@
 
 .ordering-ui__selection {
   @extend %btn;
-  margin-right: 10px;
   min-width: 150px;
+  background-color: $c-accent-1;
+  color: $c-background;
+  justify-content: space-between;
+}
+
+.ordering-ui__clear-selection {
+  font-size: 1.4em;
+  position: relative;
+  left: 10px;
+  
 }

@@ -11,23 +11,24 @@ class Ui extends React.Component {
 
     return (
       <div className="ui">
-        <div className="ui__section">
-          <h3 className="ui__section-title">
-            <span className="ui__section-number">1</span>
-            Order by
-          </h3>
-          <OrderingUi state={state}/>
+        <div className="ui__left">
+          <div className="ui__section ui__section--divider">
+            <h3 className="ui__section-title">
+              Order by
+            </h3>
+            <OrderingUi state={state}/>
+          </div>
+          <div className="ui__section">
+            <h3 className="ui__section-title">
+              Layout
+            </h3>
+            <LayoutUi state={state} />
+          </div>
         </div>
-        <div className="icon-arrow_right ui__arrow"></div>
-        <div className="ui__section ui__section--divider">
-          <h3 className="ui__section-title">
-            <span className="ui__section-number">2</span>
-            Layout
-          </h3>
-          <LayoutUi state={state} />
-        </div>
-        <div className="ui__section">
-          <SelectionUi state={state} />
+        <div className="ui__right">
+          <div className="ui__section">
+            <SelectionUi state={state} />
+          </div>
         </div>
       </div>
     );

@@ -1,14 +1,15 @@
 .btn,
 %btn {
   border: 1px solid $c-accent-1;
-  padding: 10px 20px;
+  padding: 9px 18px;
   color: $c-accent-1;
   cursor: pointer;
   display: inline-block;
   border-radius: 40px;
   display: flex;
+  font-size: 14px;
   align-items: center;
-      justify-content: center;
+  justify-content: center;
 
   &--primary {
     background-color: $c-accent-1;
@@ -42,8 +43,13 @@
   }
 
   [class^="icon-"] {
-    font-size: 1.3em;
+    font-size: 1.5em;
     display: inline-block;
     margin: -2px 5px -2px 0
   }
+}
+
+.btn__section {
+  display: flex;
+  align-items: center;
 }
