@@ -31,7 +31,7 @@ export default {
             x = paddedDimensions.left + xOffset,
             y = baseY + d3_randomNormal(0, spreadY)();
 
-        positions.push({x: x, y: y});
+        positions.push({x, y});
         coin.move(x, y, 1000, Math.random() * 500);
         yPositionExtent[0] = yPositionExtent[0] < y ? yPositionExtent[0] : y;
         yPositionExtent[1] = yPositionExtent[1] > y ? yPositionExtent[1] : y;

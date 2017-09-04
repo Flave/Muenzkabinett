@@ -1,7 +1,7 @@
 .coin-info {
   position: absolute;
   transform: translateX(-50%);
-  color: $c-accent-1;
+  color: $c-accent-1-darker;
   width: 410px;
   padding: 20px;
   background-color: rgba(#fff, .6);
@@ -22,8 +22,8 @@
   font-size: 16px;
   font-weight: bold;
   text-align: center;
-  padding-bottom: 8px;
-  border-bottom: 1px solid $c-accent-1;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $c-accent-1-darker;
 }
 
 .coin-info__props {
@@ -32,16 +32,20 @@
 }
 
 .coin-info__prop {
-  width: 170px;
+  width: 175px;
   position: relative;
   padding: 12px 0;
   padding-left: 40px;
-  border-top: 1px solid $c-accent-1;
-  margin-right: 15px;
+  border-top: 1px solid $c-accent-1-darker;
+  margin-right: 20px;
 
   &:nth-child(1),
   &:nth-child(2) {
     border-top: none;
+  }
+
+  &:nth-child(2n) {
+    margin-right: 0;
   }
 }
 
@@ -59,7 +63,7 @@
 .coin-info__prop-value {
   font-size: 14px;
   font-weight: bold;
-  background-color: $c-accent-1;
+  background-color: $c-accent-1-darker;
   color: #fff;
   padding: 3px 11px;
   border-radius: 20px;

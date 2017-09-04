@@ -42,17 +42,7 @@ class CanvasController extends React.Component {
     let {state} = this.props;
     this.canvas = Canvas();
     this.canvas
-      .on('zoomstart', (transform) => {
-        //stateStore.set({zooming: true, panning: true});
-      })
-      .on('zoom', (transform) => {
-        //if(transform.k === this.props.state.transform.k)
-          stateStore.set({transform})
-      })
-      .on('zoomend', (transform) => {
-        //stateStore.set({transform});
-        //this.forceUpdate();
-      });
+      .on('zoom', (transform) => stateStore.set({transform}));
 
     this.canvas
       .size({
@@ -94,20 +84,7 @@ class CanvasController extends React.Component {
         const index = coinFilters.indexOf(currentFilter);
         coinFilters.splice(index, 1);
       }
-
-      // let propertyFilters = _find(coinFilters, {key});
-      // let valueIndex;
-      // if(!propertyFilters) {
-      //   coinFilters.push({key, values:[value]});
-      // } else {
-      //   valueIndex = propertyFilters.values.indexOf(value);
-      //   if(valueIndex > -1)
-      //     propertyFilters.values.splice(valueIndex, 1);
-      //   else
-      //     propertyFilters.values.push(value);
-      // }
     });
-    // coinFilters = coinFilters.filter(filter => filter.values.length);
     stateStore.set({coinFilters});
   }
 

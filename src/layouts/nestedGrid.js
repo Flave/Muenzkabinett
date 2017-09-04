@@ -50,7 +50,7 @@ export default {
     groups.forEach((group, groupIndex) => {
       group.coins.sort(sorter);
       const numCoins = group.coins.length;
-      const {width, height, positions} = createGrid(group.coins);
+      const {width, height, positions: groupPositions} = createGrid(group.coins);
       const groupX = lastGroupEnd + PADDING + COIN_HEIGHT/2;
       const labelX = groupX + width/2;
       const labelY = numCoins < 10 ? paddedDimensions.top - 40 : paddedDimensions.top + height/2;
@@ -67,7 +67,7 @@ export default {
       });
 
       group.coins.forEach((coin, i) => {
-        const position = positions[i];
+        const position = groupPositions[i];
         const x = groupX + position.x;
         const y = paddedDimensions.top + position.y;
         positions.push({x, y});

@@ -35,7 +35,8 @@ export default {
         selectable: true,
         alignment: "right"
       });
-      positions.push.apply(positions, scatterLine.create(group.coins, properties, paddedDimensions, options));
+      const scatterLineSpec = scatterLine.create(group.coins, properties, paddedDimensions, options)
+      positions.push.apply(positions, scatterLineSpec.positions);
     });
     return {positions, labelGroups};
   }

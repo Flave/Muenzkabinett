@@ -60,13 +60,18 @@ export default function Canvas() {
   }
 
   function getCanvasBounds() {
-    var topLeft = projectPixel(0, 0),
-        bottomRight = projectPixel(size.width, size.height);
+    const topLeft = projectPixel(0, 0);
+    const bottomRight = projectPixel(size.width, size.height);
+    const width = bottomRight.x - topLeft.x;
+    const height = bottomRight.y - topLeft.y;
+
     return {
       left: topLeft.x,
       top: topLeft.y,
       right: bottomRight.x,
-      bottom: bottomRight.y
+      bottom: bottomRight.y,
+      cx: topLeft.x + width/2,
+      cy: topLeft.y + height/2
     }
   }
 
@@ -107,11 +112,17 @@ export default function Canvas() {
   function getNextBounds(nt) {
     let ot = d3_zoomTransform(zoomCanvas.node());
     nt = {...ot, ...nt};
+    
+    const left = nt.x - size.width/2 * (1/nt.k);
+    const top = nt.y - size.height/2 * (1/nt.k);
+    const right = nt.x + size.width/2 * (1/nt.k);
+    const bottom = nt.y + size.height/2 * (1/nt.k);
+    
     return {
-      left: nt.x - size.width/2 * (1/nt.k),
-      top: nt.y - size.height/2 * (1/nt.k),
-      right: nt.x + size.width/2 * (1/nt.k),
-      bottom: nt.y + size.height/2 * (1/nt.k)
+      left,
+      top,
+      right,
+      bottom
     }
   }
 
@@ -158,6 +169,26 @@ export default function Canvas() {
         .call(zoom.translate(translate).scale(scale).event);
   }
 
+  function togglePan(doPan) {
+    if(doPan)
+      zoomCanvas.call(zoomBehavior);
+    else
+      zoomCanvas.call(zoomBehavior)
+        .on("mousedown.zoom", null)
+        .on("touchstart.zoom", null)
+        .on("touchmove.zoom", null)
+        .on("touchend.zoom", null);
+  }
+
+  function getNextZoom() {
+    let ot = d3_zoomTransform(zoomCanvas.node());
+    if(ot.k > .4)
+      return .4
+    if(ot.k < .2)
+      return .2
+    return ot.k;
+  }
+
   function initializeCanvas() {
     const state = stateStore.get();
     let bounds;
@@ -175,27 +206,6 @@ export default function Canvas() {
       layouter.update(selected, [], state, bounds);
       stateStore.set({canvasInitialized: true});
     });
-  }
-
-
-  function togglePan(doPan) {
-    if(doPan)
-      zoomCanvas.call(zoomBehavior);
-    else
-      zoomCanvas.call(zoomBehavior)
-        .on("mousedown.zoom", null)
-        .on("touchstart.zoom", null)
-        .on("touchmove.zoom", null)
-        .on("touchend.zoom", null);
-  }
-
-  function getNextScale() {
-    let ot = d3_zoomTransform(zoomCanvas.node());
-    if(ot.k > .4)
-      return .4
-    if(ot.k < .2)
-      return .2
-    return ot.k;
   }
 
   canvas.update = function(doRelayout) {
@@ -219,11 +229,18 @@ export default function Canvas() {
     renderer.resize(size.width, size.height);
 
     if(doRelayout && state.canvasInitialized === true) {
-      let nextScale = getNextScale();
+      // get min/max scale based on current scale
+      let nextScale = getNextZoom();
       let coinsBounds = getCoinsBounds(coins);
-      let bounds = getNextBounds({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
-      transformTo({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
-      labelGroups = layouter.update(selected, notSelected, state, bounds).labelGroups;
+      let currentBounds = getCanvasBounds();
+      let nextBounds = getNextBounds({k: nextScale, x: currentBounds.cx, y: currentBounds.cy});
+      let layoutSpecs = layouter.update(selected, notSelected, state, nextBounds);
+      let nextPositions = layoutSpecs.positions;
+      labelGroups = layoutSpecs.labelGroups;
+
+      coinsBounds = getCoinsBounds(nextPositions);
+      nextBounds = getCanvasBounds({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
+      transformTo({k: nextScale, x: nextBounds.cx, y: nextBounds.cy});
 
       stateStore.set({transitioning: true});
       window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
