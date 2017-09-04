@@ -10,10 +10,10 @@ class Ui extends React.Component {
   constructor(props) {
     super(props);
     this.handleClearFilters = this.handleClearFilters.bind(this);
-    this.handleFilterClick = this.handleFilterClick.bind(this);
+    this.handleFilterRemove = this.handleFilterRemove.bind(this);
   }
 
-  handleFilterClick({key, value}) {
+  handleFilterRemove({key, value}) {
     let {coinFilters} = stateStore.get();
     const filter = _find(coinFilters, {key, value});
     const index = coinFilters.indexOf(filter);
@@ -23,6 +23,19 @@ class Ui extends React.Component {
 
   handleClearFilters() {
     stateStore.set({coinFilters: []});
+  }
+
+  handleDeselectCoin() {
+    stateStore.set({selectedCoin: null});
+  }
+
+  handleToggleLasso() {
+    var state = stateStore.get();
+    stateStore.set({selecting: !state.selecting}); 
+  }
+
+  handleClearLasso() {
+    stateStore.set({selectedCoins: []}); 
   }
 
   render() {
@@ -45,8 +58,14 @@ class Ui extends React.Component {
           </div>
         </div>
         <FilterUi 
-          onClick={this.handleFilterClick}
-          onClear={this.handleClearFilters}
+          onFilterRemove={this.handleFilterRemove}
+          onClearFilters={this.handleClearFilters}
+          onToggleLasso={this.handleToggleLasso}
+          onClearLasso={this.handleClearLasso}
+          onDeselectCoin={this.handleDeselectCoin}
+          selecting={state.selecting}
+          selectedCoins={state.selectedCoins}
+          selectedCoin={state.selectedCoin}
           filters={state.coinFilters}/>
       </div>
     );

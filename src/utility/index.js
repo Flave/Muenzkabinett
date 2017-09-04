@@ -87,7 +87,7 @@ export function getCoinsBounds(coins) {
   return bounds;
 }
 
-export function filterCoins(coins, filters) {
+export function filterCoins(coins, filters, selection) {
   const selected = [];
   const notSelected = [];
   const groupedFilters = [];
@@ -99,11 +99,13 @@ export function filterCoins(coins, filters) {
       groupedFilters.push({key: key, values: [value]})
   });
 
-  coins.forEach(coin => {
-    let isSelected = _every(groupedFilters, ({key, values}) =>
+  coins.forEach((coin, i) => {
+    let isFiltered = _every(groupedFilters, ({key, values}) =>
       values.indexOf(coin.data[key]) > -1
     )
-    if(isSelected)
+    // check if there is a selection and if coin is part of it
+    let isSelected = selection.length ? selection.indexOf(coin) > -1 : true;
+    if(isFiltered && isSelected)
       selected.push(coin);
     else
       notSelected.push(coin);

@@ -9,7 +9,7 @@
   right: 0;
   transition: all .3s;
   border-radius: 50px;
-  padding: 5px 10px;
+  padding: 6px 15px;
   font-size: 14px;
   background-color: $c-accent-1;
   box-shadow: 0 0 3px rgba(0, 0, 0, .1);
@@ -18,8 +18,14 @@
   align-items: center;
   white-space: nowrap;
 
-  &--clear {
+  &--utility {
     background-color: $c-background; 
+    color: #fff;
+    cursor: pointer;
+  }
+
+  &--alert {
+    background-color: $c-alert; 
     color: #fff;
     cursor: pointer;
   }
@@ -28,12 +34,11 @@
 .filter-ui__icon {
   font-size: 1.5em;
   display: inline-block;
-  margin: -2px 5px -2px 0;
+  margin: -3px 5px -3px -2px;
 }
 
 .filter-ui__clear {
   font-size: 1.3em;
   cursor: pointer;
-  margin-left: 6px;
-  margin-right: -2px;
+  margin: -3px -5px -3px 7px;
 }

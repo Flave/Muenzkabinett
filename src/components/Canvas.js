@@ -193,7 +193,7 @@ export default function Canvas() {
     const state = stateStore.get();
     let bounds;
     const coins = coinsContainer.coins;
-    const {selected, notSelected} = filterCoins(coins, state.coinFilters);
+    const {selected, notSelected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
 
     // needed to initially center the canvas
     zoomBehavior.scaleTo(zoomCanvas, 1);
@@ -221,7 +221,7 @@ export default function Canvas() {
     if(state.canvasInitialized === false)
       initializeCanvas();
 
-    const {selected, notSelected} = filterCoins(coins, state.coinFilters);
+    const {selected, notSelected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
 
     coinsContainer.update(!state.selecting);
     selectionTool.update(state.selecting);

@@ -23,6 +23,7 @@ class CanvasController extends React.Component {
       'coinsProgress',
       'selectedProperties',
       'selectedCoin',
+      'selectedCoins',
       'width',
       'height',
       'coinFilters'
