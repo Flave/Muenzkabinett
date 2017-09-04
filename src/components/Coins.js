@@ -5,7 +5,6 @@ import layouter from 'app/layouts';
 import pile from 'app/layouts/pile';
 import rebind from 'utility/rebind';
 import {dispatch as d3_dispatch} from 'd3-dispatch';
-//import coinInfo from 'app/components/CoinInfo';
 import _find from 'lodash/find';
 
 var coinsContainer = {},

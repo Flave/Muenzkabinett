@@ -1,0 +1,39 @@
+.label {
+  pointer-events: all;
+  display: inline-block;
+  position: absolute;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  color: rgba($c-dark-1, .7);
+  padding: 4px 10px;
+  text-align: center;
+  background: rgba(#fff, .4);
+  border-radius: 20px;
+  transition: opacity .2s;
+  user-select: none; 
+
+  &--selectable {
+    background: $c-accent-1;
+    cursor: pointer;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .1);
+  }
+
+  &--center{
+    transform: translate(-50%, -50%);
+  }
+
+  &--right {
+    transform: translateX(-100%);
+  }
+
+  &.is-preselected {
+    background-color: $c-accent-3;
+  }
+}
+
+.label__icon {
+
+}

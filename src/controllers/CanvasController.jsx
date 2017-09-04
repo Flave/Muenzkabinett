@@ -97,7 +97,6 @@ class CanvasController extends React.Component {
     const showTooltip = state.hoveredCoin && !state.transitioning;
     className += state.selecting ? " is-in-selection-mode" : "";
 
-
     return (
       <div ref={(root) => this.root = root} className={className}>
         {this.canvas && <Overlays transform={state.transform}>
@@ -105,6 +104,7 @@ class CanvasController extends React.Component {
               onLabelClick={this.handleLabelClick} 
               transform={state.transform}
               bounds={this.canvas.bounds()}
+              coinFilters={state.coinFilters}
               labels={this.canvas.labelGroups()}/>}
           {showTooltip && <Tooltip 
             coin={state.hoveredCoin}

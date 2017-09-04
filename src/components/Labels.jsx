@@ -7,7 +7,9 @@ class SelectionUi extends React.Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
-    this.selectedLabels = [];
+    this.state = {
+      selectedLabels: []
+    }
     document.addEventListener('keyup', this.handleKeyUp);
   }
 
@@ -23,14 +25,18 @@ class SelectionUi extends React.Component {
   handleClick(propertyKey, value, e) {
     const labelGroup = _find(this.props.labels, {key: propertyKey});
     const label = _find(labelGroup.labels, {value});
-    this.selectedLabels.push(label);
+    const selectedLabels = this.state.selectedLabels.slice();
+    selectedLabels.push(label);
+    this.setState({selectedLabels})
+    /*this.selectedLabels.push(label);*/
     if(!e.nativeEvent.shiftKey)
       this.submitSelection();
   }
 
   submitSelection() {
-    this.props.onLabelClick(this.selectedLabels);
-    this.selectedLabels = [];
+    const selectedLabels = this.state.selectedLabels.slice();
+    this.setState({selectedLabels: []});
+    this.props.onLabelClick(selectedLabels);
   }
 
   isInsideBounds({x, y}, {left, top, right, bottom}) {
@@ -38,13 +44,15 @@ class SelectionUi extends React.Component {
   }
 
   createLabel(key, label, i) {
-    const {bounds, transform} = this.props;
+    const {bounds, transform, coinFilters} = this.props;
     const isInside = this.isInsideBounds(label, bounds);
     if(transform.k < label.minZoom || !isInside) return;
+    const isPreselected = _find(this.state.selectedLabels, {key, value: label.value}) !== undefined;
     return (
       <Label 
         {...label}
         key={i}
+        isPreselected={isPreselected}
         transform={transform} 
         onClick={this.handleClick.bind(this, key)}/>
     )
