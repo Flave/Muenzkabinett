@@ -42,3 +42,15 @@
   cursor: pointer;
   margin: -3px -5px -3px 7px;
 }
+
+.filter-ui__section-label {
+  position: absolute;
+  right: 0;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  font-size: 14px;
+  color: $c-dark-1;
+  white-space: nowrap;
+  font-weight: 600;
+  text-shadow: 0 0 7px rgba(255, 255, 255, 1);
+}
