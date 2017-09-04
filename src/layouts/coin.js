@@ -30,11 +30,15 @@ export default {
         similarityWidth = baseRadius - outerBelt - innerBelt,
         positions = [];
 
+    // update selected coin
+    x = centerX - selectedCoin.width/2;
+    y = centerY;
+    positions.push({x, y});
+    selectedCoin.move(x, y);
+
     coins.forEach(function(coin, i) {
-      if(coin.data.id === selectedCoin.data.id) {
-        x = centerX - coin.width/2;
-        y = centerY;
-      } else {
+      if(coin.data.id === selectedCoin.data.id) {return;}
+      else {
         var similarity = getSimilarity(selectedCoin, coin),
             similarityOffset = similarity.value / maxSimilarity * similarityWidth - d3_randomNormal(0, 30)(),
             radiusScatter = Math.abs(d3_randomNormal(0, width/10)()) + baseRadius - d3_randomNormal(0, 20)(),
@@ -46,7 +50,7 @@ export default {
         y = centerY + delta.y;
       }
 
-      positions.push({x: x, y: y});
+      positions.push({x, y});
       coin.move(x, y);
     });
     return {positions};

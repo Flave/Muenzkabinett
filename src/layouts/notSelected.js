@@ -12,7 +12,7 @@ function mergeBounds(bounds1, bounds2) {
 }
 
 export default {
-  create: function notSelected(coins, coinsBounds, canvasBounds) {
+  create: function notSelected(coins, coinsBounds, canvasBounds, selectedCoin) {
     const bounds = mergeBounds(coinsBounds, canvasBounds);
     const width = bounds.right - bounds.left;
     const height = bounds.bottom - bounds.top;
@@ -23,11 +23,14 @@ export default {
     let x, y;
 
     coins.forEach(function(coin, i) {
-        const delta = new Victor(coin.x - centerX, coin.y - centerY);
-        const scatterOffset = Math.abs(d3_randomNormal(0, 200)());
-        delta.normalize().multiply(new Victor(r + scatterOffset, r + scatterOffset))
-        x = centerX + delta.x;
-        y = centerY + delta.y;
+      // if there is a coin selected, just ignore it
+      if(selectedCoin && selectedCoin.data.id === coin.data.id) return;
+      
+      const delta = new Victor(coin.x - centerX, coin.y - centerY);
+      const scatterOffset = Math.abs(d3_randomNormal(0, 200)());
+      delta.normalize().multiply(new Victor(r + scatterOffset, r + scatterOffset))
+      x = centerX + delta.x;
+      y = centerY + delta.y;
 
       newCoinPositions.push({x: x, y: y});
       coin.move(x, y);
