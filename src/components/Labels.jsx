@@ -18,8 +18,11 @@ class SelectionUi extends React.Component {
   }
 
   handleKeyUp(event) {
-    if(event.key === 'Shift')
-      this.submitSelection();
+    if(event.key === 'Shift') {
+      const selectedLabels = this.state.selectedLabels.slice();
+      this.setState({selectedLabels: []});
+      this.props.onLabelClick(selectedLabels);
+    }
   }
 
   handleClick(propertyKey, value, e) {
@@ -27,16 +30,11 @@ class SelectionUi extends React.Component {
     const label = _find(labelGroup.labels, {value});
     const selectedLabels = this.state.selectedLabels.slice();
     selectedLabels.push(label);
-    this.setState({selectedLabels})
-    /*this.selectedLabels.push(label);*/
-    if(!e.nativeEvent.shiftKey)
-      this.submitSelection();
-  }
 
-  submitSelection() {
-    const selectedLabels = this.state.selectedLabels.slice();
-    this.setState({selectedLabels: []});
-    this.props.onLabelClick(selectedLabels);
+    if(e.nativeEvent.shiftKey)
+      this.setState({selectedLabels});
+    else
+      this.props.onLabelClick([label]);
   }
 
   isInsideBounds({x, y}, {left, top, right, bottom}) {
