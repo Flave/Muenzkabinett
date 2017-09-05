@@ -182,10 +182,10 @@ export default function Canvas() {
 
   function getNextZoom() {
     let ot = d3_zoomTransform(zoomCanvas.node());
-    if(ot.k > .4)
-      return .4
-    if(ot.k < .2)
-      return .2
+    if(ot.k > .3)
+      return .3
+    if(ot.k < .18)
+      return .18
     return ot.k;
   }
 

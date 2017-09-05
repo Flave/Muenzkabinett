@@ -1,13 +1,18 @@
 import {randomNormal as d3_randomNormal} from 'd3-random';
 import _forEach from 'lodash/forEach';
 import Victor from 'victor';
+import {COIN_HEIGHT} from 'constants';
 
-function mergeBounds(bounds1, bounds2) {
+function mergeBounds(bounds1, bounds2) {  
+  const top = bounds1.top < bounds2.top ? bounds1.top : bounds2.top;
+  const left = bounds1.left < bounds2.left ? bounds1.left : bounds2.left;
+  const bottom = bounds1.bottom > bounds2.bottom ? bounds1.bottom : bounds2.bottom;
+  const right = bounds1.right > bounds2.right ? bounds1.right : bounds2.right;
   return {
-    top: bounds1.top < bounds2.top ? bounds1.top : bounds2.top,
-    left: bounds1.left < bounds2.left ? bounds1.left : bounds2.left,
-    bottom: bounds1.bottom > bounds2.bottom ? bounds1.bottom : bounds2.bottom,
-    right: bounds1.right > bounds2.right ? bounds1.right : bounds2.right
+    top: top - 500 - COIN_HEIGHT,
+    left: left - 500 - COIN_HEIGHT,
+    bottom: bottom + 500,
+    right: right + 500
   }
 }
 
@@ -25,7 +30,7 @@ export default {
     coins.forEach(function(coin, i) {
       // if there is a coin selected, just ignore it
       if(selectedCoin && selectedCoin.data.id === coin.data.id) return;
-      
+
       const delta = new Victor(coin.x - centerX, coin.y - centerY);
       const scatterOffset = Math.abs(d3_randomNormal(0, 200)());
       delta.normalize().multiply(new Victor(r + scatterOffset, r + scatterOffset))

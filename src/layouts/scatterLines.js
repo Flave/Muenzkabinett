@@ -8,11 +8,11 @@ export default {
   create: function plainGrid(coins, properties, bounds) {
     const discreteProperty = getDiscreteProperty(properties);
     const continuousProperty = getContinuousProperty(properties);
-    const showTop = 10;
+    const showTop = 8;
     const groups = groupDiscrete(coins, discreteProperty.key);
-    const paddedDimensions = getPaddedDimensions(bounds, {left: 300, right: 0.05, top: 0.05, bottom: 0.05});
+    const paddedDimensions = getPaddedDimensions(bounds, {left: 400, right: 0.05, top: 0.05, bottom: 0.05});
     const lineSpacing = paddedDimensions.height / showTop;
-    const maxSpreadY = bounds.height / groups.length;
+    const maxSpreadY = (bounds.height / groups.length);
     const extentX = getExtent(coins, continuousProperty.key);
     const positions = [];
     const labelGroups = [{key: discreteProperty.key, labels: []}];
@@ -24,12 +24,12 @@ export default {
         property: continuousProperty,
         maxSpreadY: maxSpreadY,
         extentX: extentX,
-        spreadDivider: 5
+        spreadDivider: 3
       }
       labelGroups[0].labels.push({
         value: group.key,
         key: discreteProperty.key,
-        x: paddedDimensions.left - 50,
+        x: paddedDimensions.left - 30,
         y: baseY,
         minZoom: groupIndex % 2 === 0 ? .2 : .3,
         selectable: true,
