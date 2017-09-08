@@ -29,7 +29,7 @@ function loadCoins() {
 function handleDataLoaded(err, _coinsData) {
   if(err) throw new Error(err);
   else {
-    coinsData = _coinsData.slice(0, 20001);
+    coinsData = _coinsData.slice(0, 24001);
     //coinsData = _coinsData;
     
     loadSpriteSheets(handleLoadingComplete, handleResourceLoaded);

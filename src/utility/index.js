@@ -80,8 +80,10 @@ export function getCoinsBounds(coins) {
     bounds.top = coin.y < bounds.top ? coin.y : bounds.top;
     bounds.right = coin.x > bounds.right ? coin.x : bounds.right;
     bounds.bottom = coin.y > bounds.bottom ? coin.y : bounds.bottom;
-    bounds.left = coin.x < bounds.top ? coin.x : bounds.top;
+    bounds.left = coin.x < bounds.left ? coin.x : bounds.left;
   });
+  bounds.dx = bounds.right - bounds.left;
+  bounds.dy = bounds.bottom - bounds.top;
   bounds.cx = bounds.left + (bounds.right - bounds.left) / 2;
   bounds.cy = bounds.top + (bounds.bottom - bounds.top) / 2;
   return bounds;
@@ -113,7 +115,16 @@ export function filterCoins(coins, filters, selection) {
   return {selected, notSelected};
 }
 
+export const getCanvasArea = (bounds) => {
+  const width = bounds.right - bounds.left;
+  const height = bounds.bottom - bounds.top;
 
+  return {
+    area: width * height,
+    width,
+    height
+  }
+}
 
 
 

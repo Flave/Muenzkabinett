@@ -14,18 +14,20 @@ import stateStore from 'app/stateStore';
 import layouter from 'app/layouts';
 
 export default function Canvas() {
-  var size = {width: 200, height: 200},
-    renderer = autoDetectRenderer(size.width, size.height, {transparent: true}),
-    stage = new Container(),
-    dispatch = d3_dispatch('zoom', 'zoomstart', 'zoomend'),
-    zoomCanvas,
-    zoomBehavior = d3_zoom().scaleExtent([0.1, 1.2])
-      .on('zoom', handleZoom)
-      .on('start', handleZoomStart)
-      .on('end', handleZoomEnd),
-    selectionTool = SelectionTool()(stage).coins(coinsContainer.coins),
-    labelGroups = [],
-    shouldUpdate = true; // used for to prevent updating after zooming
+  let size = {width: 200, height: 200};
+  const renderer = autoDetectRenderer(size.width, size.height, {transparent: true});
+  const stage = new Container();
+  const dispatch = d3_dispatch('zoom', 'zoomstart', 'zoomend');
+  const MIN_ZOOM = 0.1;
+  const MAX_ZOOM = 1.2;
+  const zoomBehavior = d3_zoom().scaleExtent([MIN_ZOOM, MAX_ZOOM])
+    .on('zoom', handleZoom)
+    .on('start', handleZoomStart)
+    .on('end', handleZoomEnd);
+  const selectionTool = SelectionTool()(stage).coins(coinsContainer.coins);
+  let labelGroups = [];
+  let zoomCanvas;
+  let shouldUpdate = true; // used for to prevent updating after zooming
 
   stage.interactiveChildren = true;
   coinsContainer.parent(stage);
@@ -48,10 +50,10 @@ export default function Canvas() {
         zoomCanvas.call(zoomBehavior);
       });
 
-    /*    renderer.view.addEventListener('click', function(event) {
+    renderer.view.addEventListener('click', function(event) {
       var projected = projectPixel(event.clientX, event.clientY);
       console.log(event.clientX, event.clientY, projected);
-    })*/
+    })
 
     requestAnimationFrame(animate);
     return canvas;
@@ -107,22 +109,22 @@ export default function Canvas() {
     dispatch.call('zoomend', null, transform);
   }
 
-  function getNextBounds(nt) {
-    let ot = d3_zoomTransform(zoomCanvas.node());
-    nt = {...ot, ...nt};
+  // function getNextBounds(nt) {
+  //   let ot = d3_zoomTransform(zoomCanvas.node());
+  //   nt = {...ot, ...nt};
     
-    const left = nt.x - size.width/2 * (1/nt.k);
-    const top = nt.y - size.height/2 * (1/nt.k);
-    const right = nt.x + size.width/2 * (1/nt.k);
-    const bottom = nt.y + size.height/2 * (1/nt.k);
+  //   const left = nt.x - size.width/2 * (1/nt.k);
+  //   const top = nt.y - size.height/2 * (1/nt.k);
+  //   const right = nt.x + size.width/2 * (1/nt.k);
+  //   const bottom = nt.y + size.height/2 * (1/nt.k);
     
-    return {
-      left,
-      top,
-      right,
-      bottom
-    }
-  }
+  //   return {
+  //     left,
+  //     top,
+  //     right,
+  //     bottom
+  //   }
+  // }
 
   function transformTo(nt, cb) {
     var ot, dk, dx, dy, duration;
@@ -164,13 +166,17 @@ export default function Canvas() {
         .on('touchend.zoom', null);
   }
 
-  function getNextZoom() {
-    let ot = d3_zoomTransform(zoomCanvas.node());
-    if(ot.k > .3)
-      return .3
-    if(ot.k < .18)
-      return .18
-    return ot.k;
+  function scaleToBounds({cx, cy, dx, dy}) {
+    const {width, height} = size;
+    const scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, 0.9 / Math.max(dx / width, dy / height)));
+    const translate = [width / 2 - scale * cx, height / 2 - scale * cy];
+    transformTo({k: scale, x: cx, y: cy});
+  }
+
+  function transformAfterUpdate({positions, zoom}) {
+    scaleToBounds(getCoinsBounds(positions));
+    stateStore.set({transitioning: true});
+    window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
   }
 
   function initializeCanvas() {
@@ -213,21 +219,10 @@ export default function Canvas() {
     renderer.resize(size.width, size.height);
 
     if(doRelayout && state.canvasInitialized === true) {
-      // get min/max scale based on current scale
-      let nextScale = getNextZoom();
-      let coinsBounds = getCoinsBounds(coins);
-      let currentBounds = getCanvasBounds();
-      let nextBounds = getNextBounds({k: nextScale, x: currentBounds.cx, y: currentBounds.cy});
-      let layoutSpecs = layouter.update(selected, notSelected, state, nextBounds);
-      let nextPositions = layoutSpecs.positions;
+      let layoutSpecs = layouter.update(selected, notSelected, state, getCanvasBounds());
       labelGroups = layoutSpecs.labelGroups;
 
-      coinsBounds = getCoinsBounds(nextPositions);
-      nextBounds = getCanvasBounds({k: nextScale, x: coinsBounds.cx, y: coinsBounds.cy});
-      transformTo({k: nextScale, x: nextBounds.cx, y: nextBounds.cy});
-
-      stateStore.set({transitioning: true});
-      window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
+      transformAfterUpdate(layoutSpecs);
     }
   }
 

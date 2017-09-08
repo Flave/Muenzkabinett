@@ -18,7 +18,7 @@
         "no-unused-vars": "warn",
         "no-console": "warn",
         "indent": [
-            "error",
+            "warn",
             2
         ],
         "linebreak-style": [
@@ -26,7 +26,7 @@
             "unix"
         ],
         "quotes": [
-            "error",
+            "warning",
             "single"
         ],
         "react/jsx-uses-react": "error",
