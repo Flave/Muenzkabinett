@@ -6,10 +6,10 @@ export default {
   requiredTypes: [],
   create: function pile(coins, properties, bounds) {
     var width = bounds.right - bounds.left,
-        height = bounds.bottom - bounds.top,
-        positions = [];
+      height = bounds.bottom - bounds.top,
+      positions = [];
 
-    coins.forEach(function(coin, i) {
+    coins.forEach(function(coin) {
       var x = d3_randomNormal(bounds.left + width/2, width/10)();
       var y = d3_randomNormal(bounds.top + height/2, height/10)();
       coin.move(x, y);

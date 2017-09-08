@@ -13,7 +13,7 @@ import nestedGrid from './nestedGrid';
 
 import coinLayout from './coin';
 import notSelected from './notSelected';
-import introLayout from './intro';
+//import introLayout from './intro';
 
 const layouts = [
   pile,
@@ -33,9 +33,9 @@ var layouter = {};
 // I guess there's a less complicated way to do this
 function isLayoutApplicable(layout, selectedProperties) {
   var applicable = false,
-      requiredTypes = layout.requiredTypes,
-      propertiesCheck = requiredTypes.slice(),
-      properties = [];
+    requiredTypes = layout.requiredTypes,
+    propertiesCheck = requiredTypes.slice(),
+    properties = [];
 
   // lazily create a new array only containing the layouts that are defined
   selectedProperties[0] && properties.push(selectedProperties[0]);
@@ -97,9 +97,9 @@ layouter.getApplicableLayouts = function(properties) {
 
 layouter.update = function(selectedCoins, notSelectedCoins, state, canvasBounds) {
   var layout = _find(layouts, {key: state.selectedLayout}),
-      properties = removeFalsy(state.selectedProperties),
-      layoutSpec,
-      newCoinsBounds;
+    properties = removeFalsy(state.selectedProperties),
+    layoutSpec,
+    newCoinsBounds;
 
   if(state.selectedCoin !== null) {
     layoutSpec = coinLayout.create(selectedCoins, state.selectedCoin, canvasBounds);

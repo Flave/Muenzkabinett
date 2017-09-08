@@ -2,9 +2,8 @@ export default [
   {
     key: 'title',
     label: 'Title',
-    type: 'discrete',
-    similarityWeight: 1,
     type: 'individual',
+    similarityWeight: 1,
     selectable: false,
     unit: ''
   },
@@ -77,7 +76,7 @@ export default [
     labelGenerator: (value) => (
       {
         value: value < 0 ? `${value} B.C.` : `${value} A.D.`,
-        modifiers: value === 0 ? ["highlight"] : []
+        modifiers: value === 0 ? ['highlight'] : []
       }
     )
   },

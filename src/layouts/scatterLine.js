@@ -1,6 +1,5 @@
 import {randomNormal as d3_randomNormal} from 'd3-random';
 import {scaleLinear as d3_scaleLinear} from 'd3-scale';
-import {extent as d3_extent} from 'd3-array';
 import {getPaddedDimensions, groupContinuous, getExtent} from 'app/utility';
 
 export default {
@@ -25,11 +24,11 @@ export default {
     const labelGroups = [{key: property.key}];
 
     groups.forEach(function(group, groupIndex) {
-      group.forEach(function(coin, coinIndex) {
+      group.forEach(function(coin) {
         var spreadY = (maxSpreadY * Math.sqrt(group.length)) / spreadDivider,
-            xOffset = groupIndex * spacingX - d3_randomNormal(coin.width/2, spreadX)() - 5,
-            x = paddedDimensions.left + xOffset,
-            y = baseY + d3_randomNormal(0, spreadY)();
+          xOffset = groupIndex * spacingX - d3_randomNormal(coin.width/2, spreadX)() - 5,
+          x = paddedDimensions.left + xOffset,
+          y = baseY + d3_randomNormal(0, spreadY)();
 
         positions.push({x, y});
         coin.move(x, y, 1000, Math.random() * 500);

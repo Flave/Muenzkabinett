@@ -48,6 +48,12 @@ module.exports = {
         loader: "file-loader?name=[path][name].[ext]"
       },
       {
+        enforce: "pre",
+        test:  /\.(js|jsx)$/,
+        exclude: ['node_modules', 'data'],
+        loader: 'eslint-loader'
+      },
+      {
         test:  /\.(js|jsx)$/,
         exclude: ['node_modules', 'data'],
         loader: 'babel-loader',

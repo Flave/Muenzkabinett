@@ -1,18 +1,14 @@
-import {Point, Matrix, Texture, utils, Sprite, autoDetectRenderer, Container, Rectangle} from 'pixi.js';
-import coinsStore from 'app/coinsStore';
+import {Container} from 'pixi.js';
 import stateStore from 'app/stateStore';
-import layouter from 'app/layouts';
-import pile from 'app/layouts/pile';
 import rebind from 'utility/rebind';
 import {dispatch as d3_dispatch} from 'd3-dispatch';
-import _find from 'lodash/find';
 
 var coinsContainer = {},
-    coins = [],
-    parent,
-    dispatch = d3_dispatch('dragstart', 'dragend', 'click'),
-    interactive = false,
-    stage = new Container();
+  coins = [],
+  parent,
+  dispatch = d3_dispatch('dragstart', 'dragend', 'click'),
+  interactive = false,
+  stage = new Container();
 
 stage.interactiveChildren = true;
 
@@ -55,7 +51,7 @@ coinsContainer.add = function(coin) {
 }
 
 function toggleInteractivity() {
-  coins.forEach((coin, i) => {
+  coins.forEach((coin) => {
     if(interactive) {
       coin
         .on('dragstart', handleCoinDragStart)

@@ -10,13 +10,13 @@ function createGroupHierarchy(coins, property) {
   var children = []
   groups.forEach(function(group) {
     children.push({
-        key: group.key,
-        coins: group.coins
-      });
+      key: group.key,
+      coins: group.coins
+    });
   })
 
   var hierarchy = {
-    name: "root",
+    name: 'root',
     children: children
   }
 
@@ -36,18 +36,18 @@ export default {
     const height = bounds.bottom - bounds.top;
     const property = properties[0];
     const pack = d3_pack()
-       .padding(100)
-       .size([width, height]);
+      .padding(100)
+      .size([width, height]);
     const hierarchy = createGroupHierarchy(coins, property);
     const positions = [];
     const labelGroups = [{key: property.key, labels: []}];
     const groups = pack(hierarchy).leaves();
     const maxGroupSize = d3_max(groups, (group) => group.data.coins.length);
 
-    groups.forEach(function(group, i) {
-      group.data.coins.forEach(function(coin, i) {
+    groups.forEach(function(group) {
+      group.data.coins.forEach(function(coin) {
         var x = d3_randomNormal(group.x, group.r/3.5)() + bounds.left,
-            y = d3_randomNormal(group.y, group.r/3.5)() + bounds.top;
+          y = d3_randomNormal(group.y, group.r/3.5)() + bounds.top;
         positions.push({x: x, y:y});
         coin.move(x, y);
       });

@@ -2,7 +2,6 @@ import {dispatch as d3_dispatch} from 'd3-dispatch';
 import layouter from 'app/layouts';
 import rebind from 'utility/rebind';
 import _assign from 'lodash/assign';
-import _find from 'lodash/find';
 import _forEach from 'lodash/forEach';
 import { MARGIN } from 'constants';
 

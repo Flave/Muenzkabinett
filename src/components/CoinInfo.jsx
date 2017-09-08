@@ -10,8 +10,8 @@ class CoinInfo extends React.Component {
   render() {
     const {coin, transform} = this.props;
     const compact = transform.k < .5;
-    let className = "coin-info";
-    className += compact ? " coin-info--compact" : "";
+    let className = 'coin-info';
+    className += compact ? ' coin-info--compact' : '';
 
     return (
       <div 
@@ -24,7 +24,7 @@ class CoinInfo extends React.Component {
         {!compact && <div className="coin-info__props">
           {coinProperties.map((prop, i) => {
             if(!prop.selectable) return;
-            const value = coin.data[prop.key] !== "" ? coin.data[prop.key] : "Unknown";
+            const value = coin.data[prop.key] !== '' ? coin.data[prop.key] : 'Unknown';
             return (
               <div key={i} className="coin-info__prop">
                 <i className={`coin-info__prop-icon icon-${prop.key}`}></i>

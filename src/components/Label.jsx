@@ -13,12 +13,12 @@ import React from 'react';
 
 class Label extends React.Component {
   render() {
-    const {isPreselected, selectable, alignment, minZoom, x, y, value, onClick, transform} = this.props;
-    let className = "label";
-    className += selectable ? " label--selectable" : "";
-    className += alignment === "center" ? " label--center" : "";
-    className += alignment === "right" ? " label--right" : "";
-    className += isPreselected ? " is-preselected" : "";
+    const {isPreselected, selectable, alignment, x, y, value, onClick, transform} = this.props;
+    let className = 'label';
+    className += selectable ? ' label--selectable' : '';
+    className += alignment === 'center' ? ' label--center' : '';
+    className += alignment === 'right' ? ' label--right' : '';
+    className += isPreselected ? ' is-preselected' : '';
 
     return (
       <span 
@@ -28,7 +28,7 @@ class Label extends React.Component {
           left: `${x * transform.k}px`, 
           top:`${y * transform.k}px`
         }}>
-        { value === "" ? "Unknown" : value }
+        { value === '' ? 'Unknown' : value }
       </span>
     )
   }

@@ -14,7 +14,7 @@ class SelectionUi extends React.Component {
   }
 
   componentWillUnmount() {
-   document.removeEventListener('keyup', this.handleKeyUp); 
+    document.removeEventListener('keyup', this.handleKeyUp); 
   }
 
   handleKeyUp(event) {
@@ -42,7 +42,7 @@ class SelectionUi extends React.Component {
   }
 
   createLabel(key, label, i) {
-    const {bounds, transform, coinFilters} = this.props;
+    const {bounds, transform} = this.props;
     const isInside = this.isInsideBounds(label, bounds);
     if(transform.k < label.minZoom || !isInside) return;
     const isPreselected = _find(this.state.selectedLabels, {key, value: label.value}) !== undefined;

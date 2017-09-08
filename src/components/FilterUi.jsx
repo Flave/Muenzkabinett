@@ -4,9 +4,9 @@ const SECTION_SPACING = 30;
 
 class FilterUi extends React.Component {
   getSectionHeights() {
-    const {filters, selecting, selectedCoin, selectedCoins} = this.props;
+    const {filters, selectedCoins} = this.props;
     const filterTags = filters.length > 1 ? filters.length + 1 : filters.length; // additional tag for clear button
-    const lassoSpacing = filters.length ? SECTION_SPACING : 0; // only add spacing if filters selected
+    //const lassoSpacing = filters.length ? SECTION_SPACING : 0; // only add spacing if filters selected
 
     return {
       filters: filterTags * TAG_SPACING,
@@ -32,7 +32,7 @@ class FilterUi extends React.Component {
             bottom: `${bottom}px`
           }}
           className="filter-ui__filter">
-          <span className={`filter-ui__icon icon-coin`}></span>
+          <span className={'filter-ui__icon icon-coin'}></span>
           {selectedCoin.data.title}
           <span 
             onClick={this.props.onDeselectCoin}
@@ -47,8 +47,8 @@ class FilterUi extends React.Component {
     const {filters, selecting, selectedCoins} = this.props;
     const hasSelection = selectedCoins.length > 0;
     let lassoTagY = filters.length ? (heights.filters + SECTION_SPACING) : 0;
-    let className = "filter-ui__filter";
-    className += selecting ? " filter-ui__filter--alert" : " filter-ui__filter--utility";
+    let className = 'filter-ui__filter';
+    className += selecting ? ' filter-ui__filter--alert' : ' filter-ui__filter--utility';
     lassoTagY += hasSelection ? TAG_SPACING : 0;
     const lassoTag = (
       <span 
@@ -56,8 +56,8 @@ class FilterUi extends React.Component {
         onClick={this.props.onToggleLasso}
         style={{bottom: `${lassoTagY}px`}}
         className={className}>
-        <span className={`filter-ui__icon icon-selection`}></span>
-        {selecting ? "Stop selecting" : "Lasso"}
+        <span className={'filter-ui__icon icon-selection'}></span>
+        {selecting ? 'Stop selecting' : 'Lasso'}
       </span>
     )
     const selectionTag = (
@@ -107,7 +107,7 @@ class FilterUi extends React.Component {
               key={groupIndex} 
               className="filter-ui__filter">
               <span className={`filter-ui__icon icon-${key}`}></span>
-              {value !== "" ? value : "Unknown"}
+              {value !== '' ? value : 'Unknown'}
               <span 
                 onClick={this.props.onFilterRemove.bind(null, {key, value})}
                 className="icon-cross filter-ui__clear"></span>
@@ -120,8 +120,7 @@ class FilterUi extends React.Component {
 
   render() {
     const {filters, selectedCoin} = this.props;
-    const heights = this.getSectionHeights();
-    const filterLabelY = heights.filters;
+
     return (
       <div className="filter-ui">
         {filters.length > 1 && this.createClearButton(filters.length)}

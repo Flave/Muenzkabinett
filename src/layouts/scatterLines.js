@@ -33,7 +33,7 @@ export default {
         y: baseY,
         minZoom: groupIndex % 2 === 0 ? .2 : .3,
         selectable: true,
-        alignment: "right"
+        alignment: 'right'
       });
       const scatterLineSpec = scatterLine.create(group.coins, properties, paddedDimensions, options)
       positions.push.apply(positions, scatterLineSpec.positions);

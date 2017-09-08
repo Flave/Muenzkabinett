@@ -2,14 +2,12 @@ import {Sprite, Point} from 'pixi.js';
 import {dispatch as d3_dispatch} from 'd3-dispatch';
 import {timer as d3_timer} from 'd3-timer';
 import {easePolyInOut as d3_easePolyInOut} from 'd3-ease';
-//import tooltip from 'app/components/Tooltip';
-import stateStore from 'app/stateStore';
 import rebind from 'utility/rebind';
 
 export default function Coin(texture, data) {
-  var coin = new PIXI.Sprite(texture),
-      parentTransform,
-      dispatch = d3_dispatch('dragstart', 'drag', 'dragend', 'click', 'mouseenter', 'mouseleave');
+  var coin = new Sprite(texture),
+    parentTransform,
+    dispatch = d3_dispatch('dragstart', 'drag', 'dragend', 'click', 'mouseenter', 'mouseleave');
 
   coin.data = data;
   coin.interactive = true;
@@ -29,18 +27,18 @@ export default function Coin(texture, data) {
     .on('mouseout', onMouseOut);
 
 
-  function onClick(event) {
+  function onClick() {
     if(this.moved)
       return;
     dispatch.call('click', coin, coin);
   }
 
-  function onMouseOver(event) {
+  function onMouseOver() {
     dispatch.call('mouseenter', null, coin);
     this.overCoin = true;
   }
 
-  function onMouseOut(event) {
+  function onMouseOut() {
     dispatch.call('mouseleave', null, coin);
     this.overCoin = false;
   }
@@ -54,7 +52,7 @@ export default function Coin(texture, data) {
     var posProjected = parentTransform.apply(pos);
 
     var offsetX = event.data.originalEvent.clientX - posProjected.x,
-        offsetY = event.data.originalEvent.clientY - posProjected.y;
+      offsetY = event.data.originalEvent.clientY - posProjected.y;
 
     this.event.eventOffset = {x: offsetX, y: offsetY};
     dispatch.call('dragstart', null, coin);
@@ -63,12 +61,12 @@ export default function Coin(texture, data) {
   function onDragMove(event) {
     if (this.dragging) {
       var mouseX = this.event.originalEvent.clientX,
-          mouseY = this.event.originalEvent.clientY,
-          offsetX = this.event.eventOffset.x,
-          offsetY = this.event.eventOffset.y,
-          // transform is the PIXI container object the coin is contained in
-          originalPoint = new Point(mouseX - offsetX, mouseY - offsetY),
-          projectedPoint = parentTransform.applyInverse(originalPoint);
+        mouseY = this.event.originalEvent.clientY,
+        offsetX = this.event.eventOffset.x,
+        offsetY = this.event.eventOffset.y,
+        // transform is the PIXI container object the coin is contained in
+        originalPoint = new Point(mouseX - offsetX, mouseY - offsetY),
+        projectedPoint = parentTransform.applyInverse(originalPoint);
       // to check inside clickhandler whether coin has been moved
       this.moved = true;
       this.position.x = projectedPoint.x;
@@ -96,9 +94,9 @@ export default function Coin(texture, data) {
 
   coin.move = function(x, y, duration, delay, cb) {
     var dx = x - coin.position.x,
-        dy = y - coin.position.y,
-        ox = coin.position.x,
-        oy = coin.position.y;
+      dy = y - coin.position.y,
+      ox = coin.position.x,
+      oy = coin.position.y;
 
     delay = delay || 0;
     duration = duration || 1000;

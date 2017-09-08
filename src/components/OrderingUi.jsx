@@ -1,5 +1,4 @@
 import React from 'react';
-import _find from 'lodash/find';
 import properties from 'constants/coinProperties';
 import stateStore from 'app/stateStore';
 import layouts from 'app/layouts';
@@ -22,11 +21,11 @@ class OrderingUi extends React.Component {
 
   createPropertiesList(selectionIndex) {
     var state = this.props.state,
-        componentState = this.state,
-        activeIndex = componentState.activeIndex,
-        otherIndex = activeIndex + 1 - 2 * activeIndex,
-        selectedProperty = state.selectedProperties[activeIndex],
-        otherSelectedProperty = state.selectedProperties[otherIndex];
+      componentState = this.state,
+      activeIndex = componentState.activeIndex,
+      otherIndex = activeIndex + 1 - 2 * activeIndex,
+      selectedProperty = state.selectedProperties[activeIndex],
+      otherSelectedProperty = state.selectedProperties[otherIndex];
 
     return (
       <div className="ordering-ui__property-list">
@@ -35,11 +34,11 @@ class OrderingUi extends React.Component {
             if(!property.selectable) return undefined;
             const alreadySelected = otherSelectedProperty && otherSelectedProperty.key === property.key;
             const selected = selectedProperty && selectedProperty.key === property.key;
-            let className = "ordering-ui__property";
+            let className = 'ordering-ui__property';
             if(selected)
-              className += " is-selected";
+              className += ' is-selected';
             if(alreadySelected)
-              className += " is-disabled is-selected";
+              className += ' is-disabled is-selected';
             return <div 
               key={i} 
               onClick={!alreadySelected && this.handlePropertyClick.bind(this, property, selectionIndex)} 
@@ -47,7 +46,7 @@ class OrderingUi extends React.Component {
               <i className={`icon-${property.key}`}></i>
               {property.label}
               {selected && <i className="icon-cross ordering-ui__clear-icon"></i>}
-              </div>
+            </div>
           }.bind(this))
         }
       </div>
@@ -55,11 +54,11 @@ class OrderingUi extends React.Component {
   }
 
   createPropertyUi(property, selectionIndex) {
-    var className = "ordering-ui__ui",
-        label = property ? property.label : "Select a property";
+    var className = 'ordering-ui__ui',
+      label = property ? property.label : 'Select a property';
 
-    className += !property ? " is-empty" : "";
-    className += this.state.activeIndex === selectionIndex ? " is-selected" : "";
+    className += !property ? ' is-empty' : '';
+    className += this.state.activeIndex === selectionIndex ? ' is-selected' : '';
 
     return <div className={className}>
       {this.createPropertiesList(selectionIndex)}
@@ -68,13 +67,13 @@ class OrderingUi extends React.Component {
         className="ordering-ui__selection">
         <span className="btn__section">
           {property && <i className={`icon-${property.key}`}></i>}
-            {label}
+          {label}
         </span>
         { property && <span 
-            onClick={this.handlePropertyClick.bind(this, property, selectionIndex)}
-            className="ordering-ui__clear-selection btn__section icon-cross"></span>
+          onClick={this.handlePropertyClick.bind(this, property, selectionIndex)}
+          className="ordering-ui__clear-selection btn__section icon-cross"></span>
         }
-        </div>
+      </div>
     </div>
   }
 
@@ -87,7 +86,7 @@ class OrderingUi extends React.Component {
     }
   }
 
-  handleSelectionClick(propertyIndex, proxy, event) {
+  handleSelectionClick(propertyIndex) {
     if(this.state.activeIndex === propertyIndex)
       this.setState({activeIndex: null});
     else

@@ -29,24 +29,12 @@ class Ui extends React.Component {
 
 
   render() {
-    var state = this.props.state,
-        spinnerStyle = {
-          "backgroundPosition": `${this.state.backgroundPosition.x}px ${this.state.backgroundPosition.y}px`
-        },
-        circleStyle = {
-          strokeDasharray: Math.PI * 2 * 80,
-          strokeDashoffset: Math.PI * 2 * 80 - Math.PI * 2 * 80 * state.coinsProgress,
-          fill: "none",
-          stroke: "#000"
-        };
-
-        //console.log(state.coinsProgress);
+    const spinnerStyle = {
+      'backgroundPosition': `${this.state.backgroundPosition.x}px ${this.state.backgroundPosition.y}px`
+    };
 
     return (
       <div className="loader">
-        {/*<svg width="162" height="162" className="loader__indicator" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                  <circle style={circleStyle} cx="81" cy="81" r="80"/>
-                </svg>*/}
         <span style={spinnerStyle} className="loader-spinner"></span>
       </div>
     );

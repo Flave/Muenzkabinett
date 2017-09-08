@@ -1,7 +1,6 @@
-import {randomNormal as d3_randomNormal} from 'd3-random';
 import {max as d3_max} from 'd3-array';
 import {COIN_HEIGHT} from 'constants';
-import {getPaddedDimensions, getDiscreteProperty, getContinuousProperty, groupDiscrete, getExtent} from 'app/utility';
+import {getPaddedDimensions, getDiscreteProperty, getContinuousProperty, groupDiscrete} from 'app/utility';
 
 const groupSorter = (key) =>
   (coinA, coinB) =>
@@ -17,7 +16,7 @@ const createGrid = (coins) => {
   let lastCoinX = 0;
   const positions = [];
   
-  coins.map((coin, i) => {
+  coins.map((coin) => {
     const xOffset = lastCoinX + lastCoinWidth + PADDING;
     const newRow = (xOffset + coin.width) > width;
     newRow && rowIndex++;
@@ -47,7 +46,7 @@ export default {
     let lastGroupEnd = paddedDimensions.left;
     const maxGroupSize = d3_max(groups, (group) => group.coins.length);
 
-    groups.forEach((group, groupIndex) => {
+    groups.forEach((group) => {
       group.coins.sort(sorter);
       const numCoins = group.coins.length;
       const {width, height, positions: groupPositions} = createGrid(group.coins);

@@ -1,4 +1,4 @@
-import {getPaddedDimensions, groupContinuous, getExtent} from 'utility';
+import {getPaddedDimensions, getExtent} from 'utility';
 import {scaleLinear as d3_scaleLinear} from 'd3-scale';
 import {COIN_HEIGHT} from 'constants';
 
@@ -7,11 +7,11 @@ export default {
   value: 'Plain Grid',
   requiredTypes: ['continuous'],
   create: function plainGrid(coins, properties, bounds) {
-    const paddingRatio = 0.03;
+    const paddingRatio = 0.05;
     const property = properties[0];
     const key = property.key;
     const extentX = getExtent(coins, key);
-    const paddedDimensions = getPaddedDimensions(bounds, {left: 200, right: 0.05, top: 0.05, bottom: 0.05});
+    const paddedDimensions = getPaddedDimensions(bounds, {left: 200, right: paddingRatio, top: paddingRatio, bottom: paddingRatio});
     const value2X = d3_scaleLinear().domain(extentX).range([0, 1]);
     const ticks = value2X.nice().ticks();
     const positions = [];
@@ -24,9 +24,7 @@ export default {
       return a.data[key] - b.data[key];
     });
 
-    //const groups = groupContinuous(coins, properties[0], extentX);
-
-    coins.forEach(function(coin, i) {
+    coins.forEach(function(coin) {
       if(x > paddedDimensions.right) {
         x = paddedDimensions.left;
         yIndex++;
@@ -46,7 +44,7 @@ export default {
           x: paddedDimensions.left - 50,
           y,
           minZoom: labelIndex % 2 === 0 ? .2 : .3,
-          alignment: "right"
+          alignment: 'right'
         });
 
         labelIndex++;

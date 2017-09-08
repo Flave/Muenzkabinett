@@ -1,4 +1,4 @@
-import {Point, Matrix, Texture, utils, Sprite, autoDetectRenderer, Container, Rectangle} from 'pixi.js';
+import {Point, autoDetectRenderer, Container} from 'pixi.js';
 import {select as d3_select} from 'd3-selection';
 import {dispatch as d3_dispatch} from 'd3-dispatch';
 import rebind from 'utility/rebind';
@@ -12,22 +12,20 @@ import coinsContainer from 'app/components/Coins';
 import SelectionTool from 'app/components/SelectionTool';
 import stateStore from 'app/stateStore';
 import layouter from 'app/layouts';
-import _find from 'lodash/find';
 
 export default function Canvas() {
   var size = {width: 200, height: 200},
-      renderer = autoDetectRenderer(size.width, size.height, {transparent: true}),
-      stage = new Container(),
-      dispatch = d3_dispatch('zoom', 'zoomstart', 'zoomend'),
-      zoomCanvas,
-      initialZoom = 1,
-      zoomBehavior = d3_zoom().scaleExtent([0.1, 1.2])
-        .on("zoom", handleZoom)
-        .on("start", handleZoomStart)
-        .on("end", handleZoomEnd),
-      selectionTool = SelectionTool()(stage).coins(coinsContainer.coins),
-      labelGroups = [],
-      shouldUpdate = true; // used for to prevent updating after zooming
+    renderer = autoDetectRenderer(size.width, size.height, {transparent: true}),
+    stage = new Container(),
+    dispatch = d3_dispatch('zoom', 'zoomstart', 'zoomend'),
+    zoomCanvas,
+    zoomBehavior = d3_zoom().scaleExtent([0.1, 1.2])
+      .on('zoom', handleZoom)
+      .on('start', handleZoomStart)
+      .on('end', handleZoomEnd),
+    selectionTool = SelectionTool()(stage).coins(coinsContainer.coins),
+    labelGroups = [],
+    shouldUpdate = true; // used for to prevent updating after zooming
 
   stage.interactiveChildren = true;
   coinsContainer.parent(stage);
@@ -50,7 +48,7 @@ export default function Canvas() {
         zoomCanvas.call(zoomBehavior);
       });
 
-/*    renderer.view.addEventListener('click', function(event) {
+    /*    renderer.view.addEventListener('click', function(event) {
       var projected = projectPixel(event.clientX, event.clientY);
       console.log(event.clientX, event.clientY, projected);
     })*/
@@ -139,9 +137,9 @@ export default function Canvas() {
 
     var timer = d3_timer(function(elapsed) {
       var t = elapsed / duration,
-          k = ot.k + (dk * d3_easePolyInOut(t, 3)),
-          x = ot.x + dx * d3_easePolyInOut(t, 3),
-          y = ot.y + dy * d3_easePolyInOut(t, 3);
+        k = ot.k + (dk * d3_easePolyInOut(t, 3)),
+        x = ot.x + dx * d3_easePolyInOut(t, 3),
+        y = ot.y + dy * d3_easePolyInOut(t, 3);
 
       zoomBehavior
         .scaleTo(zoomCanvas, k);
@@ -151,22 +149,8 @@ export default function Canvas() {
       if(elapsed > duration) {
         timer.stop();
         cb && cb();
-        let nt = d3_zoomTransform(zoomCanvas.node());
       }
     }, 0);
-  }
-
-  function scaleToBounds(bounds) {
-      dx = bounds[1][0] - bounds[0][0],
-      dy = bounds[1][1] - bounds[0][1],
-      x = (bounds[0][0] + bounds[1][0]) / 2,
-      y = (bounds[0][1] + bounds[1][1]) / 2,
-      scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
-      translate = [width / 2 - scale * x, height / 2 - scale * y];
-
-    svg.transition()
-        .duration(750)
-        .call(zoom.translate(translate).scale(scale).event);
   }
 
   function togglePan(doPan) {
@@ -174,10 +158,10 @@ export default function Canvas() {
       zoomCanvas.call(zoomBehavior);
     else
       zoomCanvas.call(zoomBehavior)
-        .on("mousedown.zoom", null)
-        .on("touchstart.zoom", null)
-        .on("touchmove.zoom", null)
-        .on("touchend.zoom", null);
+        .on('mousedown.zoom', null)
+        .on('touchstart.zoom', null)
+        .on('touchmove.zoom', null)
+        .on('touchend.zoom', null);
   }
 
   function getNextZoom() {
@@ -193,7 +177,7 @@ export default function Canvas() {
     const state = stateStore.get();
     let bounds;
     const coins = coinsContainer.coins;
-    const {selected, notSelected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
+    const {selected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
 
     // needed to initially center the canvas
     zoomBehavior.scaleTo(zoomCanvas, 1);

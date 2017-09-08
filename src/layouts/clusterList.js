@@ -27,7 +27,7 @@ export default {
       const groupX = lastEnd + radius * 2 + 100 + d3_randomNormal(0, 5)();
       const groupY = centerY + d3_randomNormal(0, 5)();
 
-      coins.forEach((coin, i) => {
+      coins.forEach((coin) => {
         y = d3_randomNormal(groupY, radius/2)() - COIN_HEIGHT/2;
         x = d3_randomNormal(groupX, radius/2)() - COIN_HEIGHT/2;
         positions.push({x, y});

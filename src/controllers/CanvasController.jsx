@@ -5,10 +5,7 @@ import Canvas from 'components/Canvas';
 import Tooltip from 'components/Tooltip';
 import CoinInfo from 'components/CoinInfo';
 import stateStore from 'app/stateStore';
-import coinsContainer from 'app/components/Coins';
-import _debounce from 'lodash/debounce';
 import _find from 'lodash/find';
-import _merge from 'lodash/merge';
 
 class CanvasController extends React.Component {
   constructor(props) {
@@ -52,7 +49,7 @@ class CanvasController extends React.Component {
       })(this.root);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     this.updateCanvas();
   }
 
@@ -91,21 +88,21 @@ class CanvasController extends React.Component {
 
   render() {
     const {state} = this.props;
-    let className = "canvas-container";
+    let className = 'canvas-container';
     const showCoinInfo = state.selectedCoin && !state.transitioning;
     const showLabels = !state.transitioning;
     const showTooltip = state.hoveredCoin && !state.transitioning;
-    className += state.selecting ? " is-in-selection-mode" : "";
+    className += state.selecting ? ' is-in-selection-mode' : '';
 
     return (
       <div ref={(root) => this.root = root} className={className}>
         {this.canvas && <Overlays transform={state.transform}>
           {showLabels && <Labels 
-              onLabelClick={this.handleLabelClick} 
-              transform={state.transform}
-              bounds={this.canvas.bounds()}
-              coinFilters={state.coinFilters}
-              labels={this.canvas.labelGroups()}/>}
+            onLabelClick={this.handleLabelClick} 
+            transform={state.transform}
+            bounds={this.canvas.bounds()}
+            coinFilters={state.coinFilters}
+            labels={this.canvas.labelGroups()}/>}
           {showTooltip && <Tooltip 
             coin={state.hoveredCoin}
             transform={state.transform}

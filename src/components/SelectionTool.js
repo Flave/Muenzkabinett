@@ -6,16 +6,16 @@ import stateStore from 'app/stateStore';
 
 export default function SelectionTool() {
   var polygonsData = [],
-      currentPolygonData = [],
-      graphics = new Graphics(),
-      container = new Container(),
-      dispatch = d3_dispatch('selection', 'selectionend'),
-      bounds = {top: 0, left: 0, right: 1, bottom: 1},
-      parentContainer,
-      coins,
-      zoom = 1,
-      active = false,
-      recording = false;
+    currentPolygonData = [],
+    graphics = new Graphics(),
+    container = new Container(),
+    dispatch = d3_dispatch('selection', 'selectionend'),
+    bounds = {top: 0, left: 0, right: 1, bottom: 1},
+    parentContainer,
+    coins,
+    zoom = 1,
+    active = false,
+    recording = false;
 
   container.hitArea = new Rectangle(0, 0, 1, 1);
   container.interactive = true;
@@ -96,13 +96,13 @@ export default function SelectionTool() {
 
   function getSelection() {
     var polygon,
-        selectedCoins = [],
-        centerX,
-        centerY;
+      selectedCoins = [],
+      centerX,
+      centerY;
 
     polygonsData.forEach((polygonData) => {
       polygon = new Polygon(polygonData);
-      coins.forEach((coin, i) => {
+      coins.forEach((coin) => {
         centerX = coin.x + coin.width/2;
         centerY = coin.y + coin.height/2;
         if(selectedCoins.indexOf(coin) === -1 && polygon.contains(centerX, centerY))

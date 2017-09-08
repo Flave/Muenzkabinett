@@ -1,5 +1,4 @@
 import {randomNormal as d3_randomNormal} from 'd3-random';
-import _forEach from 'lodash/forEach';
 import Victor from 'victor';
 import {COIN_HEIGHT} from 'constants';
 
@@ -27,7 +26,7 @@ export default {
     const newCoinPositions = [];
     let x, y;
 
-    coins.forEach(function(coin, i) {
+    coins.forEach(function(coin) {
       // if there is a coin selected, just ignore it
       if(selectedCoin && selectedCoin.data.id === coin.data.id) return;
 

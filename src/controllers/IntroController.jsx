@@ -14,7 +14,7 @@ class IntroController extends React.Component {
 
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
 
   }
 
@@ -27,8 +27,8 @@ class IntroController extends React.Component {
   }
 
   handleNext() {
-    var stage = this.state.stage,
-        nextStage = stage + 1;
+    var stage = this.state.stage;
+    var nextStage = stage + 1;
 
     if(nextStage === stages.length) {
       stateStore.set({onboardingComplete: true});
@@ -41,8 +41,8 @@ class IntroController extends React.Component {
   }
 
   render() {
-    var state = this.props.state,
-        Stage = stages[this.state.stage];
+    var state = this.props.state;
+    var Stage = stages[this.state.stage];
 
     return (
       <div className="intro">

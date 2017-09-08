@@ -28,11 +28,11 @@ class Tooltip extends Component {
   }
 
   render() {
-    const {properties, transform, coin, modifiers, offset} = this.props;
-    const modifierClasses = modifiers.map(modifier => `tooltip--${modifier}`).join(" ");
+    const {properties, coin, modifiers} = this.props;
+    const modifierClasses = modifiers.map(modifier => `tooltip--${modifier}`).join(' ');
     const setProperties = removeFalsy(properties);
     let className = `tooltip ${modifierClasses}`;
-    className += setProperties.length ? "tooltip--has-properties" : "";
+    className += setProperties.length ? 'tooltip--has-properties' : '';
 
     return  (
       <div className={className} ref={root => this.root = root}>
@@ -42,7 +42,7 @@ class Tooltip extends Component {
           <div className="tooltip__prop" key={i}>
             <i className={`tooltip__prop-icon icon-${prop.key}`}></i>
             <div className="tooltip__prop-label">{prop.label}</div>
-            <div className="tooltip__prop-value">{coin.data[prop.key] ? coin.data[prop.key] : "Unknown"}{prop.unit}</div>
+            <div className="tooltip__prop-value">{coin.data[prop.key] ? coin.data[prop.key] : 'Unknown'}{prop.unit}</div>
           </div>
         )}
       </div>

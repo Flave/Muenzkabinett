@@ -11,8 +11,8 @@ class LayoutUi extends React.Component {
   createLayoutsList() {
     var state = this.props.state;
     return layouts.getApplicableLayouts(state.selectedProperties).map(function(layout) {
-      var className = "layout-list__layout";
-      className += state.selectedLayout === layout.key ? " is-selected" : "";
+      var className = 'layout-list__layout';
+      className += state.selectedLayout === layout.key ? ' is-selected' : '';
       return (
         <span 
           key={layout.key} 

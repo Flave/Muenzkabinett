@@ -1,4 +1,4 @@
-import {Texture, utils, Sprite, autoDetectRenderer, Container, Rectangle} from 'pixi.js';
+import {Texture, Rectangle} from 'pixi.js';
 import {loaders as pixiLoaders} from 'pixi.js';
 import {dispatch as d3_dispatch} from 'd3-dispatch';
 import {range as d3_range} from 'd3-array';
@@ -9,10 +9,10 @@ import rebind from 'utility/rebind';
 import stateStore from 'app/stateStore';
 
 var loader = {},
-    dispatch = d3_dispatch('coinsLoaded', 'actorsLoaded', 'linksLoaded', 'coinsProgress');
+  dispatch = d3_dispatch('coinsLoaded', 'actorsLoaded', 'linksLoaded', 'coinsProgress');
 
 var coinsData = null,
-    spritesLoaded = 0;
+  spritesLoaded = 0;
 
 loader.load = function() {
   loadCoins();
@@ -23,11 +23,11 @@ loader.load = function() {
 * Loads coins.csv and afterwards the corresponding spritesheets
 */
 function loadCoins() {
-  loadCsv("data/csv/coins.csv", handleDataLoaded);
+  loadCsv('data/csv/coins.csv', handleDataLoaded);
 }
 
 function handleDataLoaded(err, _coinsData) {
-  if(err) console.log(err);
+  if(err) throw new Error(err);
   else {
     coinsData = _coinsData.slice(0, 20001);
     //coinsData = _coinsData;
@@ -42,7 +42,7 @@ function handleLoadingComplete() {
 
 
 function handleResourceLoaded(spriteLoader, resource) {
-  var fileNames = createSpriteFileNames("coins", 40, coinsData.length, 2000);
+  var fileNames = createSpriteFileNames('coins', 40, coinsData.length, 2000);
   createCoins(spriteLoader, resource, coinsData);
   spritesLoaded++;
   var progress = spritesLoaded / fileNames.length;
@@ -55,12 +55,12 @@ function handleResourceLoaded(spriteLoader, resource) {
 * another component adds them to the canvas and gives them behavior
 */
 function createCoins(spriteLoader, resource) {
-  var extent = resource.name.split("_").map(function(number) {return parseInt(number)}).slice(1,3);
+  var extent = resource.name.split('_').map(function(number) {return parseInt(number)}).slice(1,3);
   d3_range(extent[0], extent[1]).map(function(coinIndex) {
     
-    var coinData = coinsData[coinIndex],
-        texture = new Texture(spriteLoader.resources[resource.name].texture),
-        rectangle = new Rectangle(coinData.x, coinData.y, coinData.width, coinData.height);
+    let coinData = coinsData[coinIndex];
+    let texture = new Texture(spriteLoader.resources[resource.name].texture);
+    let rectangle = new Rectangle(coinData.x, coinData.y, coinData.width, coinData.height);
     texture.frame = rectangle;
     coinsContainer.add(Coin(texture, coinData));
   });
@@ -70,17 +70,17 @@ function createCoins(spriteLoader, resource) {
 * Loads a bunch of sprite sheets from alist of filenames
 */
 function loadSpriteSheets(onComplete, onProgress) {
-  var fileNames = createSpriteFileNames("coins", 40, coinsData.length, 2000),
-      spriteLoader = new pixiLoaders.Loader();
+  let fileNames = createSpriteFileNames('coins', 40, coinsData.length, 2000);
+  let spriteLoader = new pixiLoaders.Loader();
   fileNames.forEach(function(fileSpec) {
     spriteLoader.add(fileSpec);
   })
 
-  spriteLoader.load(function(loader, results) {
+  spriteLoader.load(function() {
     onComplete(null);
   })
-  .onProgress
-  .add(onProgress);
+    .onProgress
+    .add(onProgress);
 }
 
 /*
@@ -89,7 +89,7 @@ function loadSpriteSheets(onComplete, onProgress) {
 function createSpriteFileNames(name, height, numSprites, spritesPerFile) {
   return d3_range(Math.ceil(numSprites/spritesPerFile)).map(function(fileIndex) {
     var lowerEnd = fileIndex * spritesPerFile,
-        upperEnd = (fileIndex + 1) * spritesPerFile >= numSprites ? numSprites - 1 : (fileIndex + 1) * spritesPerFile;
+      upperEnd = (fileIndex + 1) * spritesPerFile >= numSprites ? numSprites - 1 : (fileIndex + 1) * spritesPerFile;
     return {
       name: `${name}_${lowerEnd}_${upperEnd}`, 
       url: `data/images/sprites/${name}_sprites_${height}_${lowerEnd}_${upperEnd}.png`

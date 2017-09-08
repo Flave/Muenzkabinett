@@ -25,7 +25,7 @@ export function getPaddedDimensions(bounds, padding) {
 }
 
 export function getExtent(coins, key) {
-  return d3_extent(coins, (c, i) => { return c.data[key]; });
+  return d3_extent(coins, (c) => { return c.data[key]; });
 }
 
 export function removeFalsy(array) {
@@ -36,28 +36,28 @@ export function groupContinuous(coins, property, extent) {
   const key = property.key;
   const bins = d3_range(extent[0], extent[1], property.grouping);
   return bins.map(function(stepIndex) {
-      var coinsInStep = [];
-      coins.forEach(function(coin) {
-        var floored = Math.floor(coin.data[key])
-        if(floored >= stepIndex && floored < (stepIndex + property.grouping))
-          coinsInStep.push(coin);
-      });
+    var coinsInStep = [];
+    coins.forEach(function(coin) {
+      var floored = Math.floor(coin.data[key])
+      if(floored >= stepIndex && floored < (stepIndex + property.grouping))
+        coinsInStep.push(coin);
+    });
     return coinsInStep;
   });
 }
 
 export function groupDiscrete(coins, key) {
   var values = [],
-      groups;
+    groups;
   // Collect all the possible values
-  coins.forEach((coin, i) => {
+  coins.forEach((coin) => {
     if(values.indexOf(coin.data[key]) === -1)
       values.push(coin.data[key]);
   });
 
   groups = values.map((value) => ({coins: [], key: value}));
 
-  coins.forEach((coin, i) => {
+  coins.forEach((coin) => {
     var value = coin.data[key];
     groups[values.indexOf(value)].coins.push(coin);
   });
@@ -99,7 +99,7 @@ export function filterCoins(coins, filters, selection) {
       groupedFilters.push({key: key, values: [value]})
   });
 
-  coins.forEach((coin, i) => {
+  coins.forEach((coin) => {
     let isFiltered = _every(groupedFilters, ({key, values}) =>
       values.indexOf(coin.data[key]) > -1
     )
