@@ -41,11 +41,31 @@ class SelectionUi extends React.Component {
     return (x > left) && (x < right) && (y > top) && (y < bottom);
   }
 
+  getStickyPosition({x, y, sticky}, {left, top, right, bottom}) {
+    let xPos = x;
+    let yPos = y;
+    let alignment;
+    if(sticky === 'x' && x < left) {
+      xPos = left + 30;
+      alignment = 'left';
+    }
+
+    return {
+      x: xPos,
+      y: yPos,
+      alignment
+    }
+  }
+
   createLabel(key, label, i) {
     const {bounds, transform} = this.props;
     const isInside = this.isInsideBounds(label, bounds);
-    if(transform.k < label.minZoom || !isInside) return;
+    if(transform.k < label.minZoom || !isInside && !label.sticky) return;
     const isPreselected = _find(this.state.selectedLabels, {key, value: label.value}) !== undefined;
+    if(!isInside) {
+      let stickyPos = this.getStickyPosition(label, bounds);
+      label = {...label, ...stickyPos};
+    }
     return (
       <Label 
         {...label}
