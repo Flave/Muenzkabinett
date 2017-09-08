@@ -9,10 +9,9 @@ export default {
     const {width, height} = getCanvasArea(bounds);
     const numCoins = coins.length;
     const positions = [];
-    const spreadFactor = 0.7;
-    const maxSpread = 400;
-    let spread = Math.pow(numCoins, spreadFactor);
-    spread = Math.min(spread, maxSpread)
+    const spreadExponent = 0.2; // smaller number causes higher values for smaller coinNumbers relatively speaking
+    const spreadFactor = 30; // scales spread in a linear fashion 
+    let spread = Math.pow(numCoins, spreadExponent) * spreadFactor;
 
     coins.forEach(function(coin) {
       var x = d3_randomNormal(bounds.left + width/2, spread)();

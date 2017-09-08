@@ -71,7 +71,9 @@ export default function Canvas() {
       right: bottomRight.x,
       bottom: bottomRight.y,
       cx: topLeft.x + width/2,
-      cy: topLeft.y + height/2
+      cy: topLeft.y + height/2,
+      width,
+      height
     }
   }
 
@@ -166,22 +168,38 @@ export default function Canvas() {
         .on('touchend.zoom', null);
   }
 
-  function scaleToBounds({cx, cy, dx, dy}) {
+  function scaleToBounds(bounds, alignment) {
     const {width, height} = size;
-    const scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, 0.9 / Math.max(dx / width, dy / height)));
-    const translate = [width / 2 - scale * cx, height / 2 - scale * cy];
+    const dx = bounds.right - bounds.left;
+    const dy = bounds.bottom - bounds.top;
+    const PADDING = 0.1;
+    let cx = bounds.left + dx/2;
+    let cy = bounds.top + dy/2;
+    let scale;
+
+    if(alignment === 'top') {
+      scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / (dx / width)));
+      const canvasHeight = height / scale;
+      const padding = canvasHeight * PADDING;
+      if(bounds.bottom > canvasHeight - padding)
+        cy = bounds.top + canvasHeight/2 - padding;
+    } else {
+      //const scaleY = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, 0.9 / dy / height));
+      scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / Math.max(dx / width, dy / height)));
+    }
+    let scale2 = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / Math.max(dx / width, dy / height)));
     transformTo({k: scale, x: cx, y: cy});
   }
 
-  function transformAfterUpdate({positions, zoom}) {
-    scaleToBounds(getCoinsBounds(positions));
+  function transformAfterUpdate({positions, bounds, alignment}) {
+    let coinsBounds = bounds ? bounds : getCoinsBounds(positions);
+    scaleToBounds(coinsBounds, alignment);
     stateStore.set({transitioning: true});
     window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
   }
 
   function initializeCanvas() {
     const state = stateStore.get();
-    let bounds;
     const coins = coinsContainer.coins;
     const {selected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
 
@@ -192,8 +210,8 @@ export default function Canvas() {
     let transform = {k: .5, x: 0, y: 0};
 
     transformTo(transform, function() {
-      bounds = getCanvasBounds();      
-      layouter.update(selected, [], state, bounds);
+      const bounds = getCanvasBounds();      
+      const layoutSpecs = layouter.update(selected, [], state, bounds);
       stateStore.set({canvasInitialized: true});
     });
   }

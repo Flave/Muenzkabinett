@@ -1,4 +1,4 @@
-import {getPaddedDimensions, getExtent} from 'utility';
+import {getPaddedDimensions, getExtent, getCoinsBounds} from 'utility';
 import {scaleLinear as d3_scaleLinear} from 'd3-scale';
 import {COIN_HEIGHT} from 'constants';
 
@@ -7,17 +7,19 @@ export default {
   value: 'Plain Grid',
   requiredTypes: ['continuous'],
   create: function plainGrid(coins, properties, bounds) {
-    const paddingRatio = 0.05;
+    const MAX_WIDTH = 3000;
+    const MARGIN_LEFT = 150; // margin for labels
+    const maxRight = bounds.left + MAX_WIDTH;
+    const startX = bounds.left + MARGIN_LEFT;
     const property = properties[0];
     const key = property.key;
     const extentX = getExtent(coins, key);
-    const paddedDimensions = getPaddedDimensions(bounds, {left: 200, right: paddingRatio, top: paddingRatio, bottom: paddingRatio});
     const value2X = d3_scaleLinear().domain(extentX).range([0, 1]);
     const ticks = value2X.nice().ticks();
     const positions = [];
     const labelGroups = [{key: property.key, labels: []}];
     let labelIndex = 0;
-    let x = paddedDimensions.left;
+    let x = startX;
     let yIndex = 0;
     let y = 0;
     coins.sort(function(a, b) {
@@ -25,11 +27,11 @@ export default {
     });
 
     coins.forEach(function(coin) {
-      if(x > paddedDimensions.right) {
-        x = paddedDimensions.left;
+      if(x > maxRight) {
+        x = startX;
         yIndex++;
       }
-      y = yIndex * COIN_HEIGHT + paddedDimensions.top;
+      y = yIndex * COIN_HEIGHT + bounds.top;
 
       coin.move(x, y);
       positions.push({x, y});
@@ -41,7 +43,7 @@ export default {
         labelGroups[0].labels.push({
           value: tick,
           key,
-          x: paddedDimensions.left - 50,
+          x: bounds.left,
           y,
           minZoom: labelIndex % 2 === 0 ? .2 : .3,
           alignment: 'right'
@@ -50,7 +52,8 @@ export default {
         labelIndex++;
       }
     });
-
-    return {positions, labelGroups};
+    const newBounds = getCoinsBounds(positions);
+    newBounds.left -= MARGIN_LEFT;
+    return {positions, labelGroups, bounds: newBounds, alignment: 'top'};
   }
 }

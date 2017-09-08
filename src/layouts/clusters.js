@@ -31,13 +31,15 @@ export default {
   key: 'clusters',
   value: 'Clusters',
   requiredTypes: ['discrete'],
-  create: function pile(coins, properties, bounds) {
-    const width = bounds.right - bounds.left;
-    const height = bounds.bottom - bounds.top;
+  create: function pile(coins, properties, {left, top}) {
+    const numCoins = coins.length;
+    const spreadExponent = 0.33; // smaller number causes higher values for smaller coinNumbers relatively speaking
+    const spreadFactor = 130; // scales spread in a linear fashion 
+    const size = Math.pow(numCoins, spreadExponent) * spreadFactor;
     const property = properties[0];
     const pack = d3_pack()
       .padding(100)
-      .size([width, height]);
+      .size([size, size]);
     const hierarchy = createGroupHierarchy(coins, property);
     const positions = [];
     const labelGroups = [{key: property.key, labels: []}];
@@ -46,8 +48,8 @@ export default {
 
     groups.forEach(function(group) {
       group.data.coins.forEach(function(coin) {
-        var x = d3_randomNormal(group.x, group.r/3.5)() + bounds.left,
-          y = d3_randomNormal(group.y, group.r/3.5)() + bounds.top;
+        var x = d3_randomNormal(group.x, group.r/3.5)() + left,
+          y = d3_randomNormal(group.y, group.r/3.5)() + top;
         positions.push({x: x, y:y});
         coin.move(x, y);
       });
@@ -55,14 +57,14 @@ export default {
       labelGroups[0].labels.push({
         value: group.data.key,
         key: property.key,
-        x: group.x + bounds.left + COIN_HEIGHT/2,
-        y: group.y + bounds.top + COIN_HEIGHT/2,
+        x: group.x + left + COIN_HEIGHT/2,
+        y: group.y + top + COIN_HEIGHT/2,
         z: group.data.coins.length / maxGroupSize,
         minZoom: 1.1 - group.data.coins.length / maxGroupSize,
         selectable: true,
         alignment: 'center'
       });
     });
-    return {positions, labelGroups};
+    return {positions, labelGroups, zoom: 'bounds'};
   }
 }

@@ -2,6 +2,7 @@ import {range as d3_range} from 'd3-array';
 import {extent as d3_extent} from 'd3-array';
 import _find from 'lodash/find';
 import _every from 'lodash/every';
+import {COIN_HEIGHT} from 'constants';
 
 export function getPaddedDimensions(bounds, padding) {
   if(typeof padding !== 'object')
@@ -86,6 +87,8 @@ export function getCoinsBounds(coins) {
   bounds.dy = bounds.bottom - bounds.top;
   bounds.cx = bounds.left + (bounds.right - bounds.left) / 2;
   bounds.cy = bounds.top + (bounds.bottom - bounds.top) / 2;
+  bounds.right += COIN_HEIGHT;
+  bounds.bottom += COIN_HEIGHT;
   return bounds;
 }
 
