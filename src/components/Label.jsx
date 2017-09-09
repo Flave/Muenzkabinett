@@ -23,7 +23,7 @@ class Label extends React.Component {
     return (
       <span 
         className={className}
-        onClick={(e) => onClick(value, e)}
+        onClick={(e) => selectable && onClick(value, e)}
         style={{
           left: `${x * transform.k}px`, 
           top:`${y * transform.k}px`
