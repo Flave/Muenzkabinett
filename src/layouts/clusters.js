@@ -48,8 +48,8 @@ export default {
 
     groups.forEach(function(group) {
       group.data.coins.forEach(function(coin) {
-        var x = d3_randomNormal(group.x, group.r/3.5)() + left,
-          y = d3_randomNormal(group.y, group.r/3.5)() + top;
+        const x = d3_randomNormal(group.x, group.r/3.5)() + left;
+        const y = d3_randomNormal(group.y, group.r/3.5)() + top;
         positions.push({x: x, y:y});
         coin.move(x, y);
       });

@@ -187,7 +187,6 @@ export default function Canvas() {
       //const scaleY = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, 0.9 / dy / height));
       scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / Math.max(dx / width, dy / height)));
     }
-    let scale2 = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / Math.max(dx / width, dy / height)));
     transformTo({k: scale, x: cx, y: cy});
   }
 
@@ -210,8 +209,8 @@ export default function Canvas() {
     let transform = {k: .5, x: 0, y: 0};
 
     transformTo(transform, function() {
-      const bounds = getCanvasBounds();      
-      const layoutSpecs = layouter.update(selected, [], state, bounds);
+      const bounds = getCanvasBounds();
+      layouter.update(selected, [], state, bounds);
       stateStore.set({canvasInitialized: true});
     });
   }

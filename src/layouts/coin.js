@@ -64,8 +64,6 @@ export default {
       right: cx + maxDelta.x + COIN_HEIGHT
     }
 
-    console.log(nextBounds, maxDelta, cx, cy, COIN_HEIGHT);
-
     return {positions, bounds: nextBounds};
   }
 }
