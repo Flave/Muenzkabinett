@@ -7,7 +7,7 @@ export default {
   value: 'Plain Grid',
   requiredTypes: ['continuous'],
   create: function plainGrid(coins, properties, bounds) {
-    const MAX_WIDTH = 3000;
+    const MAX_WIDTH = 4000;
     const MARGIN_LEFT = 150; // margin for labels
     const maxRight = bounds.left + MAX_WIDTH;
     const startX = bounds.left + MARGIN_LEFT;

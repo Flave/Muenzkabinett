@@ -17,6 +17,10 @@ class SelectionUi extends React.Component {
     document.removeEventListener('keyup', this.handleKeyUp); 
   }
 
+  componentDidMount() {
+
+  }
+
   handleKeyUp(event) {
     if(event.key === 'Shift') {
       const selectedLabels = this.state.selectedLabels.slice();
