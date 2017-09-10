@@ -55,6 +55,6 @@ export default {
     });
     const newBounds = getCoinsBounds(positions);
     newBounds.left -= MARGIN_LEFT;
-    return {positions, labelGroups, bounds: newBounds, alignment: 'top'};
+    return {positions, labelGroups, bounds: newBounds, alignment: ['', 'top']};
   }
 }

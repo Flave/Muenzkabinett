@@ -20,7 +20,9 @@ class CoinInfo extends React.Component {
           left: (coin.position.x + 20) * transform.k,
           top: (coin.position.y + 60) * transform.k
         }}>
-        <div className="coin-info__title">{coin.data.title}</div>
+        <div className="coin-info__title">
+          <a className="coin-info__link" href={`http://ikmk.smb.museum/object?id=182${coin.data.id}`}>{coin.data.title}</a>
+        </div>
         {!compact && <div className="coin-info__props">
           {coinProperties.map((prop, i) => {
             if(!prop.selectable) return;

@@ -26,6 +26,12 @@
   border-bottom: 1px solid $c-accent-2;
 }
 
+.coin-info__link {
+  pointer-events: all;
+  text-decoration: none;
+  color: inherit;
+}
+
 .coin-info__props {
   display: flex;
   flex-wrap: wrap;

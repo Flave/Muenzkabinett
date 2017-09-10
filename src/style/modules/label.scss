@@ -29,13 +29,21 @@
     transform: translateY(-50%);
   }
 
+  &--right {
+    transform: translateX(-100%);
+  }
+
   &--center-x.label--center-y {
     transform: translate(-50%, -50%);
   }
 
-  &--right {
-    transform: translateX(-100%);
+  &--right.label--center-y {
+    transform: translate(-100%, -50%);
   }
+
+  &--top.label--center-x {
+    transform: translate(-50%, -100%);
+  }  
 
   &.is-preselected {
     background-color: $c-accent-3;

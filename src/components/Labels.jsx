@@ -52,7 +52,6 @@ class SelectionUi extends React.Component {
     if(sticky === 'left' && x < left) {
       xPos = left + 30;
       newAlignment[0] = 'left';
-      console.log(alignment);
     } else if(sticky === 'top' && y < top) {
       yPos = top + 50;
     }

@@ -41,6 +41,13 @@ function createGrouping(coins, propertyOne, propertyTwo) {
     return numB - numA;
   });
 
+  // TODO: Sort x group values
+  values[0] = groups.map((group) => {
+    for(let i=0; i<group.length; i++)
+      if(group[i].length)
+        return group[i][0].data[propertyOne];
+  })
+
   return {groups: groups, values: values};
 }
 
@@ -49,34 +56,76 @@ export default {
   value: 'Cluster Grid',
   requiredTypes: ['discrete', 'discrete'],
   create: function plainGrid(coins, properties, bounds) {
-    const paddedDimensions = getPaddedDimensions(bounds, 0.05);
     const propertyOne = properties[0].key;
     const propertyTwo = properties[1].key;
-    const showTop = 20;
+    const SPACING = 550;
+    const PADDING_LEFT = 100;
+    const PADDING_TOP = 50;
     const grouping = createGrouping(coins, propertyOne, propertyTwo);
-    const xSpacing = paddedDimensions.width / showTop;
-    const ySpacing = paddedDimensions.height / showTop;
     const positions = [];
-    const labels = [];
+    const labelGroups = [{key: propertyOne, labels: []}, {key: propertyTwo, labels: []}];
+    const SPREAD_EXPONENT = 0.24; // smaller number causes higher values for smaller coinNumbers relatively speaking
+    const SPREAD_FACTOR = 14; // scales spread in a linear fashion 
+    let minY = Infinity;
+    let minX = Infinity;
+    let x;
+    let y;
 
     grouping.groups.forEach((xGroup, xIndex) => {
+      const baseX = SPACING * xIndex + bounds.left;
       xGroup.forEach((yGroup, yIndex) => {
-        var spread = Math.sqrt(yGroup.length) * (paddedDimensions.width / 5000);
+        const spread = Math.pow(yGroup.length, SPREAD_EXPONENT) * SPREAD_FACTOR;
+        const baseY = SPACING * yIndex + bounds.top;
         yGroup.forEach((coin) => {
-          var x, y;
-          if(xIndex < showTop && yIndex < showTop) {
-            x = xSpacing * xIndex + bounds.left + paddedDimensions.padding + d3_randomNormal(0, spread)();
-            y = ySpacing * yIndex + bounds.top + paddedDimensions.padding + d3_randomNormal(0, spread)();
-          } else {
-            x = bounds.left + 20;
-            y = bounds.bottom + 20;
-          }
-          positions.push({x: x, y:y});
-          coin.move(x, y, 1000, Math.random() * 500);
-        })
+          x = baseX + d3_randomNormal(0, spread)();
+          y = baseY + d3_randomNormal(0, spread)();
+          positions.push({x, y});
+          coin.move(x, y);
+          minX = x < minX ? x : minX;
+          minY = y < minY ? y : minY;
+        });
+
+
+        if(xIndex === 0)
+          labelGroups[1].labels.push({
+            key: propertyTwo,
+            value: grouping.values[1][yIndex],
+            sticky: 'left',
+            x: bounds.left,
+            y: baseY,
+            selectable: true,
+            minZoom: yIndex % 2 === 0 ? .2 : .15,
+            alignment: ['right', 'center']
+          });
+      });
+
+      labelGroups[0].labels.push({
+        key: propertyOne,
+        value: grouping.values[0][xIndex],
+        sticky: 'top',
+        x: baseX,
+        selectable: true,
+        minZoom: xIndex % 2 === 0 ? .2 : .15,
+        alignment: ['center', 'top']
       });
     });
 
-    return {positions, labels};
+    labelGroups[0].labels.forEach(label => label.y = minY);
+    labelGroups[1].labels.forEach(label => label.x = minX);
+
+    return {
+      positions, 
+      labelGroups,
+      alignment: ['left', 'top']};
   }
 }
+
+
+
+
+
+
+
+
+
+

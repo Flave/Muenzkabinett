@@ -65,6 +65,6 @@ export default {
         alignment: ['center', 'center']
       });
     });
-    return {positions, labelGroups, zoom: 'bounds'};
+    return {positions, labelGroups};
   }
 }

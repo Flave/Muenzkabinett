@@ -198,17 +198,24 @@ export default function Canvas() {
     const PADDING = 0.1;
     let cx = bounds.left + dx/2;
     let cy = bounds.top + dy/2;
-    let scale;
+    let scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / Math.max(dx / width, dy / height)));
+    alignment = alignment ? alignment : [];
 
-    if(alignment === 'top') {
+    if(alignment[1] === 'top') {
       scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / (dx / width)));
       const nextBounds = getNextBounds({k: scale, x: cx, y: cy});
       const padding = nextBounds.height * PADDING;
       if(bounds.bottom > nextBounds.bottom - padding) {
         cy = bounds.top + nextBounds.height/2 - padding;
       }
-    } else {
-      scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / Math.max(dx / width, dy / height)));
+    } 
+    if(alignment[0] === 'left') {
+      scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / (dy / height)));
+      const nextBounds = getNextBounds({k: scale, x: cx, y: cy});
+      const padding = nextBounds.width * PADDING;
+      if(bounds.right > nextBounds.right - padding) {
+        cx = bounds.left + nextBounds.width/2 - padding;
+      }      
     }
     transformTo({k: scale, x: cx, y: cy});
   }

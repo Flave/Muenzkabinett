@@ -35,7 +35,7 @@ export default {
 
       const layoutSpec = scatterLine.create(group.coins, [continuousProperty], {cx, cy: groupCy}, options)
       positions.push.apply(positions, layoutSpec.positions);
-    
+
       if(groupIndex === 0)
         labelGroups.push(layoutSpec.labelGroups[0]);
     });
@@ -46,6 +46,6 @@ export default {
 
     bounds.left -= MARGIN_LEFT;
 
-    return {positions, labelGroups, bounds, alignment: 'top'};
+    return {positions, labelGroups, bounds, alignment: ['', 'top']};
   }
 }

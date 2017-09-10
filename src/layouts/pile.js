@@ -20,8 +20,7 @@ export default {
       positions.push({x: x, y:y});
     });
     return {
-      positions,
-      zoom: 'bounds'
+      positions
     };
   }
 }
