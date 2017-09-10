@@ -14,7 +14,7 @@ export default {
     const positions = [];
     const labelGroups = [{key: propertyKey, labels: []}];
     const visibleBounds = {top: Infinity, left: Infinity, bottom: -Infinity, right: -Infinity};
-    const showTopN = 6;
+    const SHOW_TOP_N = 6;
     let lastBounds;
     let x;
     let y;
@@ -28,7 +28,7 @@ export default {
       const groupX = lastEnd + radius * 2 + 100 + d3_randomNormal(0, 5)();
       const groupY = centerY + d3_randomNormal(0, 5)();
 
-      if(groupIndex === showTopN) visibleBounds.right = groupX;
+      if(groupIndex === SHOW_TOP_N) visibleBounds.right = groupX;
 
       coins.forEach((coin) => {
         y = d3_randomNormal(groupY, radius/2)() - COIN_HEIGHT/2;
@@ -41,7 +41,7 @@ export default {
         groupBounds.right = x > groupBounds.right ? x : groupBounds.right;
 
         // Get the bounds of the groups that should be in viewport
-        if(groupIndex < showTopN) {
+        if(groupIndex < SHOW_TOP_N) {
           visibleBounds.top = y < visibleBounds.top ? y : visibleBounds.top;
           visibleBounds.left = x < visibleBounds.left ? x : visibleBounds.left;
           visibleBounds.right = x > visibleBounds.right ? x : visibleBounds.right;

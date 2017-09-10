@@ -1,6 +1,6 @@
 import {max as d3_max} from 'd3-array';
 import {COIN_HEIGHT} from 'constants';
-import {getPaddedDimensions, getDiscreteProperty, getContinuousProperty, groupDiscrete} from 'app/utility';
+import {getDiscreteProperty, getContinuousProperty, groupDiscrete} from 'app/utility';
 
 const groupSorter = (key) =>
   (coinA, coinB) =>
@@ -34,25 +34,26 @@ export default {
   key: 'nested_grid',
   value: 'Nested Grid',
   requiredTypes: ['discrete', 'continuous'],
-  create: function plainGrid(coins, properties, bounds) {
-    const paddedDimensions = getPaddedDimensions(bounds, 0.05);
+  create: function plainGrid(coins, properties, {left, top}) {
     const continuousProperty = getContinuousProperty(properties);
     const discreteProperty = getDiscreteProperty(properties);
     const groups = groupDiscrete(coins, discreteProperty.key);
     const sorter = groupSorter(continuousProperty.key);
-    const positions = [];
-    const labelGroups = [{key: discreteProperty.key, labels: []}];
     const PADDING = 60;
-    let lastGroupEnd = paddedDimensions.left;
+    const SHOW_TOP_N = 4;
+    const visibleBounds = {top: Infinity, left: Infinity, bottom: -Infinity, right: -Infinity};
+    let lastGroupEnd = left;
     const maxGroupSize = d3_max(groups, (group) => group.coins.length);
+    const positions = [];
+    const labelGroups = [{key: discreteProperty.key, labels: []}];    
 
-    groups.forEach((group) => {
+    groups.forEach((group, groupIndex) => {
       group.coins.sort(sorter);
       const numCoins = group.coins.length;
       const {width, height, positions: groupPositions} = createGrid(group.coins);
       const groupX = lastGroupEnd + PADDING + COIN_HEIGHT/2;
       const labelX = groupX + width/2;
-      const labelY = numCoins < 10 ? paddedDimensions.top - 40 : paddedDimensions.top + height/2;
+      const labelY = numCoins < 10 ? top - 40 : top + height/2;
       let labelMinZoom = .4 - numCoins / maxGroupSize;
 
       labelGroups[0].labels.push({
@@ -68,13 +69,25 @@ export default {
       group.coins.forEach((coin, i) => {
         const position = groupPositions[i];
         const x = groupX + position.x;
-        const y = paddedDimensions.top + position.y;
+        const y = top + position.y;
+
+        if(groupIndex < SHOW_TOP_N) {
+          visibleBounds.top = y < visibleBounds.top ? y : visibleBounds.top;
+          visibleBounds.left = x < visibleBounds.left ? x : visibleBounds.left;
+          visibleBounds.right = x > visibleBounds.right ? x : visibleBounds.right;
+          visibleBounds.bottom = y > visibleBounds.bottom ? y : visibleBounds.bottom;
+        }
+
         positions.push({x, y});
         coin.move(x, y);
       });
       lastGroupEnd = groupX + width;
     });
 
-    return {positions, labelGroups};
+    return {
+      positions, 
+      labelGroups, 
+      bounds: visibleBounds
+    };
   }
 }
