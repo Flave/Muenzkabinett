@@ -35,6 +35,7 @@ export function removeFalsy(array) {
 
 export function groupContinuous(coins, property, extent) {
   const key = property.key;
+  extent[0] -= extent[0] === extent[1] ? 1 : 0; // if the extent delta is 0 make it at least 1
   const bins = d3_range(extent[0], extent[1], property.grouping);
   return bins.map(function(stepIndex) {
     var coinsInStep = [];

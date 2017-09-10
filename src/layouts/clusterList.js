@@ -1,5 +1,5 @@
 import {randomNormal as d3_randomNormal} from 'd3-random';
-import {getPaddedDimensions, groupDiscrete} from 'app/utility';
+import {groupDiscrete} from 'app/utility';
 import {COIN_HEIGHT} from 'constants';
 import {max as d3_max} from 'd3-array';
 
@@ -8,8 +8,7 @@ export default {
   value: 'Cluster List',
   requiredTypes: ['discrete'],
   create: function plainGrid(coins, properties, bounds) {
-    const paddedDimensions = getPaddedDimensions(bounds, 0.05);
-    const centerY = paddedDimensions.top + paddedDimensions.height/2;
+    const centerY = bounds.top + bounds.height/2;
     const propertyKey = properties[0].key;
     const groups = groupDiscrete(coins, propertyKey);
     const positions = [];
@@ -24,7 +23,7 @@ export default {
 
     groups.forEach(({coins, key}, groupIndex) => {
       let groupBounds = {top: Infinity, bottom: -Infinity, right: -Infinity};
-      const lastEnd = groupIndex > 0 ? lastBounds.right : paddedDimensions.left;
+      const lastEnd = groupIndex > 0 ? lastBounds.right : bounds.left;
       const radius = Math.sqrt(coins.length) * 6;
       const groupX = lastEnd + radius * 2 + 100 + d3_randomNormal(0, 5)();
       const groupY = centerY + d3_randomNormal(0, 5)();
@@ -45,6 +44,7 @@ export default {
         if(groupIndex < showTopN) {
           visibleBounds.top = y < visibleBounds.top ? y : visibleBounds.top;
           visibleBounds.left = x < visibleBounds.left ? x : visibleBounds.left;
+          visibleBounds.right = x > visibleBounds.right ? x : visibleBounds.right;
           visibleBounds.bottom = y > visibleBounds.bottom ? y : visibleBounds.bottom;
         }
       });
@@ -59,13 +59,11 @@ export default {
         y: coins.length < 12 ? lowCountPos : groupY,
         minZoom: .6 - coins.length / maxGroupSize,
         selectable: true,
-        alignment: 'center'
+        alignment: ['center', 'center']
       });
 
       lastBounds = groupBounds;
     });
-
-    console.log(visibleBounds);
 
     return {positions, labelGroups, bounds: visibleBounds};
   }

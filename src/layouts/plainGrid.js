@@ -47,7 +47,7 @@ export default {
           y,
           minZoom: labelIndex % 2 === 0 ? .2 : .3,
           alignment: 'right',
-          sticky: 'x'
+          sticky: ['left', 'center']
         });
 
         labelIndex++;

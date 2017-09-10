@@ -45,19 +45,21 @@ class SelectionUi extends React.Component {
     return (x > left) && (x < right) && (y > top) && (y < bottom);
   }
 
-  getStickyPosition({x, y, sticky}, {left}) {
+  getStickyPosition({x, y, sticky, alignment}, {left, top}) {
     let xPos = x;
     let yPos = y;
-    let alignment;
-    if(sticky === 'x' && x < left) {
+    let newAlignment = alignment.slice();
+    if(sticky === 'left' && x < left) {
       xPos = left + 30;
-      alignment = 'left';
+      newAlignment[0] = 'left';
+    } else if(sticky === 'top' && y < top) {
+      yPos = top + 50;
     }
 
     return {
       x: xPos,
       y: yPos,
-      alignment
+      alignment: newAlignment
     }
   }
 

@@ -21,7 +21,15 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, .1);
   }
 
-  &--center{
+  &--center-x {
+    transform: translateX(-50%);
+  }
+
+  &--center-y {
+    transform: translateY(-50%);
+  }
+
+  &--center-x.label--center-y {
     transform: translate(-50%, -50%);
   }
 

@@ -1,43 +1,51 @@
-import {getPaddedDimensions, getDiscreteProperty, getContinuousProperty, groupDiscrete, getExtent} from 'app/utility';
+import {getDiscreteProperty, getContinuousProperty, groupDiscrete, getExtent, getCoinsBounds} from 'app/utility';
 import scatterLine from './scatterLine';
 
 export default {
   key: 'scatter_lines',
   value: 'Scatter Lines',
   requiredTypes: ['discrete', 'continuous'],
-  create: function plainGrid(coins, properties, bounds) {
+  create: function plainGrid(coins, properties, {top, cx}) {
+    const MARGIN_LEFT = 150; // margin for labels
     const discreteProperty = getDiscreteProperty(properties);
     const continuousProperty = getContinuousProperty(properties);
-    const showTop = 8;
     const groups = groupDiscrete(coins, discreteProperty.key);
-    const paddedDimensions = getPaddedDimensions(bounds, {left: 400, right: 0.05, top: 0.05, bottom: 0.05});
-    const lineSpacing = paddedDimensions.height / showTop;
-    const maxSpreadY = (bounds.height / groups.length);
-    const extentX = getExtent(coins, continuousProperty.key);
+    const LINE_SPACING = 500;
+    const domain = getExtent(coins, continuousProperty.key);
     const positions = [];
     const labelGroups = [{key: discreteProperty.key, labels: []}];
 
     groups.forEach((group, groupIndex) => {
-      const baseY = paddedDimensions.top + lineSpacing * groupIndex + (lineSpacing/2);
+      const groupCy = top + LINE_SPACING * groupIndex + (LINE_SPACING/2);
       const options = {
-        baseY,
-        property: continuousProperty,
-        maxSpreadY: maxSpreadY,
-        extentX: extentX,
-        spreadDivider: 3
+        domain,
+        ySpreadFactor: 8,
+        sticky: true,
+        labelsPos: 'top'
       }
       labelGroups[0].labels.push({
         value: group.key,
         key: discreteProperty.key,
-        x: paddedDimensions.left - 30,
-        y: baseY,
-        minZoom: groupIndex % 2 === 0 ? .2 : .3,
+        y: groupCy,
+        minZoom: groupIndex % 2 === 0 ? .12 : .16,
         selectable: true,
-        alignment: 'right'
+        alignment: ['right', 'center'],
+        sticky: 'left'
       });
-      const scatterLineSpec = scatterLine.create(group.coins, properties, paddedDimensions, options)
-      positions.push.apply(positions, scatterLineSpec.positions);
+
+      const layoutSpec = scatterLine.create(group.coins, [continuousProperty], {cx, cy: groupCy}, options)
+      positions.push.apply(positions, layoutSpec.positions);
+    
+      if(groupIndex === 0)
+        labelGroups.push(layoutSpec.labelGroups[0]);
     });
-    return {positions, labelGroups};
+
+    const bounds = getCoinsBounds(positions);
+
+    labelGroups[0].labels.forEach((label) => label.x = bounds.left - 30)
+
+    bounds.left -= MARGIN_LEFT;
+
+    return {positions, labelGroups, bounds, alignment: 'top'};
   }
 }

@@ -62,7 +62,7 @@ export default {
         y: labelY,
         minZoom: labelMinZoom,
         selectable: true,
-        alignment: 'center'
+        alignment: ['center', 'center']
       });
 
       group.coins.forEach((coin, i) => {

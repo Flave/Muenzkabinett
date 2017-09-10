@@ -15,6 +15,7 @@
         "react"
     ],
     "rules": {
+        "no-debugger": "warn",
         "no-unused-vars": "warn",
         "no-console": "warn",
         "indent": [
@@ -26,7 +27,7 @@
             "unix"
         ],
         "quotes": [
-            "warning",
+            "warn",
             "single"
         ],
         "react/jsx-uses-react": "error",

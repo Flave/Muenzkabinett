@@ -16,8 +16,9 @@ class Label extends React.Component {
     const {isPreselected, selectable, alignment, x, y, value, onClick, transform} = this.props;
     let className = 'label';
     className += selectable ? ' label--selectable' : '';
-    className += alignment === 'center' ? ' label--center' : '';
-    className += alignment === 'right' ? ' label--right' : '';
+    className += alignment[0] === 'center' ? ' label--center-x' : '';
+    className += alignment[0] === 'right' ? ' label--right' : '';
+    className += alignment[1] === 'center' ? ' label--center-y' : '';
     className += isPreselected ? ' is-preselected' : '';
 
     return (

@@ -168,6 +168,29 @@ export default function Canvas() {
         .on('touchend.zoom', null);
   }
 
+
+  function getNextBounds(nt) {
+    let ot = d3_zoomTransform(zoomCanvas.node());
+    nt = {...ot, ...nt};
+    
+    const left = nt.x - size.width/2 * (1/nt.k);
+    const top = nt.y - size.height/2 * (1/nt.k);
+    const right = nt.x + size.width/2 * (1/nt.k);
+    const bottom = nt.y + size.height/2 * (1/nt.k);
+    const height = bottom - top;
+    const width = right - left;
+    
+    return {
+      left,
+      top,
+      right,
+      bottom,
+      height,
+      width
+    }
+  }
+
+
   function scaleToBounds(bounds, alignment) {
     const {width, height} = size;
     const dx = bounds.right - bounds.left;
@@ -179,20 +202,19 @@ export default function Canvas() {
 
     if(alignment === 'top') {
       scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / (dx / width)));
-      const canvasHeight = height / scale;
-      const padding = canvasHeight * PADDING;
-      if(bounds.bottom > canvasHeight - padding)
-        cy = bounds.top + canvasHeight/2 - padding;
+      const nextBounds = getNextBounds({k: scale, x: cx, y: cy});
+      const padding = nextBounds.height * PADDING;
+      if(bounds.bottom > nextBounds.bottom - padding) {
+        cy = bounds.top + nextBounds.height/2 - padding;
+      }
     } else {
-      //const scaleY = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, 0.9 / dy / height));
       scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (1 - PADDING) / Math.max(dx / width, dy / height)));
     }
     transformTo({k: scale, x: cx, y: cy});
   }
 
   function transformAfterUpdate({positions, bounds, alignment}) {
-    let coinsBounds = bounds ? bounds : getCoinsBounds(positions);
-    scaleToBounds(coinsBounds, alignment);
+    scaleToBounds(bounds, alignment);
     stateStore.set({transitioning: true});
     window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
   }
@@ -238,8 +260,10 @@ export default function Canvas() {
     if(doRelayout && state.canvasInitialized === true) {
       let layoutSpecs = layouter.update(selected, notSelected, state, getCanvasBounds());
       labelGroups = layoutSpecs.labelGroups;
-
+      // if layout didn't define bounds itself the bounds will simply be all the selected coins
+      layoutSpecs.bounds = layoutSpecs.bounds ? layoutSpecs.bounds : getCoinsBounds(layoutSpecs.positions);
       transformAfterUpdate(layoutSpecs);
+      layouter.updateNotSelected(notSelected, layoutSpecs.bounds, getCanvasBounds(), state);
     }
   }
 

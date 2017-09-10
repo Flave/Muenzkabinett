@@ -62,7 +62,7 @@ export default {
         z: group.data.coins.length / maxGroupSize,
         minZoom: 1.1 - group.data.coins.length / maxGroupSize,
         selectable: true,
-        alignment: 'center'
+        alignment: ['center', 'center']
       });
     });
     return {positions, labelGroups, zoom: 'bounds'};
