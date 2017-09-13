@@ -3,8 +3,10 @@ import Labels from 'components/Labels';
 import Overlays from 'components/Overlays';
 import Canvas from 'components/Canvas';
 import Tooltip from 'components/Tooltip';
+import Intro from 'components/Intro';
 import CoinInfo from 'components/CoinInfo';
 import stateStore from 'app/stateStore';
+import {loadingSteps} from 'constants';
 import _find from 'lodash/find';
 
 class CanvasController extends React.Component {
@@ -13,11 +15,9 @@ class CanvasController extends React.Component {
     this.handleLabelClick = this.handleLabelClick.bind(this);
   }
   updateCanvas() {
-    let shouldCanvasRelayout;
-    let {state} = this.props;
-    let canvasPropertiesChanged = stateStore.didPropertiesChange([
+    const {state} = this.props;
+    const shouldCanvasRelayout = stateStore.didPropertiesChange([
       'selectedLayout',
-      'coinsProgress',
       'selectedProperties',
       'selectedCoin',
       'selectedCoins',
@@ -25,8 +25,6 @@ class CanvasController extends React.Component {
       'height',
       'coinFilters'
     ]);
-
-    shouldCanvasRelayout = canvasPropertiesChanged && (state.coinsProgress === 1);
 
     this.canvas
       .size({

@@ -34,7 +34,6 @@ class App extends React.Component {
       <div className="app">
         <Ui/>
         <CanvasController state={state} />
-        {!state.onboardingComplete && <IntroController state={state} />}
         {!state.canvasInitialized && <LoadingIndicator state={state}/>}
       </div>
     );

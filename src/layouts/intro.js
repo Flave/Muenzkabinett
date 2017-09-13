@@ -4,17 +4,18 @@ export default {
   key: 'intro',
   value: 'Intro',
   requiredTypes: ['intro'],
-  create: function pile(coins, state, bounds) {
-    var width = bounds.right - bounds.left,
-      height = bounds.bottom - bounds.top;
+  create: function pile(coins, bounds) {
+    const width = bounds.right - bounds.left;
+    const height = bounds.bottom - bounds.top;
+
 
     coins.forEach((coin) => {
-      var x = d3_randomNormal(bounds.left + width/2, width/10)();
-      var y = d3_randomNormal(bounds.top + height/2, height/10)();
-      coin.visible = true;
-      coin.position.x = x;
-      coin.position.y = y;
-      coin.move(x, y);
+      const x = d3_randomNormal(bounds.left + width/2, width/10)();
+      const y = bounds.top + height/2;
+      coin.position.x = bounds.left + width/2;
+      coin.position.y = 5000;
+
+      coin.move(x, y, 1000, Math.random() * 600 + 300);
     });
   }
 }

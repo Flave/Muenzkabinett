@@ -13,7 +13,7 @@ import nestedGrid from './nestedGrid';
 
 import coinLayout from './coin';
 import notSelected from './notSelected';
-//import introLayout from './intro';
+import introLayout from './intro';
 
 const layouts = [
   pile,
@@ -93,6 +93,10 @@ layouter.getApplicableLayouts = function(properties) {
       applicableLayouts.push(layout);
   });
   return applicableLayouts;
+}
+
+layouter.intro = function(coins, bounds) {
+  introLayout.create(coins, bounds);
 }
 
 layouter.update = function(selectedCoins, notSelectedCoins, state, canvasBounds) {

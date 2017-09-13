@@ -11,7 +11,6 @@ export default function Coin(texture, data) {
 
   coin.data = data;
   coin.interactive = true;
-  coin.visible = true;
 
   coin.width = data.width;
   coin.height = data.height;
