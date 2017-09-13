@@ -51,23 +51,6 @@ class CanvasController extends React.Component {
     this.updateCanvas();
   }
 
-  createSvgOverlay() {
-    const {state} = this.props;
-    return (
-      <svg 
-        className="selection-overlay"
-        width={state.width} 
-        height={state.height}>
-        <rect
-          className="selection-overlay__frame"
-          width={state.width - 20}
-          height={state.height - 20}
-          x={10}
-          y={10}
-        ></rect>
-      </svg>
-    )
-  }
 
   handleLabelClick(labels) {
     const {state} = this.props;
@@ -90,11 +73,11 @@ class CanvasController extends React.Component {
     const showCoinInfo = state.selectedCoin && !state.transitioning;
     const showLabels = !state.transitioning;
     const showTooltip = state.hoveredCoin && !state.transitioning;
-    className += state.selecting ? ' is-in-selection-mode' : '';
 
     return (
       <div ref={(root) => this.root = root} className={className}>
         {this.canvas && <Overlays transform={state.transform}>
+          <div className="intro">Some text</div>
           {showLabels && <Labels 
             onLabelClick={this.handleLabelClick} 
             transform={state.transform}
@@ -110,7 +93,6 @@ class CanvasController extends React.Component {
             coin={state.selectedCoin}
             transform={state.transform}/>}
         </Overlays>}
-        {state.selecting && this.createSvgOverlay()}
       </div>
     );
   }
