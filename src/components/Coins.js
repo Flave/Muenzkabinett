@@ -7,7 +7,6 @@ var coinsContainer = {},
   coins = [],
   parent,
   dispatch = d3_dispatch('dragstart', 'dragend', 'click'),
-  interactive = false,
   stage = new Container();
 
 stage.interactiveChildren = true;
@@ -48,46 +47,24 @@ coinsContainer.add = function(coin) {
   coins.push(coin);
   coin.parentTransform(parent.transform.localTransform);
   stage.addChild(coin);
+  coin
+    .on('dragstart', handleCoinDragStart)
+    .on('dragend', handleCoinDragEnd)
+    .on('click', handleCoinClick)
+    .on('mouseenter', handleCoinMouseEnter)
+    .on('mouseleave', handleCoinMouseLeave)
 }
 
-function toggleInteractivity() {
-  coins.forEach((coin) => {
-    if(interactive) {
-      coin
-        .on('dragstart', handleCoinDragStart)
-        .on('dragend', handleCoinDragEnd)
-        .on('click', handleCoinClick)
-        .on('mouseenter', handleCoinMouseEnter)
-        .on('mouseleave', handleCoinMouseLeave)
-    }
-    else {
-      coin
-        .off('dragstart', handleCoinDragStart)
-        .off('dragend', handleCoinDragEnd)
-        .off('click', handleCoinClick);
-    }
-  });
-}
-
-function bringToFront() {
-  parent.removeChild(stage);
-  parent.addChild(stage);
-}
+// function bringToFront() {
+//   parent.removeChild(stage);
+//   parent.addChild(stage);
+// }
 
 coinsContainer.parent = function(_) {
   if(!arguments.length) return parent;
   parent = _;
+  parent.addChild(stage);
   return coinsContainer;
-}
-
-// Updates whether or not canvas should be interactive
-coinsContainer.update = function(activateInteractivity) {
-  if(interactive === activateInteractivity) return;
-  interactive = activateInteractivity;
-  toggleInteractivity();
-
-  if(interactive)
-    bringToFront();
 }
 
 coinsContainer.stage = stage;

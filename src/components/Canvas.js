@@ -9,7 +9,6 @@ import {zoomTransform as d3_zoomTransform} from 'd3-zoom';
 import {timer as d3_timer} from 'd3-timer';
 import {easePolyInOut as d3_easePolyInOut} from 'd3-ease';
 import coinsContainer from 'app/components/Coins';
-import SelectionTool from 'app/components/SelectionTool';
 import stateStore from 'app/stateStore';
 import layouter from 'app/layouts';
 
@@ -24,7 +23,6 @@ export default function Canvas() {
     .on('zoom', handleZoom)
     .on('start', handleZoomStart)
     .on('end', handleZoomEnd);
-  const selectionTool = SelectionTool()(stage).coins(coinsContainer.coins);
   let labelGroups = [];
   let zoomCanvas;
   let shouldUpdate = true; // used for to prevent updating after zooming
@@ -38,10 +36,6 @@ export default function Canvas() {
 
     zoomCanvas = d3_select(renderer.view);
 
-    selectionTool
-      .bounds(getCanvasBounds())
-      .update();
-
     coinsContainer
       .on('dragstart', function() {
         zoomCanvas.on('.zoom', null);
@@ -49,6 +43,8 @@ export default function Canvas() {
       .on('dragend', function() {
         zoomCanvas.call(zoomBehavior);
       });
+
+    zoomCanvas.call(zoomBehavior);
 
     renderer.view.addEventListener('click', function(event) {
       var projected = projectPixel(event.clientX, event.clientY);
@@ -100,10 +96,6 @@ export default function Canvas() {
 
     if(transform)
       stage.setTransform(transform.x, transform.y, transform.k, transform.k);
-
-    selectionTool
-      .zoom(transform.k)
-      .bounds(getCanvasBounds());
   }
 
   function handleZoomEnd() {
@@ -229,17 +221,16 @@ export default function Canvas() {
   function initializeCanvas() {
     const state = stateStore.get();
     const coins = coinsContainer.coins;
-    const {selected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
 
     // needed to initially center the canvas
     zoomBehavior.scaleTo(zoomCanvas, 1);
     zoomBehavior.translateTo(zoomCanvas, 0, 0);
 
     let transform = {k: .5, x: 0, y: 0};
+    const bounds = getCanvasBounds();
+    layouter.intro(coins, bounds);
 
     transformTo(transform, function() {
-      const bounds = getCanvasBounds();
-      layouter.update(selected, [], state, bounds);
       stateStore.set({canvasInitialized: true});
     });
   }
@@ -255,19 +246,14 @@ export default function Canvas() {
     }
 
     if(state.canvasInitialized === false) {
-      console.log("initializing");
       initializeCanvas();
     }
 
-    const {selected, notSelected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
-
-    coinsContainer.update(!state.selecting);
-    selectionTool.update(state.selecting);
-    togglePan(!state.selecting);
     renderer.resize(size.width, size.height);
 
     if(doRelayout && state.canvasInitialized === true) {
-      let layoutSpecs = layouter.update(selected, notSelected, state, getCanvasBounds());
+      const {selected, notSelected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
+      const layoutSpecs = layouter.update(selected, notSelected, state, getCanvasBounds());
       labelGroups = layoutSpecs.labelGroups;
       // if layout didn't define bounds itself the bounds will simply be all the selected coins
       layoutSpecs.bounds = layoutSpecs.bounds ? layoutSpecs.bounds : getCoinsBounds(layoutSpecs.positions);
@@ -276,6 +262,7 @@ export default function Canvas() {
     }
   }
 
+  // returns the labels that were returned by the current layout
   canvas.labelGroups = function() {
     return labelGroups;
   }
