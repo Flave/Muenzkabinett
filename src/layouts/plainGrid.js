@@ -1,4 +1,4 @@
-import {getPaddedDimensions, getExtent, getCoinsBounds} from 'utility';
+import {getExtent, getCoinsBounds} from 'utility';
 import {scaleLinear as d3_scaleLinear} from 'd3-scale';
 import {COIN_HEIGHT} from 'constants';
 

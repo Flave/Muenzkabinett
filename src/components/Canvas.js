@@ -220,7 +220,7 @@ export default function Canvas() {
     transformTo({k: scale, x: cx, y: cy});
   }
 
-  function transformAfterUpdate({positions, bounds, alignment}) {
+  function transformAfterUpdate({bounds, alignment}) {
     scaleToBounds(bounds, alignment);
     stateStore.set({transitioning: true});
     window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
@@ -254,8 +254,10 @@ export default function Canvas() {
       return; 
     }
 
-    if(state.canvasInitialized === false)
+    if(state.canvasInitialized === false) {
+      console.log("initializing");
       initializeCanvas();
+    }
 
     const {selected, notSelected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
 

@@ -1,6 +1,7 @@
 node_modules
 src/data/images/actors
-src/data/images/thumbs_front_m
+src/data/images/front
+src/data/images/front_300
 src/data/json
 src/data/meta_stats
 src/data/xml

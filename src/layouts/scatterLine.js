@@ -1,7 +1,6 @@
 import {randomNormal as d3_randomNormal} from 'd3-random';
 import {scaleLinear as d3_scaleLinear} from 'd3-scale';
-import {groupContinuous, getExtent, getCoinsBounds} from 'app/utility';
-import {COIN_HEIGHT} from 'constants';
+import {groupContinuous, getExtent} from 'app/utility';
 
 export default {
   key: 'scatter_line',

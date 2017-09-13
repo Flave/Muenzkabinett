@@ -1,5 +1,5 @@
 import React from 'react';
-import { MARGIN } from 'constants';
+import { MARGIN, loadingSteps } from 'constants';
 import Ui from 'controllers/Ui';
 import CanvasController from 'controllers/CanvasController';
 import IntroController from 'controllers/IntroController';
@@ -13,7 +13,7 @@ class App extends React.Component {
     loader.load();
     stateStore.on('change.app', function() {
       var state = stateStore.get();
-      if(state.coinsProgress === 1)
+      if(state.loadingStep === loadingSteps.HIGH_RES || state.loadingStep === loadingSteps.DONE)
         this.forceUpdate();
     }.bind(this));
 

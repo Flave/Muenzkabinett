@@ -1,6 +1,5 @@
 import {range as d3_range} from 'd3-array';
 import {randomNormal as d3_randomNormal} from 'd3-random';
-import {getPaddedDimensions} from 'app/utility';
 
 function createGrouping(coins, propertyOne, propertyTwo) {
   var values = [[], []],
@@ -59,8 +58,6 @@ export default {
     const propertyOne = properties[0].key;
     const propertyTwo = properties[1].key;
     const SPACING = 550;
-    const PADDING_LEFT = 100;
-    const PADDING_TOP = 50;
     const grouping = createGrouping(coins, propertyOne, propertyTwo);
     const positions = [];
     const labelGroups = [{key: propertyOne, labels: []}, {key: propertyTwo, labels: []}];

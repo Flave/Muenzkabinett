@@ -5,13 +5,16 @@ import {easePolyInOut as d3_easePolyInOut} from 'd3-ease';
 import rebind from 'utility/rebind';
 
 export default function Coin(texture, data) {
-  var coin = new Sprite(texture),
-    parentTransform,
-    dispatch = d3_dispatch('dragstart', 'drag', 'dragend', 'click', 'mouseenter', 'mouseleave');
+  const coin = new Sprite(texture);
+  const dispatch = d3_dispatch('dragstart', 'drag', 'dragend', 'click', 'mouseenter', 'mouseleave');
+  let parentTransform;
 
   coin.data = data;
   coin.interactive = true;
   coin.visible = true;
+
+  coin.width = data.width;
+  coin.height = data.height;
 
   coin
     .on('click', onClick)

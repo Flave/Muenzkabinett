@@ -18,7 +18,7 @@ function getSimilarity(selectedCoin, coin) {
 }
 
 export default {
-  create: function(coins, selectedCoin, {width}) {
+  create: function(coins, selectedCoin) {
     const {cx, cy} = getCoinsBounds(coins);
     const maxDelta = {x: 0, y: 0};
     const baseRadius = 1000;

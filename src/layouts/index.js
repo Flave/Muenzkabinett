@@ -1,5 +1,5 @@
 import _find from 'lodash/find';
-import {removeFalsy, getCoinsBounds} from 'app/utility';
+import {removeFalsy} from 'app/utility';
 
 import pile from './pile';
 import scatterLine from './scatterLine';
@@ -98,12 +98,10 @@ layouter.getApplicableLayouts = function(properties) {
 layouter.update = function(selectedCoins, notSelectedCoins, state, canvasBounds) {
   var layout = _find(layouts, {key: state.selectedLayout}),
     properties = removeFalsy(state.selectedProperties),
-    layoutSpec,
-    newCoinsBounds;
+    layoutSpec;
 
   if(state.selectedCoin !== null) {
     layoutSpec = coinLayout.create(selectedCoins, state.selectedCoin, canvasBounds);
-    newCoinsBounds = getCoinsBounds(layoutSpec.positions);
   } else {
     layoutSpec = layout.create(selectedCoins, properties, canvasBounds, state);
   }
@@ -111,7 +109,7 @@ layouter.update = function(selectedCoins, notSelectedCoins, state, canvasBounds)
 }
 
 layouter.updateNotSelected = function(notSelectedCoins, coinsBounds, canvasBounds, state) {
-    notSelectedCoins.length && notSelected.create(notSelectedCoins, coinsBounds, canvasBounds, state.selectedCoin);
+  notSelectedCoins.length && notSelected.create(notSelectedCoins, coinsBounds, canvasBounds, state.selectedCoin);
 }
 
 export default layouter;
