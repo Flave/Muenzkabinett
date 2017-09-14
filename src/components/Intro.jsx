@@ -4,7 +4,7 @@ class Intro extends React.Component {
   render() {
     return (
       <div className="intro">
-        This is the intro
+        <div ref={(ref) => this.root = ref}>This is what blabla looks like!</div>
       </div>
     );
   }

@@ -38,9 +38,7 @@ class CanvasController extends React.Component {
     let {state} = this.props;
     this.canvas = Canvas();
     this.canvas
-      .on('zoom', (transform) => stateStore.set({transform}));
-
-    this.canvas
+      .on('zoom', (transform) => stateStore.set({transform}))
       .size({
         width: state.width, 
         height: state.height
@@ -49,6 +47,7 @@ class CanvasController extends React.Component {
 
   componentDidUpdate() {
     this.updateCanvas();
+    console.log(this.introContainer.root.offsetWidth, this.introContainer.root.offsetHeight);
   }
 
 
@@ -77,7 +76,7 @@ class CanvasController extends React.Component {
     return (
       <div ref={(root) => this.root = root} className={className}>
         {this.canvas && <Overlays transform={state.transform}>
-          <div className="intro">Some text</div>
+          <Intro ref={(ref) => this.introContainer = ref} />
           {showLabels && <Labels 
             onLabelClick={this.handleLabelClick} 
             transform={state.transform}
