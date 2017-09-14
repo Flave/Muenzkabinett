@@ -3,7 +3,7 @@ import layouter from 'app/layouts';
 import rebind from 'utility/rebind';
 import _assign from 'lodash/assign';
 import _forEach from 'lodash/forEach';
-import { MARGIN, loadingSteps } from 'constants';
+import { MARGIN } from 'constants';
 
 var _state = {
   selectedProperties: [],
@@ -15,11 +15,13 @@ var _state = {
   transform: {x: 0, y: 0, k: 1},
   transitioning: false,
 
-  loadingStep: loadingSteps.DATA,
+  lowResLoaded: false,
+  highResLoaded: false,
+  dataLoaded: false,
   coinsProgress: 0,
   canvasInitialized: false,
-  showUi: true,
-  onboardingComplete: true,
+  showIntro: true,
+  showInfo: false,
 
   width: window.innerWidth,
   height: window.innerHeight - MARGIN.BOTTOM

@@ -16,22 +16,31 @@ class CanvasController extends React.Component {
   }
   updateCanvas() {
     const {state} = this.props;
-    const shouldCanvasRelayout = stateStore.didPropertiesChange([
+    const arrangeAround = state.showIntro && this.getInfoContainerBounds();
+    const shouldCanvasInitialize = stateStore.didPropertiesChange(['lowResLoaded']);
+    const shouldCanvasUpdate = stateStore.didPropertiesChange([
       'selectedLayout',
       'selectedProperties',
       'selectedCoin',
       'selectedCoins',
       'width',
       'height',
-      'coinFilters'
+      'coinFilters',
+      'lowResLoaded'
     ]);
 
     this.canvas
       .size({
         width: state.width, 
         height: state.height
-      })
-      .update(shouldCanvasRelayout);
+      });
+
+    if(shouldCanvasInitialize) {
+      this.canvas.initialize(arrangeAround);
+      return;
+    } else if(shouldCanvasUpdate) {
+      this.canvas.update(arrangeAround);
+    }
   }
 
   componentDidMount() {
@@ -39,6 +48,7 @@ class CanvasController extends React.Component {
     this.canvas = Canvas();
     this.canvas
       .on('zoom', (transform) => stateStore.set({transform}))
+      .on('initialized', this.props.onCanvasInitialized)
       .size({
         width: state.width, 
         height: state.height
@@ -47,9 +57,20 @@ class CanvasController extends React.Component {
 
   componentDidUpdate() {
     this.updateCanvas();
-    console.log(this.introContainer.root.offsetWidth, this.introContainer.root.offsetHeight);
   }
 
+  getInfoContainerBounds() {
+    const container = this.infoContainer.root;
+    const {transform} = this.props.state;
+    const width = container.offsetWidth;
+    const height = container.offsetHeight;
+    return {
+      left: container.offsetLeft + transform.x,
+      top: container.offsetTop + transform.y,
+      right: container.offsetLeft + transform.x + width,
+      bottom: container.offsetTop + transform.y + height
+    }
+  }
 
   handleLabelClick(labels) {
     const {state} = this.props;
@@ -76,7 +97,10 @@ class CanvasController extends React.Component {
     return (
       <div ref={(root) => this.root = root} className={className}>
         {this.canvas && <Overlays transform={state.transform}>
-          <Intro ref={(ref) => this.introContainer = ref} />
+          {<Intro 
+            transform={state.transform}
+            bounds={this.canvas.bounds()}
+            ref={(ref) => this.infoContainer = ref} />}
           {showLabels && <Labels 
             onLabelClick={this.handleLabelClick} 
             transform={state.transform}

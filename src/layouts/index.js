@@ -13,6 +13,7 @@ import nestedGrid from './nestedGrid';
 
 import coinLayout from './coin';
 import notSelected from './notSelected';
+import spaceLayout from './space';
 import introLayout from './intro';
 
 const layouts = [
@@ -95,8 +96,8 @@ layouter.getApplicableLayouts = function(properties) {
   return applicableLayouts;
 }
 
-layouter.intro = function(coins, bounds) {
-  introLayout.create(coins, bounds);
+layouter.spaced = function(coins, bounds, space) {
+  return introLayout.create(coins, bounds, space);
 }
 
 layouter.update = function(selectedCoins, notSelectedCoins, state, canvasBounds) {

@@ -13,7 +13,7 @@ class App extends React.Component {
     loader.load();
     stateStore.on('change.app', function() {
       var state = stateStore.get();
-      if(state.loadingStep === loadingSteps.HIGH_RES || state.loadingStep === loadingSteps.DONE)
+      if(state.lowResLoaded)
         this.forceUpdate();
     }.bind(this));
 
@@ -28,13 +28,19 @@ class App extends React.Component {
     });
   }
 
+  handleCanvasInitialized() {
+    window.setTimeout(() => {
+      loader.loadHighRes();
+    }, 200);
+  }
+
   render() {
     var state = stateStore.get();
     return (
       <div className="app">
         <Ui/>
-        <CanvasController state={state} />
-        {!state.canvasInitialized && <LoadingIndicator state={state}/>}
+        <CanvasController onCanvasInitialized={this.handleCanvasInitialized} state={state} />
+        {/*!state.canvasInitialized && <LoadingIndicator state={state}/>*/}
       </div>
     );
   }

@@ -119,19 +119,6 @@ export function filterCoins(coins, filters, selection) {
   return {selected, notSelected};
 }
 
-export const getCanvasArea = (bounds) => {
-  const width = bounds.right - bounds.left;
-  const height = bounds.bottom - bounds.top;
-
-  return {
-    area: width * height,
-    width,
-    height
-  }
-}
-
-
-
 
 
 

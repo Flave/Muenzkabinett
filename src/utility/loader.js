@@ -5,58 +5,55 @@ import {csv as d3_csv} from 'd3-request';
 import coinsContainer from 'app/components/Coins';
 import Coin from 'app/Coin';
 import stateStore from 'app/stateStore';
-import {COIN_HEIGHT, COINS_PER_SHEET, loadingSteps} from 'constants';
+import {COIN_HEIGHT, COINS_PER_SHEET} from 'constants';
 
 const loader = {};
 const cachedCoins = []; // array used to retrieve coins quickly by index instead of _find
 
 loader.load = function() {
-  let data;
+  loader.data;
 
   DataLoader()
     .load()
     .done((err, _data) => {
       if(err) throw new Error(err);
-      data = _data;
+      loader.data = _data;
 
       stateStore.set({
-        loadingStep: loadingSteps.LOW_RES,
-        coinsProgress: 0
+        dataLoaded: true
       });
 
-      SheetsLoader(data, .25, '_0-25')
-        .load(data)
+      SheetsLoader(loader.data, .25, '_0-25')
         .progress((progress) => {
           stateStore.set({
-            loadingStep: loadingSteps.LOW_RES,
             coinsProgress: progress
           });
         })
         .done(() => {
           stateStore.set({
-            loadingStep: loadingSteps.HIGH_RES,
+            lowResLoaded: true,
             coinsProgress: 0
           });
-
-          setTimeout(() => {
-            SheetsLoader(data, 1, '')
-              .done(() => {
-                stateStore.set({
-                  loadingStep: loadingSteps.DONE,
-                  coinsProgress: 1
-                });              
-              })
-              .progress((progress) => {
-                stateStore.set({
-                  loadingStep: loadingSteps.HIGH_RES,
-                  coinsProgress: progress
-                });
-              })
-              .load(data);
-          }, 3000);
         })
+        .load()
     });
   return loader;
+}
+
+loader.loadHighRes = function() {
+  SheetsLoader(loader.data, 1, '')
+    .progress((progress) => {
+      stateStore.set({
+        coinsProgress: progress
+      });
+    })
+    .done(() => {
+      stateStore.set({
+        highResLoaded: true,
+        coinsProgress: 1
+      });              
+    })
+    .load();
 }
 
 

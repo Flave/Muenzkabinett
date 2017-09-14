@@ -16,7 +16,7 @@ export default function Canvas() {
   let size = {width: 200, height: 200};
   const renderer = autoDetectRenderer(size.width, size.height, {transparent: true});
   const stage = new Container();
-  const dispatch = d3_dispatch('zoom', 'zoomstart', 'zoomend');
+  const dispatch = d3_dispatch('zoom', 'zoomstart', 'zoomend', 'initialized');
   const MIN_ZOOM = 0.1;
   const MAX_ZOOM = 1.2;
   const zoomBehavior = d3_zoom().scaleExtent([MIN_ZOOM, MAX_ZOOM])
@@ -25,7 +25,6 @@ export default function Canvas() {
     .on('end', handleZoomEnd);
   let labelGroups = [];
   let zoomCanvas;
-  let shouldUpdate = true; // used for to prevent updating after zooming
 
   stage.interactiveChildren = true;
   coinsContainer.parent(stage);
@@ -90,7 +89,6 @@ export default function Canvas() {
   }
 
   function handleZoom() {
-    shouldUpdate = false;
     const {transform} = d3_event;
     dispatch.call('zoom', null, transform);
 
@@ -137,10 +135,8 @@ export default function Canvas() {
         x = ot.x + dx * d3_easePolyInOut(t, 3),
         y = ot.y + dy * d3_easePolyInOut(t, 3);
 
-      zoomBehavior
-        .scaleTo(zoomCanvas, k);
-      zoomBehavior
-        .translateTo(zoomCanvas, x, y);
+      zoomBehavior.scaleTo(zoomCanvas, k);
+      zoomBehavior.translateTo(zoomCanvas, x, y);
 
       if(elapsed > duration) {
         timer.stop();
@@ -148,18 +144,6 @@ export default function Canvas() {
       }
     }, 0);
   }
-
-  function togglePan(doPan) {
-    if(doPan)
-      zoomCanvas.call(zoomBehavior);
-    else
-      zoomCanvas.call(zoomBehavior)
-        .on('mousedown.zoom', null)
-        .on('touchstart.zoom', null)
-        .on('touchmove.zoom', null)
-        .on('touchend.zoom', null);
-  }
-
 
   function getNextBounds(nt) {
     let ot = d3_zoomTransform(zoomCanvas.node());
@@ -218,48 +202,58 @@ export default function Canvas() {
     window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
   }
 
-  function initializeCanvas() {
+  function getSpaceBounds(pixelBounds) {
+    const topLeft = projectPixel(pixelBounds.left, pixelBounds.top);
+    const bottomRight = projectPixel(pixelBounds.right, pixelBounds.bottom);
+    const width = bottomRight.x - topLeft.x;
+    const height = bottomRight.y - topLeft.y;
+    return {
+      width,
+      height,
+      cx: topLeft.x + width/2,
+      cy: topLeft.y + height/2,
+      left: topLeft.x,
+      top: topLeft.y,
+      right: bottomRight.x,
+      bottom: bottomRight.y
+    }
+  }
+
+  canvas.initialize = (space) => {
     const state = stateStore.get();
     const coins = coinsContainer.coins;
-
+    renderer.resize(size.width, size.height);
     // needed to initially center the canvas
     zoomBehavior.scaleTo(zoomCanvas, 1);
     zoomBehavior.translateTo(zoomCanvas, 0, 0);
 
-    let transform = {k: .5, x: 0, y: 0};
-    const bounds = getCanvasBounds();
-    layouter.intro(coins, bounds);
+    const spaceBounds = getSpaceBounds(space);
 
-    transformTo(transform, function() {
-      stateStore.set({canvasInitialized: true});
-    });
+    let transform = {k: .5, x: 0, y: 0};
+    window.setTimeout(() => {
+      const bounds = getCanvasBounds();
+      const layoutSpecs = layouter.spaced(coins, bounds, spaceBounds);
+      transformTo(transform);
+    }, 10);
+    //transformAfterUpdate({bounds: getCoinsBounds(layoutSpecs.positions)});
+    window.setTimeout(function() {
+      // dispatch initializd to start loading high res images
+      dispatch.call('initialized');
+    }, 2000);
   }
 
-  canvas.update = function(doRelayout) {
+  canvas.update = function(space) {
     const state = stateStore.get();
     const coins = coinsContainer.coins;
 
-    // prevent updating when zooming
-    if(!shouldUpdate) {
-      shouldUpdate = true;
-      return; 
-    }
-
-    if(state.canvasInitialized === false) {
-      initializeCanvas();
-    }
-
     renderer.resize(size.width, size.height);
-
-    if(doRelayout && state.canvasInitialized === true) {
-      const {selected, notSelected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
-      const layoutSpecs = layouter.update(selected, notSelected, state, getCanvasBounds());
-      labelGroups = layoutSpecs.labelGroups;
-      // if layout didn't define bounds itself the bounds will simply be all the selected coins
-      layoutSpecs.bounds = layoutSpecs.bounds ? layoutSpecs.bounds : getCoinsBounds(layoutSpecs.positions);
-      transformAfterUpdate(layoutSpecs);
-      layouter.updateNotSelected(notSelected, layoutSpecs.bounds, getCanvasBounds(), state);
-    }
+    const {selected, notSelected} = filterCoins(coins, state.coinFilters, state.selectedCoins);
+    const layoutSpecs = layouter.update(selected, notSelected, state, getCanvasBounds());
+    labelGroups = layoutSpecs.labelGroups;
+    // if layout didn't define bounds the bounds will simply be all the selected coins
+    layoutSpecs.bounds = layoutSpecs.bounds ? layoutSpecs.bounds : getCoinsBounds(layoutSpecs.positions);
+    transformAfterUpdate(layoutSpecs);
+    layouter.updateNotSelected(notSelected, layoutSpecs.bounds, getCanvasBounds(), state);
   }
 
   // returns the labels that were returned by the current layout
