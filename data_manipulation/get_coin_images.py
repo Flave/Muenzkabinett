@@ -9,8 +9,6 @@ import cStringIO
 import sys
 import csv
 
-ns = {'lido': 'http://www.lido-schema.org', 'xml': 'someuri'}
-
 coins = csv.reader(open(os.path.dirname(__file__) + '../src/data/csv_new/coins_raw.csv'), delimiter=",")
 keys = coins.next()
 coins = list(coins)

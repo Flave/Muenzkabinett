@@ -153,7 +153,7 @@ function SheetsLoader(_data, _resolution, _suffix) {
       const upperEnd = (fileIndex + 1) * spritesPerFile >= numSprites ? numSprites - 1 : (fileIndex + 1) * spritesPerFile;
       return {
         name: `${name}_${lowerEnd}_${upperEnd}`, 
-        url: `data/images/sprites/${name}_sprites_${height}_${lowerEnd}_${upperEnd}${suffix}.png`
+        url: `data/images/sprites${suffix}/${name}_sprites_${height}_${lowerEnd}_${upperEnd}.png`
       };
     });
   }
@@ -180,7 +180,7 @@ function SheetsLoader(_data, _resolution, _suffix) {
       let x = data.x * resolution;
       let y = data.y * resolution;
       let width = data.width * resolution;
-      let height = data.height * resolution;
+      let height = COIN_HEIGHT * resolution;
       x = x + width > texture.width ? Math.floor(x) : x;
       y = y + height > texture.height ? Math.floor(y) : y;
       width = x + width >= texture.width ? Math.floor(width) : width;

@@ -8,7 +8,7 @@ export default {
     const numCoins = coins.length;
     const positions = [];
     const spreadExponent = 0.2; // smaller number causes higher values for smaller coinNumbers relatively speaking
-    const spreadFactor = 60; // scales spread in a linear fashion 
+    const spreadFactor = 80; // scales spread in a linear fashion 
     let spread = Math.pow(numCoins, spreadExponent) * spreadFactor;
     const startR = Math.max(width, height);
 

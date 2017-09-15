@@ -32,6 +32,30 @@ export default [
     unit: ''
   },
   {
+    key: 'division',
+    label: 'Division',
+    type: 'discrete',
+    similarityWeight: 0.2,
+    selectable: true,
+    unit: ''
+  },
+  {
+    key: 'subdivision',
+    label: 'Subdivision',
+    type: 'discrete',
+    similarityWeight: 0.3,
+    selectable: true,
+    unit: ''
+  },
+  {
+    key: 'production_technique',
+    label: 'Technique',
+    type: 'discrete',
+    similarityWeight: 0.2,
+    selectable: true,
+    unit: ''
+  },
+  {
     key: 'weight',
     label: 'Weight',
     type: 'continuous',
@@ -55,14 +79,6 @@ export default [
     type: 'discrete',
     similarityWeight: 0.3,
     selectable: true,
-    unit: ''
-  },
-  {
-    key: 'nominal',
-    label: 'Nominal',
-    type: 'discrete',
-    similarityWeight: 0.6,
-    selectable: false,
     unit: ''
   },
   {

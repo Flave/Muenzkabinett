@@ -5,14 +5,14 @@ from random import randint
 import csv
 import tinify
 
-coin_ids = csv.reader(open(os.path.dirname(__file__) + '../data/csv/coins_raw.csv'), delimiter=",")
+coin_ids = csv.reader(open(os.path.dirname(__file__) + '../src/data/csv_new/coins_raw.csv'), delimiter=",")
 keys = coin_ids.next()
 tinify.key = "LtNfjPbJz6Cxj_kN8EdQT4SjHN1wCRBj"
 
 merged_image = Image.new('RGBA', (1, 1))
 num_rows = 0
 x_pos = 0
-coins_per_sheet = 2000
+coins_per_sheet = 1000
 sheet_index = 0
 threshold = 240
 blur = 8 # more or less arbitrary
@@ -20,11 +20,11 @@ shadow_size = 20 # more or less arbitrary
 thumb_height = 40
 start_index = 0
 coin_ids = list(coin_ids)[start_index:]
+coins_position_data = []
 
 keys.append("x")
 keys.append("y")
 keys.append("width")
-keys.append("height")
 
 def calculate_image_width(img, height):
   original_width, original_height = img.size
@@ -51,7 +51,8 @@ def create_shadow(img):
 
 for i, coin_data in enumerate(coin_ids):
   coin_id = coin_data[0]
-  img = Image.open('.../src/data/images/front/' + str(coin_id) + ".png")
+  coin_position_data = [coin_id]
+  img = Image.open('../src/data/images/front/' + str(coin_id) + ".png")
   img = img.convert("RGBA")
 
   # create shadow from coin image with the original size plus shadow sizw
@@ -82,23 +83,24 @@ for i, coin_data in enumerate(coin_ids):
   new_merged_image.paste(merged_image, (0,0))
 
   new_merged_image.paste(shadow_thumb, (x_pos, y_pos))
-  coin_data.append(x_pos)
-  coin_data.append(y_pos)
-  coin_data.append(new_thumb_width)
-  coin_data.append(new_thumb_height)
+  coin_position_data.append(x_pos)
+  coin_position_data.append(y_pos)
+  coin_position_data.append(new_thumb_width)
+
+  coins_position_data.append(coin_position_data)
 
   x_pos += new_thumb_width
   merged_image = new_merged_image
-  print coin_id
+  print coin_id + " - " + str(i)
 
   # if coins_per_sheet or end of coins is reached save image and compress
   if (i + 1) % coins_per_sheet == 0 or (i == (len(coin_ids) - 1)):
     end_index = i + start_index if i == (len(coin_ids) - 1) else (sheet_index + 1) * coins_per_sheet + start_index
     image_file_name = 'coins_sprites_' + str(thumb_height) + '_' + str(sheet_index * coins_per_sheet + start_index) + '_' + str(end_index) + '_unoptimised'
-    image_file_path = '../data/images/sprites/' + image_file_name + '.png'
+    image_file_path = '../src/data/images/sprites_new/' + image_file_name + '.png'
     merged_image.save(image_file_path, "PNG")
     # compress the image just created and save it again
-    # print "Optimising image " + str(sheet_index)
+    print "Optimising image " + str(sheet_index)
     # source = tinify.from_file(image_file_path)
     # source.to_file(image_file_path[:-16] + ".png")
     # reset all the variables
@@ -107,10 +109,10 @@ for i, coin_data in enumerate(coin_ids):
     num_rows = 0
     x_pos = 0
 
-coins_file = open(os.path.dirname(__file__) + '../data/csv/coins_40.csv', 'w')
+coins_file = open(os.path.dirname(__file__) + '../src/data/csv_new/coins_positions.csv', 'w')
 
 # re-insert keys
-coin_ids.insert(0, keys)
+coins_position_data.insert(0, ['id', 'x', 'y', 'width'])
 writer = csv.writer(coins_file)
-writer.writerows(coin_ids)
+writer.writerows(coins_position_data)
 coins_file.close()

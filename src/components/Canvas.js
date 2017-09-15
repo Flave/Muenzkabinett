@@ -211,7 +211,7 @@ export default function Canvas() {
     zoomBehavior.translateTo(zoomCanvas, 0, 0);
 
     const bounds = getCanvasBounds();
-    const layoutSpecs = layouter.spaced(coins, bounds);
+    const layoutSpecs = layouter.intro(coins, bounds);
     transformAfterUpdate({bounds: getCoinsBounds(layoutSpecs.positions)});
     window.setTimeout(function() {
       // dispatch initializd to start loading high res images

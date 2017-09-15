@@ -95,7 +95,7 @@ layouter.getApplicableLayouts = function(properties) {
   return applicableLayouts;
 }
 
-layouter.spaced = function(coins, bounds, space) {
+layouter.intro = function(coins, bounds, space) {
   return introLayout.create(coins, bounds, space);
 }
 

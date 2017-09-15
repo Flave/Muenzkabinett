@@ -6,7 +6,7 @@ export const MARGIN = {
 }
 
 export const COIN_HEIGHT = 40;
-export const COINS_PER_SHEET = 2000;
+export const COINS_PER_SHEET = 1000;
 
 export const loadingSteps = {
   DATA: 'DATA',

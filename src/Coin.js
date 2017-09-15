@@ -3,6 +3,7 @@ import {dispatch as d3_dispatch} from 'd3-dispatch';
 import {timer as d3_timer} from 'd3-timer';
 import {easePolyInOut as d3_easePolyInOut} from 'd3-ease';
 import rebind from 'utility/rebind';
+import {COIN_HEIGHT} from 'constants';
 
 export default function Coin(texture, data) {
   const coin = new Sprite(texture);
@@ -14,7 +15,7 @@ export default function Coin(texture, data) {
   coin.visible = false;
 
   coin.width = data.width;
-  coin.height = data.height;
+  coin.height = COIN_HEIGHT;
 
   coin
     .on('click', onClick)
