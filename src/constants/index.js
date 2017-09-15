@@ -14,3 +14,5 @@ export const loadingSteps = {
   HIGH_RES: 'HIGH_RES',
   DONE: 'DONE'
 }
+
+export const GA_TRACKING_ID = 'UA-106536142-1';
