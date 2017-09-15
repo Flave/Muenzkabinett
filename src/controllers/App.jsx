@@ -2,8 +2,11 @@ import React from 'react';
 import { MARGIN, loadingSteps } from 'constants';
 import Ui from 'controllers/Ui';
 import CanvasController from 'controllers/CanvasController';
-import IntroController from 'controllers/IntroController';
-import LoadingIndicator from 'components/LoadingIndicator';
+import Intro from 'components/Intro';
+import Info from 'components/Info';
+import Menu from 'components/Menu';
+import {event as d3_event} from 'd3-selection';
+import {csv as d3_csv} from 'd3-request';
 import stateStore from 'app/stateStore';
 import loader from 'utility/loader';
 import _debounce from 'lodash/debounce';
@@ -12,9 +15,7 @@ class App extends React.Component {
   componentWillMount() {
     loader.load();
     stateStore.on('change.app', function() {
-      var state = stateStore.get();
-      if(state.lowResLoaded)
-        this.forceUpdate();
+      this.forceUpdate();
     }.bind(this));
 
     var debouncedResize = _debounce(this.resize, 500).bind(this);
@@ -28,6 +29,13 @@ class App extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    if(stateStore.get().lowResLoaded) {
+      const spinner = document.getElementById('initial-spinner');
+      spinner && document.body.removeChild(spinner);
+    }
+  }
+
   handleCanvasInitialized() {
     window.setTimeout(() => {
       loader.loadHighRes();
@@ -38,9 +46,11 @@ class App extends React.Component {
     var state = stateStore.get();
     return (
       <div className="app">
-        <Ui/>
-        <CanvasController onCanvasInitialized={this.handleCanvasInitialized} state={state} />
-        {/*!state.canvasInitialized && <LoadingIndicator state={state}/>*/}
+        {!state.showIntro && <Ui/>}
+        {<CanvasController onCanvasInitialized={this.handleCanvasInitialized} state={state} />}
+        <Menu />
+        {state.showIntro && state.lowResLoaded && <Intro />}
+        {state.showInfo && <Info />}
       </div>
     );
   }

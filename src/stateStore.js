@@ -15,10 +15,10 @@ var _state = {
   transform: {x: 0, y: 0, k: 1},
   transitioning: false,
 
+  dataLoaded: false,
   lowResLoaded: false,
   highResLoaded: false,
-  dataLoaded: false,
-  coinsProgress: 0,
+  loadingProgress: 0,
   canvasInitialized: false,
   showIntro: true,
   showInfo: false,

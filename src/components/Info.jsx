@@ -1,12 +1,9 @@
 import React from 'react';
 import stateStore from 'app/stateStore';
 
-class Intro extends React.Component {
+class Info extends React.Component {
   handleClose() {
-    stateStore.set({showIntro: false});
-  }
-  handleShowInfo() {
-    stateStore.set({showIntro: false, showInfo: true});
+    stateStore.set({showInfo: false});
   }
   render() {
     const {transform} = this.props;
@@ -14,16 +11,14 @@ class Intro extends React.Component {
       <div className="popup">
         <div className="popup__inner">
           <div className="popup__header">
-            <h1 className="popup__title">Coins</h1>
-            <h3 className="popup__subtitle">A Rich Cultural Collection</h3>
+            <h1 className="popup__title">About the project</h1>
           </div>
           <div className="popup__main">
             <p className="popup__copy">The drawings by Frederick William IV are part of the collection of prints and drawings of the Prussian Palaces and Gardens Foundation Berlin-Brandenburg and have previously been published in a online inventory catalogue. Project partners of the research project »VIKUS – Visualising Cultural Collections.
   a online inventory catalogue. Project partners of the research project »VIKUS – Visualising Cultural Collections.</p>
           </div>
           <div className="popup__footer">
-            <button onClick={this.handleClose} className="popup__btn btn btn--big btn--primary">Let's do this</button>
-            <button onClick={this.handleShowInfo} className="popup__btn btn btn--big btn--secondary">More info</button>
+            <button onClick={this.handleClose} className="popup__btn btn btn--big btn--primary">Close</button>
           </div>
         </div>
       </div>
@@ -31,4 +26,4 @@ class Intro extends React.Component {
   }
 }
 
-export default Intro;
+export default Info;

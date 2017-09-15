@@ -1,5 +1,61 @@
-.intro {
-  position: absolute;
+.popup {
+  position: fixed;
+  left: 50%;
+  top: 50%;
   z-index: 1;
-  pointer-events: none;
+  pointer-events: all;
+  transform: translate(-50%, -50%);
+  background-color: rgba(#17181E, .9);
+  padding: 20px 50px;
+  color: #fff;
+  width: 530px;
+  max-width: 80%;
+  box-shadow: 0 0 12px rgba(#000, .2);
+  border-radius: 2px;
+
+  * {
+    pointer-events: all;
+  }
+}
+
+.popup__header {
+  border-bottom: 1px solid rgba(#fff, 0.1);
+  color: $c-accent-1;
+  text-align: center;
+}
+
+.popup__title {
+  font-size: 46px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.popup__subtitle {
+  font-size: 20px;
+  font-family: serif;
+  font-style: italic;
+  font-weight: 400;
+  margin-top: 0;
+}
+
+.popup__main {
+  padding: 20px 0;
+}
+
+.popup__copy {
+  font-size: 16px;
+  line-height: 1.4em;
+}
+
+.popup__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup__btn {
+  margin-bottom: 8px;
 }

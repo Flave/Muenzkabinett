@@ -1,6 +1,7 @@
 .btn,
 %btn {
   border: 1px solid $c-accent-1;
+  font-family: $font-sans;
   padding: 9px 18px;
   color: $c-accent-1;
   cursor: pointer;
@@ -10,6 +11,14 @@
   font-size: 14px;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
+
+  &--big {
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-size: 16px;
+    padding: 12px 24px;
+  }
 
   &--primary {
     background-color: $c-accent-1;
@@ -18,7 +27,8 @@
   }
 
   &--secondary {
-    background-color: $c-dark-1;
+    background-color: transparent;
+    border: 1px solid $c-accent-1;
     color: #fff;
     border: none;
   }
@@ -35,11 +45,6 @@
 
   &.is-empty {
     font-style: italic;
-  }
-
-  &:hover {
-    background-color: $c-accent-1;
-    color: $c-background;
   }
 
   [class^="icon-"] {

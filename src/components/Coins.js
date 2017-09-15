@@ -55,11 +55,6 @@ coinsContainer.add = function(coin) {
     .on('mouseleave', handleCoinMouseLeave)
 }
 
-// function bringToFront() {
-//   parent.removeChild(stage);
-//   parent.addChild(stage);
-// }
-
 coinsContainer.parent = function(_) {
   if(!arguments.length) return parent;
   parent = _;

@@ -3,7 +3,6 @@ import Labels from 'components/Labels';
 import Overlays from 'components/Overlays';
 import Canvas from 'components/Canvas';
 import Tooltip from 'components/Tooltip';
-import Intro from 'components/Intro';
 import CoinInfo from 'components/CoinInfo';
 import stateStore from 'app/stateStore';
 import {loadingSteps} from 'constants';
@@ -16,7 +15,6 @@ class CanvasController extends React.Component {
   }
   updateCanvas() {
     const {state} = this.props;
-    const arrangeAround = state.showIntro && this.getInfoContainerBounds();
     const shouldCanvasInitialize = stateStore.didPropertiesChange(['lowResLoaded']);
     const shouldCanvasUpdate = stateStore.didPropertiesChange([
       'selectedLayout',
@@ -35,12 +33,10 @@ class CanvasController extends React.Component {
         height: state.height
       });
 
-    if(shouldCanvasInitialize) {
-      this.canvas.initialize(arrangeAround);
-      return;
-    } else if(shouldCanvasUpdate) {
-      this.canvas.update(arrangeAround);
-    }
+    if(shouldCanvasInitialize)
+      this.canvas.initialize();
+    else if(shouldCanvasUpdate)
+      this.canvas.update();
   }
 
   componentDidMount() {
@@ -57,19 +53,6 @@ class CanvasController extends React.Component {
 
   componentDidUpdate() {
     this.updateCanvas();
-  }
-
-  getInfoContainerBounds() {
-    const container = this.infoContainer.root;
-    const {transform} = this.props.state;
-    const width = container.offsetWidth;
-    const height = container.offsetHeight;
-    return {
-      left: container.offsetLeft + transform.x,
-      top: container.offsetTop + transform.y,
-      right: container.offsetLeft + transform.x + width,
-      bottom: container.offsetTop + transform.y + height
-    }
   }
 
   handleLabelClick(labels) {
@@ -97,10 +80,6 @@ class CanvasController extends React.Component {
     return (
       <div ref={(root) => this.root = root} className={className}>
         {this.canvas && <Overlays transform={state.transform}>
-          {<Intro 
-            transform={state.transform}
-            bounds={this.canvas.bounds()}
-            ref={(ref) => this.infoContainer = ref} />}
           {showLabels && <Labels 
             onLabelClick={this.handleLabelClick} 
             transform={state.transform}

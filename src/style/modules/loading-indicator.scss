@@ -1,0 +1,23 @@
+.loading-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.loading-indicator__bar {
+  height: 5px;
+  position: absolute;
+  left: 0;
+  background-color: $c-accent-2;
+  transition: width 1s;
+}
+
+.loading-indicator__copy {
+  font-size: 13px;
+  margin-top: 11px;
+  margin-left: 7px;
+  color: $c-dark-1;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}

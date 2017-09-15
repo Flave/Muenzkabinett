@@ -15,24 +15,27 @@ loader.load = function() {
 
   DataLoader()
     .load()
-    .done((err, _data) => {
-      if(err) throw new Error(err);
+    .progress((progress) => 
+      stateStore.set({loadingProgress: progress})
+    )
+    .done((_data) => {
       loader.data = _data;
 
       stateStore.set({
-        dataLoaded: true
+        dataLoaded: true,
+        loadingProgress: 0
       });
 
       SheetsLoader(loader.data, .25, '_0-25')
         .progress((progress) => {
           stateStore.set({
-            coinsProgress: progress
+            loadingProgress: progress
           });
         })
         .done(() => {
           stateStore.set({
             lowResLoaded: true,
-            coinsProgress: 0
+            loadingProgress: 0
           });
         })
         .load()
@@ -44,13 +47,13 @@ loader.loadHighRes = function() {
   SheetsLoader(loader.data, 1, '')
     .progress((progress) => {
       stateStore.set({
-        coinsProgress: progress
+        loadingProgress: progress
       });
     })
     .done(() => {
       stateStore.set({
         highResLoaded: true,
-        coinsProgress: 1
+        loadingProgress: 1
       });              
     })
     .load();
@@ -60,6 +63,7 @@ loader.loadHighRes = function() {
 function DataLoader() {
   const _dataLoader = {};
   let onDone;
+  let onProgress;
 
   /*
   * Loads coins.csv and afterwards the corresponding spritesheets
@@ -74,10 +78,24 @@ function DataLoader() {
     return _dataLoader;
   }
 
+  _dataLoader.progress = (cb) => {
+    onProgress = cb;
+    return _dataLoader;
+  }
+
   function loadCsv(url) {
-    d3_csv(url, parseNumbers, function(err, data) {
-      onDone(null, data);
-    });
+    d3_csv(url)
+      .row(parseNumbers)
+      .on("error", (error) => {
+        throw new Error(error);
+      })
+      .on("load", (data) => {
+        onDone(data);
+      })
+      .on("progress", function(event) {
+        onProgress(event.loaded / event.total);
+      })
+      .get();
   }
 
   function parseNumbers(object, index, keys) {

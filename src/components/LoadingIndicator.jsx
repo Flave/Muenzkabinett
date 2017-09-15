@@ -1,44 +1,33 @@
 import React from 'react';
 
-class Ui extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      backgroundPosition: {x: 0, y: 0}
-    }
-  }
-
-  updatePosition() {
-
-  }
-
-  componentDidMount() {
-    this.positionInterval = window.setInterval(() => {
-      this.setState({backgroundPosition: {
-        x: Math.floor(Math.random() * 6) * 160,
-        y: Math.floor(Math.random() * 3) * 160
-      }})
-    }, 80);
-  }
-
-  componentWillUnmount() {
-    window.clearInterval(this.positionInterval);
-  }
-
-
-
+class LoadingIndicator extends React.Component {
   render() {
-    const spinnerStyle = {
-      'backgroundPosition': `${this.state.backgroundPosition.x}px ${this.state.backgroundPosition.y}px`
-    };
+    const {dataLoaded, lowResLoaded, highResLoaded, loadingProgress} = this.props;
+    let copy = "Loading Data";
+    let totalProgress = loadingProgress;
+    if(dataLoaded) {
+      totalProgress++;
+      copy = "Loading Coins";
+    }
+    if(lowResLoaded) {
+      totalProgress++;
+    }
+
+    const progress = Math.ceil(totalProgress/3 * 100);
 
     return (
-      <div className="loader">
-        <span style={spinnerStyle} className="loader-spinner"></span>
+      <div className="loading-indicator">
+        <div 
+          style={{width: `${progress}%`}} 
+          className="loading-indicator__bar"/>
+        <div 
+          style={{left: `${progress}%`}} 
+          className="loading-indicator__copy">
+          <b className="loading-indicator__strong">{copy}</b>&ensp;{progress}%
+        </div>
       </div>
     );
   }
 }
 
-export default Ui;
+export default LoadingIndicator;

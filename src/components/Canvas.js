@@ -202,23 +202,6 @@ export default function Canvas() {
     window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
   }
 
-  function getSpaceBounds(pixelBounds) {
-    const topLeft = projectPixel(pixelBounds.left, pixelBounds.top);
-    const bottomRight = projectPixel(pixelBounds.right, pixelBounds.bottom);
-    const width = bottomRight.x - topLeft.x;
-    const height = bottomRight.y - topLeft.y;
-    return {
-      width,
-      height,
-      cx: topLeft.x + width/2,
-      cy: topLeft.y + height/2,
-      left: topLeft.x,
-      top: topLeft.y,
-      right: bottomRight.x,
-      bottom: bottomRight.y
-    }
-  }
-
   canvas.initialize = (space) => {
     const state = stateStore.get();
     const coins = coinsContainer.coins;
@@ -227,15 +210,9 @@ export default function Canvas() {
     zoomBehavior.scaleTo(zoomCanvas, 1);
     zoomBehavior.translateTo(zoomCanvas, 0, 0);
 
-    const spaceBounds = getSpaceBounds(space);
-
-    let transform = {k: .5, x: 0, y: 0};
-    window.setTimeout(() => {
-      const bounds = getCanvasBounds();
-      const layoutSpecs = layouter.spaced(coins, bounds, spaceBounds);
-      transformTo(transform);
-    }, 10);
-    //transformAfterUpdate({bounds: getCoinsBounds(layoutSpecs.positions)});
+    const bounds = getCanvasBounds();
+    const layoutSpecs = layouter.spaced(coins, bounds);
+    transformAfterUpdate({bounds: getCoinsBounds(layoutSpecs.positions)});
     window.setTimeout(function() {
       // dispatch initializd to start loading high res images
       dispatch.call('initialized');

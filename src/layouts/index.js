@@ -13,7 +13,6 @@ import nestedGrid from './nestedGrid';
 
 import coinLayout from './coin';
 import notSelected from './notSelected';
-import spaceLayout from './space';
 import introLayout from './intro';
 
 const layouts = [

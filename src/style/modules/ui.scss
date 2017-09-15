@@ -1,5 +1,5 @@
 .ui {
-  position: fixed;
+  position: relative;
   z-index: 1;
 }
 
@@ -7,9 +7,9 @@
 .ui__right {
   position: fixed;
   bottom: 10px;
-  background-color: rgba($c-background, .93);
+  background-color: rgba($c-dark-1, .93);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
+  border-radius: 2px;
   padding: 10px 20px;
 }
 
