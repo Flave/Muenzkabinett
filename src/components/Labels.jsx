@@ -64,10 +64,11 @@ class SelectionUi extends React.Component {
   }
 
   createLabel(key, label, i) {
-    const {bounds, transform} = this.props;
+    const {bounds, transform, coinFilters} = this.props;
     const isInside = this.isInsideBounds(label, bounds);
     if(transform.k < label.minZoom || !isInside && !label.sticky) return;
     const isPreselected = _find(this.state.selectedLabels, {key, value: label.value}) !== undefined;
+    const isSelected = _find(coinFilters, {key, value: label.value}) !== undefined;
     if(!isInside) {
       let stickyPos = this.getStickyPosition(label, bounds);
       label = {...label, ...stickyPos};
@@ -78,6 +79,7 @@ class SelectionUi extends React.Component {
         propertyKey={label.key}
         key={i}
         isPreselected={isPreselected}
+        isSelected={isSelected}
         transform={transform} 
         onClick={this.handleClick.bind(this, key)}/>
     )

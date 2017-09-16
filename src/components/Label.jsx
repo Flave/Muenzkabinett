@@ -17,8 +17,9 @@ import coinProperties from 'constants/coinProperties';
 class Label extends React.Component {
   render() {
     const {
-      isPreselected, 
-      selectable, 
+      isPreselected,
+      isSelected,
+      selectable,
       propertyKey, 
       alignment, 
       x, 
@@ -35,6 +36,7 @@ class Label extends React.Component {
     className += alignment[0] === 'right' ? ' label--right' : '';
     className += alignment[1] === 'center' ? ' label--center-y' : '';
     className += isPreselected ? ' is-preselected' : '';
+    className += isSelected ? ' is-selected' : '';
     className += modifiers ? ` label--${modifiers[0]}` : '';
 
     return (

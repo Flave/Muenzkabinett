@@ -1,6 +1,7 @@
 import React from 'react';
 import coinProperties from 'constants/coinProperties';
 import {createLabelData, createFullCoinId} from 'utility';
+import _find from 'lodash/find';
 
 class CoinInfo extends React.Component {
   componentDidUpdate() {
@@ -9,11 +10,15 @@ class CoinInfo extends React.Component {
 
   createProperty(coin, prop, i) {
     if(!prop.selectable) return;
+    const {onLabelClick, coinFilters} = this.props;
     const rawValue = coin.data[prop.key];
     const labelData = createLabelData(prop, rawValue);
-    const onClick = prop.type === "discrete" ? this.props.onLabelClick.bind(null, [{key: prop.key, value: rawValue}]) : undefined;
+    const onClick = prop.type === "discrete" ? onLabelClick.bind(null, [{key: prop.key, value: rawValue}]) : undefined;
+    const isSelected = _find(coinFilters, {key: prop.key}) !== undefined;
     let valueClassName = 'coin-info__prop-value';
     valueClassName += prop.type === 'discrete' ? ' coin-info__prop-value--filterable' : '';
+    valueClassName += isSelected ? ' is-selected' : '';
+
     return (
       <div key={i} className='coin-info__prop'>
         <i className={`coin-info__prop-icon icon-${prop.key}`}></i>

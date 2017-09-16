@@ -114,16 +114,21 @@
 
 .coin-info__prop-value {
   font-size: 13px;
-  padding: 4px 12px;
+  padding: 5px 13px;
   border-radius: 20px;
   display: inline-block;
   text-align: center;
   border: 1px solid $c-accent-1;
-  pointer-events: all;
-  cursor: pointer;
 
   &--filterable {
-  background-color: $c-accent-1;
-  color: $c-dark-1;
+    background-color: $c-accent-1;
+    color: $c-dark-1;
+    pointer-events: all;
+    cursor: pointer;
+    border: none;
+  }
+
+  &.is-selected {
+    background-color: $c-accent-3;
   }
 }

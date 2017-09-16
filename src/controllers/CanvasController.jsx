@@ -93,6 +93,7 @@ class CanvasController extends React.Component {
           }
           {showCoinInfo && <CoinInfo 
             onLabelClick={this.handleLabelClick}
+            coinFilters={state.coinFilters}
             coin={state.selectedCoin}
             transform={state.transform}/>}
         </Overlays>}

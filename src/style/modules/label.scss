@@ -49,7 +49,8 @@
     transform: translate(-50%, -100%);
   }  
 
-  &.is-preselected {
+  &.is-preselected,
+  &.is-selected {
     background-color: $c-accent-3;
   }
 }
