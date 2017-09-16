@@ -119,12 +119,24 @@ export function filterCoins(coins, filters, selection) {
   return {selected, notSelected};
 }
 
+// creates the proper label value, unit and modifier given a property specification and
+// a raw value of a coin
 export function createLabelData(prop, rawValue) {
   let {value, unit, modifiers} = prop.labelGenerator ? prop.labelGenerator(rawValue) : {};
   value = value === undefined ? rawValue : value;
-  value = value === undefined ? 'Undefined' : value;
+  value = value === '' ? 'Undefined' : value;
   unit = unit === undefined ? prop.unit : unit;
   return {value, unit, modifiers}
+}
+
+
+// fills up the coin id with 0's to match their url structure
+export function createFullCoinId(id) {
+  id = id.toString();
+  while(id.length < 5) {
+    id = `0${id}`
+  }
+  return id;
 }
 
 

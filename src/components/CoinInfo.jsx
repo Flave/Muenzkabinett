@@ -1,20 +1,29 @@
 import React from 'react';
 import coinProperties from 'constants/coinProperties';
-import {createLabelData} from 'utility';
-
-function createFullCoinId(id) {
-  id = id.toString();
-  while(id.length < 5) {
-    id = `0${id}`
-  }
-  return id;
-}
+import {createLabelData, createFullCoinId} from 'utility';
 
 class CoinInfo extends React.Component {
   componentDidUpdate() {
     //console.dir(this.root);
   }
 
+  createProperty(coin, prop, i) {
+    if(!prop.selectable) return;
+    const rawValue = coin.data[prop.key];
+    const labelData = createLabelData(prop, rawValue);
+    const onClick = prop.type === "discrete" ? this.props.onLabelClick.bind(null, [{key: prop.key, value: rawValue}]) : undefined;
+    let valueClassName = 'coin-info__prop-value';
+    valueClassName += prop.type === 'discrete' ? ' coin-info__prop-value--filterable' : '';
+    return (
+      <div key={i} className='coin-info__prop'>
+        <i className={`coin-info__prop-icon icon-${prop.key}`}></i>
+        <div className='coin-info__prop-label'>{prop.label}</div>
+        <div 
+          onClick={onClick} 
+          className={valueClassName}>{labelData.value} {labelData.unit}</div>
+      </div>
+    )
+  }
 
   render() {
     const {coin, transform} = this.props;
@@ -41,20 +50,7 @@ class CoinInfo extends React.Component {
             </a>
         </div>
         {!compact && <div className='coin-info__props'>
-          {coinProperties.map((prop, i) => {
-            if(!prop.selectable) return;
-            const labelData = createLabelData(prop, coin.data[prop.key]);
-
-            let valueClassName = 'coin-info__prop-value';
-            valueClassName += prop.type === 'discrete' ? ' coin-info__prop-value--filterable' : '';
-            return (
-              <div key={i} className='coin-info__prop'>
-                <i className={`coin-info__prop-icon icon-${prop.key}`}></i>
-                <div className='coin-info__prop-label'>{prop.label}</div>
-                <div className={valueClassName}>{labelData.value} {labelData.unit}</div>
-              </div>
-            )
-          })}
+          {coinProperties.map(this.createProperty.bind(this, coin))}
         </div>}
       </div>
     );

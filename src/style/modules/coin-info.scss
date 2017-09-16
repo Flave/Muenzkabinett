@@ -44,15 +44,15 @@
 .coin-info__header {
   text-align: center;
   border-bottom: 1px solid rgba(#fff, .1);
-  padding-bottom: 20px;
-  padding-top: 5px;
+  padding-bottom: 25px;
+  padding-top: 10px;
 }
 
 .coin-info__title {
   font-size: 18px;
   margin-bottom: 5px;
   text-transform: uppercase;
-  letter-spacing: .08em;
+  letter-spacing: .1em;
 }
 
 .coin-info__link {
@@ -114,11 +114,13 @@
 
 .coin-info__prop-value {
   font-size: 13px;
-  padding: 3px 11px;
+  padding: 4px 12px;
   border-radius: 20px;
   display: inline-block;
   text-align: center;
   border: 1px solid $c-accent-1;
+  pointer-events: all;
+  cursor: pointer;
 
   &--filterable {
   background-color: $c-accent-1;
