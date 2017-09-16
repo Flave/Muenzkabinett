@@ -19,28 +19,29 @@ function handleCoinClick() {
     stateStore.set({'selectedCoin': this});
 }
 
-function handleCoinDragStart() {
+function handleCoinDragStart(coin) {
   dispatch.call('dragstart');
   // unset hovered coin so tooltip disapears during dragging
-  stateStore.set({hoveredCoin: undefined});
+  stateStore.set({hoveredCoin: null, draggedCoin: coin});
 }
 
 function handleCoinDragEnd(coin) {
   dispatch.call('dragend');
   // set hovered coin so tooltip reappears during dragging
-  stateStore.set({hoveredCoin: coin});
+  stateStore.set({hoveredCoin: coin, draggedCoin: null});
 }
 
 function handleCoinMouseEnter(coin) {
-  stateStore.set({hoveredCoin: coin});
+  if(!stateStore.get().draggedCoin)
+    stateStore.set({hoveredCoin: coin});
 }
 
 function handleCoinMouseLeave(coin) {
-  const state = stateStore.get();
+  const {hoveredCoin, draggedCoin} = stateStore.get();
   // if mouse leaves coin and enters next coin in same moment, we need to check if they are the same
-  // if dragged hoveredCoin is set to undefined as well. So we need to check if it is still set.
-  if(state.hoveredCoin && (state.hoveredCoin.data.id === coin.data.id))
-    stateStore.set({hoveredCoin: undefined});
+  // if dragged hoveredCoin is set to null as well. So we need to check if it is still set.
+  if(hoveredCoin && (hoveredCoin.data.id === coin.data.id) && !draggedCoin)
+    stateStore.set({hoveredCoin: null});
 }
 
 coinsContainer.add = function(coin) {

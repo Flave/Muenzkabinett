@@ -11,7 +11,8 @@ var _state = {
   selectedCoin: null,
   selectedCoins: [],
   coinFilters: [],
-  hoveredCoin: undefined,
+  hoveredCoin: null,
+  draggedCoin: null,
   transform: {x: 0, y: 0, k: 1},
   transitioning: false,
 

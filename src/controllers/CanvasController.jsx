@@ -79,6 +79,8 @@ class CanvasController extends React.Component {
   render() {
     const {state} = this.props;
     let className = 'canvas-container';
+    className += state.hoveredCoin ? ' is-coin-hovered' : '';
+    className += state.draggedCoin ? ' is-coin-dragged' : '';
     const showCoinInfo = state.selectedCoin && !state.transitioning;
     const showLabels = !state.transitioning;
     const showTooltip = state.hoveredCoin && !state.transitioning;

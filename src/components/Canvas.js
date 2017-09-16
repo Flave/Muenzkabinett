@@ -41,9 +41,12 @@ export default function Canvas() {
 
     coinsContainer
       .on('dragstart', function() {
+        startAnimation();
         zoomCanvas.on('.zoom', null);
       })
       .on('dragend', function() {
+        if(!transitioning)
+          stopAnimation();
         zoomCanvas.call(zoomBehavior);
       });
 
