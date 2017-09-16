@@ -15,6 +15,7 @@ class CanvasController extends React.Component {
   }
   updateCanvas() {
     const {state} = this.props;
+    const {canvas} = this;
     const renderNextFrame = stateStore.didPropertiesChange(['loadingProgress']);
     const shouldCanvasInitialize = stateStore.didPropertiesChange(['lowResLoaded']);
     const shouldCanvasUpdate = stateStore.didPropertiesChange([
@@ -25,10 +26,11 @@ class CanvasController extends React.Component {
       'width',
       'height',
       'coinFilters',
-      'lowResLoaded'
+      'lowResLoaded',
+      'showIntro'
     ]);
 
-    this.canvas
+    canvas
       .size({
         width: state.width, 
         height: state.height
@@ -36,11 +38,11 @@ class CanvasController extends React.Component {
 
     if(shouldCanvasInitialize)
       // wait a bit so not everything shows up at the same time
-      window.setTimeout(() => this.canvas.initialize(), 400); 
+      window.setTimeout(() => canvas.initialize(), 400); 
     else if(shouldCanvasUpdate)
-      this.canvas.update();
+      canvas.update();
     else if(renderNextFrame)
-      this.canvas.frame();
+      canvas.frame();
   }
 
   componentDidMount() {

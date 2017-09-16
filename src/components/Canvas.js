@@ -143,6 +143,9 @@ export default function Canvas() {
         transitioning = false;
       }
     }, 0);
+
+    // generous and lazy way to stop animating after update
+    stopAnimationTimeout = setTimeout(stopAnimation, 3000);
   }
 
   function getNextBounds(nt) {
@@ -203,21 +206,17 @@ export default function Canvas() {
   }
 
   canvas.initialize = (space) => {
-    const state = stateStore.get();
-    const coins = coinsContainer.coins;
     renderer.resize(size.width, size.height);
     // needed to initially center the canvas
     zoomBehavior.scaleTo(zoomCanvas, 1);
     zoomBehavior.translateTo(zoomCanvas, 0, 0);
 
-    const bounds = getCanvasBounds();
-    const layoutSpecs = layouter.intro(coins, bounds);
-    transformAfterUpdate({bounds: getCoinsBounds(layoutSpecs.positions)});
+    const {positions} = layouter.intro(coinsContainer.coins, getCanvasBounds());
+    transformTo({k: .5, x: 0, y: 0});
     window.setTimeout(function() {
       // dispatch initializd to start loading high res images
       dispatch.call('initialized');
     }, 2000);
-    stopAnimationTimeout = setTimeout(stopAnimation, 3000);
   }
 
   canvas.frame = () => {
@@ -236,9 +235,6 @@ export default function Canvas() {
     layoutSpecs.bounds = layoutSpecs.bounds ? layoutSpecs.bounds : getCoinsBounds(layoutSpecs.positions);
     transformAfterUpdate(layoutSpecs);
     layouter.updateNotSelected(notSelected, layoutSpecs.bounds, getCanvasBounds(), state);
-
-    // generous and lazy way to stop animating after update
-    stopAnimationTimeout = setTimeout(stopAnimation, 2000);
   }
 
   // returns the labels that were returned by the current layout

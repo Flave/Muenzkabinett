@@ -95,8 +95,8 @@ layouter.getApplicableLayouts = function(properties) {
   return applicableLayouts;
 }
 
-layouter.intro = function(coins, bounds, space) {
-  return introLayout.create(coins, bounds, space);
+layouter.intro = function(coins, bounds) {
+  return introLayout.create(coins, bounds);
 }
 
 layouter.update = function(selectedCoins, notSelectedCoins, state, canvasBounds) {
