@@ -25,6 +25,10 @@ export default function Canvas() {
     .on('end', handleZoomEnd);
   let labelGroups = [];
   let zoomCanvas;
+  let stopAnimationTimeout;
+  let transitionTimer;
+  let animating = true; // set to false if no rerender required anymore
+  let transitioning = false; // Needed to prevent zoomEnd handler from stopping animation
 
   stage.interactiveChildren = true;
   coinsContainer.parent(stage);
@@ -44,11 +48,6 @@ export default function Canvas() {
       });
 
     zoomCanvas.call(zoomBehavior);
-
-    renderer.view.addEventListener('click', function(event) {
-      var projected = projectPixel(event.clientX, event.clientY);
-      console.log(event.clientX, event.clientY, projected);
-    })
 
     requestAnimationFrame(animate);
     return canvas;
@@ -79,11 +78,24 @@ export default function Canvas() {
 
 
   function animate() {
+    if(animating)
+      renderer.render(stage);
     requestAnimationFrame(animate);
-    renderer.render(stage);
+  }
+
+  function startAnimation(source) {
+    // clear timeout if one is set so it doesn't interfere with current animation
+    clearTimeout(stopAnimationTimeout);
+    animating = true;
+  }
+
+  function stopAnimation(source) {
+    animating = false;
   }
 
   function handleZoomStart() {
+    if(!transitioning)
+      startAnimation();
     const {transform} = d3_event;
     dispatch.call('zoomstart', null, transform);
   }
@@ -97,39 +109,27 @@ export default function Canvas() {
   }
 
   function handleZoomEnd() {
+    if(!transitioning)
+      stopAnimation();
     const {transform} = d3_event;
     dispatch.call('zoomend', null, transform);
   }
 
-  // function getNextBounds(nt) {
-  //   let ot = d3_zoomTransform(zoomCanvas.node());
-  //   nt = {...ot, ...nt};
-    
-  //   const left = nt.x - size.width/2 * (1/nt.k);
-  //   const top = nt.y - size.height/2 * (1/nt.k);
-  //   const right = nt.x + size.width/2 * (1/nt.k);
-  //   const bottom = nt.y + size.height/2 * (1/nt.k);
-    
-  //   return {
-  //     left,
-  //     top,
-  //     right,
-  //     bottom
-  //   }
-  // }
-
-  function transformTo(nt, cb) {
-    var ot, dk, dx, dy, duration;
-    ot = d3_zoomTransform(zoomCanvas.node());
+  function transformTo(nt) {
+    const ot = d3_zoomTransform(zoomCanvas.node());
     ot.x = (size.width / 2 - ot.x) * (1/ot.k);
     ot.y = (size.height / 2 - ot.y) * (1/ot.k);
     nt = {...ot, ...nt};
-    dk = nt.k - ot.k;
-    dx = nt.x - ot.x;
-    dy = nt.y - ot.y;
-    duration = 1500;
+    const dk = nt.k - ot.k;
+    const dx = nt.x - ot.x;
+    const dy = nt.y - ot.y;
+    const duration = 1500;
+    transitioning = true;
+    transitionTimer && transitionTimer.stop();
 
-    var timer = d3_timer(function(elapsed) {
+    startAnimation();
+
+    transitionTimer = d3_timer(function(elapsed) {
       var t = elapsed / duration,
         k = ot.k + (dk * d3_easePolyInOut(t, 3)),
         x = ot.x + dx * d3_easePolyInOut(t, 3),
@@ -139,8 +139,8 @@ export default function Canvas() {
       zoomBehavior.translateTo(zoomCanvas, x, y);
 
       if(elapsed > duration) {
-        timer.stop();
-        cb && cb();
+        transitionTimer.stop();
+        transitioning = false;
       }
     }, 0);
   }
@@ -217,6 +217,11 @@ export default function Canvas() {
       // dispatch initializd to start loading high res images
       dispatch.call('initialized');
     }, 2000);
+    stopAnimationTimeout = setTimeout(stopAnimation, 3000);
+  }
+
+  canvas.frame = () => {
+    renderer.render(stage);
   }
 
   canvas.update = function(space) {
@@ -231,6 +236,9 @@ export default function Canvas() {
     layoutSpecs.bounds = layoutSpecs.bounds ? layoutSpecs.bounds : getCoinsBounds(layoutSpecs.positions);
     transformAfterUpdate(layoutSpecs);
     layouter.updateNotSelected(notSelected, layoutSpecs.bounds, getCanvasBounds(), state);
+
+    // generous and lazy way to stop animating after update
+    stopAnimationTimeout = setTimeout(stopAnimation, 2000);
   }
 
   // returns the labels that were returned by the current layout

@@ -15,6 +15,7 @@ class CanvasController extends React.Component {
   }
   updateCanvas() {
     const {state} = this.props;
+    const renderNextFrame = stateStore.didPropertiesChange(['loadingProgress']);
     const shouldCanvasInitialize = stateStore.didPropertiesChange(['lowResLoaded']);
     const shouldCanvasUpdate = stateStore.didPropertiesChange([
       'selectedLayout',
@@ -34,9 +35,12 @@ class CanvasController extends React.Component {
       });
 
     if(shouldCanvasInitialize)
-      this.canvas.initialize();
+      // wait a bit so not everything shows up at the same time
+      window.setTimeout(() => this.canvas.initialize(), 400); 
     else if(shouldCanvasUpdate)
       this.canvas.update();
+    else if(renderNextFrame)
+      this.canvas.frame();
   }
 
   componentDidMount() {

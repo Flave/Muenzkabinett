@@ -14,8 +14,9 @@ export default {
 
     coins.forEach(function(coin, i) {
       let a = Math.random() * Math.PI * 2;
-      let x = Math.sin(a) * startR * d3_randomNormal(3, 1)();
-      let y = Math.cos(a) * startR * d3_randomNormal(3, 1)();
+      let r = startR + startR * Math.abs(d3_randomNormal(0, 1)());
+      let x = Math.sin(a) * r;
+      let y = Math.cos(a) * r;
       coin.position.x = x;
       coin.position.y = y;
       coin.visible = true;
