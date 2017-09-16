@@ -18,7 +18,7 @@ function getSimilarity(selectedCoin, coin) {
 }
 
 export default {
-  create: function(coins, selectedCoin) {
+  create: function(coins, selectedCoin, {width, height}, windowSize) {
     const {cx, cy} = getCoinsBounds(coins);
     const maxDelta = {x: 0, y: 0};
     const baseRadius = 1000;
@@ -58,10 +58,10 @@ export default {
 
     // calculate next bounds with selected coin in center
     const nextBounds = {
-      top: cy - maxDelta.y,
-      bottom: cy + maxDelta.y + COIN_HEIGHT,
-      left: cx - maxDelta.x,
-      right: cx + maxDelta.x + COIN_HEIGHT
+      top: cy - windowSize.height * .65,// maxDelta.y,
+      bottom: cy + windowSize.height * .65 + COIN_HEIGHT,//maxDelta.y,
+      left: cx - windowSize.width * .65,//maxDelta.x,
+      right: cx + windowSize.width * .65 + COIN_HEIGHT//maxDelta.x
     }
 
     return {positions, bounds: nextBounds};

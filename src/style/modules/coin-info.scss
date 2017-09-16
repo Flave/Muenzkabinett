@@ -9,8 +9,9 @@
   border-radius: 2px;
 
   &--compact {
-    width: auto;
+    width: fit-content;
     padding: 15px 20px 10px 20px;
+    min-width: 280px;
 
     .coin-info__header {
       border: none;

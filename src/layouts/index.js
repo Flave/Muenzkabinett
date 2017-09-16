@@ -105,7 +105,7 @@ layouter.update = function(selectedCoins, notSelectedCoins, state, canvasBounds)
     layoutSpec;
 
   if(state.selectedCoin !== null) {
-    layoutSpec = coinLayout.create(selectedCoins, state.selectedCoin, canvasBounds);
+    layoutSpec = coinLayout.create(selectedCoins, state.selectedCoin, canvasBounds, {width: state.width, height: state.height});
   } else {
     layoutSpec = layout.create(selectedCoins, properties, canvasBounds, state);
   }

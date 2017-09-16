@@ -51,7 +51,7 @@ export default [
     key: 'production_technique',
     label: 'Technique',
     type: 'discrete',
-    similarityWeight: 0.2,
+    similarityWeight: 0,
     selectable: true,
     unit: ''
   },
