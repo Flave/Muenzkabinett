@@ -16,7 +16,7 @@ ns = {'lido': 'http://www.lido-schema.org', 'xml': 'someuri'}
 production_event_set = '//lido:eventSet[./lido:event/lido:eventType/lido:term[contains(text(), "Herstellung")]]'
 finding_event_set = '//lido:eventSet[./lido:event/lido:eventType/lido:term[contains(text(), "Fund")]]'
 
-coinsCSVFile = open(os.path.dirname(__file__) + '../src/data/csv_new/coins_raw.csv', 'w')
+coinsCSVFile = open(os.path.dirname(__file__) + '../src/data/csv/coins_raw.csv', 'w')
 
 coins = []
 coin_specs = [
@@ -49,11 +49,11 @@ coin_specs = [
   # production
   {
     'key': 'date_earliest',
-    'path': production_event_set + '//lido:earliestDate/text()'
+    'path': production_event_set + '//lido:eventDate//lido:earliestDate/text()'
   },
   {
     'key': 'date_latest',
-    'path': production_event_set + '//lido:latestDate/text()'
+    'path': production_event_set + '//lido:eventDate//lido:latestDate/text()'
   },
   {
     'key': 'production_perion',

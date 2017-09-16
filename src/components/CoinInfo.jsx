@@ -1,6 +1,14 @@
 import React from 'react';
 import coinProperties from 'constants/coinProperties';
 
+function createFullCoinId(id) {
+  id = id.toString();
+  while(id.length < 5) {
+    id = `0${id}`
+  }
+  return id;
+}
+
 class CoinInfo extends React.Component {
   componentDidUpdate() {
     //console.dir(this.root);
@@ -12,6 +20,9 @@ class CoinInfo extends React.Component {
     const compact = transform.k < .5;
     let className = 'coin-info';
     className += compact ? ' coin-info--compact' : '';
+    const fullCoinId = createFullCoinId(coin.data.id);
+
+    console.log(fullCoinId);
 
     return (
       <div 
@@ -21,7 +32,7 @@ class CoinInfo extends React.Component {
           top: (coin.position.y + 60) * transform.k
         }}>
         <div className="coin-info__title">
-          <a className="coin-info__link" href={`http://ikmk.smb.museum/object?id=182${coin.data.id}`}>{coin.data.title}</a>
+          <a className="coin-info__link" href={`http://ikmk.smb.museum/object?id=182${fullCoinId}`}>{coin.data.title}</a>
         </div>
         {!compact && <div className="coin-info__props">
           {coinProperties.map((prop, i) => {

@@ -198,7 +198,7 @@ export default function Canvas() {
 
   function transformAfterUpdate({bounds, alignment}) {
     scaleToBounds(bounds, alignment);
-    stateStore.set({transitioning: true});
+    stateStore.set({transitioning: true, hoveredCoin: undefined});
     window.setTimeout(() => stateStore.set({transitioning: false}), 1000);
   }
 
