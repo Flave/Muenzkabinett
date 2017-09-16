@@ -119,7 +119,13 @@ export function filterCoins(coins, filters, selection) {
   return {selected, notSelected};
 }
 
-
+export function createLabelData(prop, rawValue) {
+  let {value, unit, modifiers} = prop.labelGenerator ? prop.labelGenerator(rawValue) : {};
+  value = value === undefined ? rawValue : value;
+  value = value === undefined ? 'Undefined' : value;
+  unit = unit === undefined ? prop.unit : unit;
+  return {value, unit, modifiers}
+}
 
 
 

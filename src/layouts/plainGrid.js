@@ -8,7 +8,7 @@ export default {
   requiredTypes: ['continuous'],
   create: function plainGrid(coins, properties, bounds) {
     const MAX_WIDTH = 4000;
-    const MARGIN_LEFT = 150; // margin for labels
+    const MARGIN_LEFT = 100; // margin for labels
     const maxRight = bounds.left + MAX_WIDTH;
     const startX = bounds.left + MARGIN_LEFT;
     const property = properties[0];
@@ -46,7 +46,7 @@ export default {
           x: bounds.left,
           y,
           minZoom: labelIndex % 2 === 0 ? .2 : .3,
-          alignment: 'right',
+          alignment: ['right', 'top'],
           sticky: ['left', 'center']
         });
 

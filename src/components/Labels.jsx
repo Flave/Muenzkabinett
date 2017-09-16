@@ -75,6 +75,7 @@ class SelectionUi extends React.Component {
     return (
       <Label 
         {...label}
+        propertyKey={label.key}
         key={i}
         isPreselected={isPreselected}
         transform={transform} 

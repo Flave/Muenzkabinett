@@ -1,5 +1,6 @@
 import React from 'react';
 import coinProperties from 'constants/coinProperties';
+import {createLabelData} from 'utility';
 
 function createFullCoinId(id) {
   id = id.toString();
@@ -42,14 +43,15 @@ class CoinInfo extends React.Component {
         {!compact && <div className='coin-info__props'>
           {coinProperties.map((prop, i) => {
             if(!prop.selectable) return;
-            const value = coin.data[prop.key] !== '' ? coin.data[prop.key] : 'Unknown';
+            const labelData = createLabelData(prop, coin.data[prop.key]);
+
             let valueClassName = 'coin-info__prop-value';
             valueClassName += prop.type === 'discrete' ? ' coin-info__prop-value--filterable' : '';
             return (
               <div key={i} className='coin-info__prop'>
                 <i className={`coin-info__prop-icon icon-${prop.key}`}></i>
                 <div className='coin-info__prop-label'>{prop.label}</div>
-                <div className={valueClassName}>{value} {prop.unit}</div>
+                <div className={valueClassName}>{labelData.value} {labelData.unit}</div>
               </div>
             )
           })}

@@ -1,4 +1,7 @@
 import React from 'react';
+import {createLabelData} from 'utility';
+import _find from 'lodash/find';
+import coinProperties from 'constants/coinProperties';
 
 // {
 //   value: <Value to display>,
@@ -13,13 +16,26 @@ import React from 'react';
 
 class Label extends React.Component {
   render() {
-    const {isPreselected, selectable, alignment, x, y, value, onClick, transform} = this.props;
+    const {
+      isPreselected, 
+      selectable, 
+      propertyKey, 
+      alignment, 
+      x, 
+      y, 
+      value: rawValue, 
+      onClick, 
+      transform} = this.props;
+
+    const propSpec = _find(coinProperties, {key: propertyKey});
+    const {value, unit, modifiers} = createLabelData(propSpec, rawValue);
     let className = 'label';
     className += selectable ? ' label--selectable' : '';
     className += alignment[0] === 'center' ? ' label--center-x' : '';
     className += alignment[0] === 'right' ? ' label--right' : '';
     className += alignment[1] === 'center' ? ' label--center-y' : '';
     className += isPreselected ? ' is-preselected' : '';
+    className += modifiers ? ` label--${modifiers[0]}` : '';
 
     return (
       <span 
@@ -29,7 +45,7 @@ class Label extends React.Component {
           left: `${x * transform.k}px`, 
           top:`${y * transform.k}px`
         }}>
-        { value === '' ? 'Unknown' : value }
+        {value} {unit}
       </span>
     )
   }

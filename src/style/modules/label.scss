@@ -15,6 +15,10 @@
   transition: opacity .2s;
   user-select: none; 
 
+  &--highlight {
+    font-weight: bold;
+  }
+
   &--selectable {
     background: $c-accent-1;
     cursor: pointer;

@@ -8,6 +8,7 @@
   padding: 15px 20px;
   z-index: 999;
   border-radius: 2px;
+  text-align: center;
 
   &--bottom {
     &:after {
@@ -39,8 +40,10 @@
 }
 
 .tooltip__title {
+  text-align: center;
   font-size: 18px;
-  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: .08em;
 }
 
 .tooltip__prop {

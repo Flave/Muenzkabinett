@@ -37,6 +37,7 @@ export default {
 
     labelGroups[0].labels = ticks.map(tick => {
       return {
+        key: property.key,
         value: tick,
         y: options.labelsPos === 'top' ? yPositionExtent[0] - 30 : yPositionExtent[1] + 20,
         x: value2X(tick),

@@ -91,7 +91,8 @@ export default [
     unit: '',
     labelGenerator: (value) => (
       {
-        value: value < 0 ? `${value} B.C.` : `${value} A.D.`,
+        unit: value === 0 ? '' : (value < 0 ? 'BC' : 'AD'),
+        value: value < 0 ? Math.abs(value) : value,
         modifiers: value === 0 ? ['highlight'] : []
       }
     )
@@ -103,6 +104,13 @@ export default [
     similarityWeight: 0.1,
     grouping: 100,
     selectable: true,
-    unit: ''
+    unit: '',
+    labelGenerator: (value) => (
+      {
+        unit: value === 0 ? '' : (value < 0 ? 'BC' : 'AD'),
+        value: value < 0 ? Math.abs(value) : value,
+        modifiers: value === 0 ? ['highlight'] : []
+      }
+    )
   }
 ]
