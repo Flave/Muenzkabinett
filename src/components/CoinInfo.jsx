@@ -22,8 +22,6 @@ class CoinInfo extends React.Component {
     className += compact ? ' coin-info--compact' : '';
     const fullCoinId = createFullCoinId(coin.data.id);
 
-    console.log(fullCoinId);
-
     return (
       <div 
         className={className}
@@ -32,7 +30,7 @@ class CoinInfo extends React.Component {
           top: (coin.position.y + 60) * transform.k
         }}>
         <div className="coin-info__title">
-          <a className="coin-info__link" href={`http://ikmk.smb.museum/object?id=182${fullCoinId}`}>{coin.data.title}</a>
+          <a className="coin-info__link" target="_blank" href={`http://ikmk.smb.museum/object?id=182${fullCoinId}`}>{coin.data.title}</a>
         </div>
         {!compact && <div className="coin-info__props">
           {coinProperties.map((prop, i) => {
