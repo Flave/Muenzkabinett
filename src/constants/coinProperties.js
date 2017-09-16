@@ -56,6 +56,14 @@ export default [
     unit: ''
   },
   {
+    key: 'production_material',
+    label: 'Material',
+    type: 'discrete',
+    similarityWeight: 0.3,
+    selectable: true,
+    unit: ''
+  },
+  {
     key: 'weight',
     label: 'Weight',
     type: 'continuous',
@@ -74,21 +82,13 @@ export default [
     unit: 'mm'
   },
   {
-    key: 'production_material',
-    label: 'Material',
-    type: 'discrete',
-    similarityWeight: 0.3,
-    selectable: true,
-    unit: ''
-  },
-  {
     key: 'date_earliest',
     label: 'Earliest Date',
     type: 'continuous',
     similarityWeight: 0.1,
     grouping: 100,
     selectable: true,
-    unit: 'y',
+    unit: '',
     labelGenerator: (value) => (
       {
         value: value < 0 ? `${value} B.C.` : `${value} A.D.`,
@@ -103,6 +103,6 @@ export default [
     similarityWeight: 0.1,
     grouping: 100,
     selectable: true,
-    unit: 'y'
+    unit: ''
   }
 ]

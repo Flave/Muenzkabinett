@@ -17,10 +17,11 @@ class CoinInfo extends React.Component {
 
   render() {
     const {coin, transform} = this.props;
-    const compact = transform.k < .5;
+    const compact = transform.k < .6;
     let className = 'coin-info';
     className += compact ? ' coin-info--compact' : '';
     const fullCoinId = createFullCoinId(coin.data.id);
+    const linkCopy = compact ? '7' : 'View in collection';
 
     return (
       <div 
@@ -29,20 +30,26 @@ class CoinInfo extends React.Component {
           left: (coin.position.x + 20) * transform.k,
           top: (coin.position.y + 60) * transform.k
         }}>
-        <div className="coin-info__title">
-          <a className="coin-info__link" target="_blank" href={`http://ikmk.smb.museum/object?id=182${fullCoinId}`}>{coin.data.title}</a>
+        <div className='coin-info__header'>
+          <div className='coin-info__title'>{coin.data.title}</div>
+            <a className='coin-info__link' 
+              target='_blank' 
+              href={`http://ikmk.smb.museum/object?id=182${fullCoinId}`}>
+              <i className='coin-info__link-icon icon-arrow_top_right'/>
+              {linkCopy}
+            </a>
         </div>
-        {!compact && <div className="coin-info__props">
+        {!compact && <div className='coin-info__props'>
           {coinProperties.map((prop, i) => {
             if(!prop.selectable) return;
             const value = coin.data[prop.key] !== '' ? coin.data[prop.key] : 'Unknown';
+            let valueClassName = 'coin-info__prop-value';
+            valueClassName += prop.type === 'discrete' ? ' coin-info__prop-value--filterable' : '';
             return (
-              <div key={i} className="coin-info__prop">
+              <div key={i} className='coin-info__prop'>
                 <i className={`coin-info__prop-icon icon-${prop.key}`}></i>
-                <div className="coin-info__prop-label">{prop.label}</div>
-                <div>
-                  <span className="coin-info__prop-value">{value}</span>
-                </div>
+                <div className='coin-info__prop-label'>{prop.label}</div>
+                <div className={valueClassName}>{value} {prop.unit}</div>
               </div>
             )
           })}

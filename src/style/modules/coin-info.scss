@@ -1,35 +1,71 @@
 .coin-info {
-  position: absolute;
+  position: fixed;
   transform: translateX(-50%);
-  color: $c-accent-2;
-  width: 410px;
-  padding: 20px;
-  background-color: rgba(#fff, .6);
-  border-radius: 6px;
+  color: $c-accent-1;
+  width: 430px;
+  padding: 20px 30px;
+  background-color: rgba($c-dark-1, .93);
+  box-shadow: 0 0 12px rgba(#000, .2);
+  border-radius: 2px;
 
   &--compact {
     width: auto;
-    border-radius: 50px;
+    padding: 15px 20px 10px 20px;
+
+    .coin-info__header {
+      border: none;
+      padding: 0;
+      text-align: left;
+      padding-right: 50px;
+      position: relative;
+    }
 
     .coin-info__title {
       border-bottom: none;
       padding: 0;
     }
+
+    .coin-info__link {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: $c-accent-1;
+      color: $c-dark-1;
+      width: 25px;
+      height: 25px;
+      border-radius: 100px;
+      text-align: center;
+      padding-top: 2px;
+    }
   }
 }
 
-.coin-info__title {
-  font-size: 16px;
-  font-weight: bold;
+.coin-info__header {
   text-align: center;
-  padding-bottom: 10px;
-  border-bottom: 1px solid $c-accent-2;
+  border-bottom: 1px solid rgba(#fff, .1);
+  padding-bottom: 20px;
+  padding-top: 5px;
+}
+
+.coin-info__title {
+  font-size: 18px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
 }
 
 .coin-info__link {
   pointer-events: all;
   text-decoration: none;
   color: inherit;
+  font-size: 16px;
+  font-family: serif;
+  font-style: italic;
+}
+
+.coin-info__link-icon {
+  font-size: 1em;
 }
 
 .coin-info__props {
@@ -40,9 +76,9 @@
 .coin-info__prop {
   width: 175px;
   position: relative;
-  padding: 12px 0;
-  padding-left: 40px;
-  border-top: 1px solid $c-accent-2;
+  padding: 16px 0;
+  padding-left: 45px;
+  border-top: 1px solid rgba($c-accent-1, .1);
   margin-right: 20px;
 
   &:nth-child(1),
@@ -59,20 +95,30 @@
   position: absolute;
   left: 0;
   font-size: 30px;
+  border: 1px solid $c-accent-1;
+  border-radius: 100px;
+  width: 35px;
+  height: 35px;
+  padding-top: 2px;
+  margin-top: 5px;
+  text-align: center;
 }
 
 .coin-info__prop-label {
-  font-size: 14px;
-  margin-bottom: 7px;
+  font-size: 13px;
+  margin-bottom: 9px;
 }
 
 .coin-info__prop-value {
-  font-size: 14px;
-  font-weight: bold;
-  background-color: $c-accent-2;
-  color: #fff;
+  font-size: 13px;
   padding: 3px 11px;
   border-radius: 20px;
   display: inline-block;
   text-align: center;
+  border: 1px solid $c-accent-1;
+
+  &--filterable {
+  background-color: $c-accent-1;
+  color: $c-dark-1;
+  }
 }

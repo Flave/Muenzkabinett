@@ -21,7 +21,6 @@ class LoadingIndicator extends React.Component {
           style={{width: `${progress}%`}} 
           className='loading-indicator__bar'/>
         <div 
-          style={{left: `${progress}%`}} 
           className='loading-indicator__copy'>
           <b className='loading-indicator__strong'>{copy}</b>&ensp;{progress}%
         </div>
