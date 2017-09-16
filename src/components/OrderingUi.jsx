@@ -114,7 +114,11 @@ class OrderingUi extends React.Component {
     }
 
     var newLayout = layouts.getApplicableLayout(state)
-    stateStore.set({selectedProperties: selectedProps, selectedLayout: newLayout.key});
+    stateStore.set({
+      selectedProperties: selectedProps, 
+      selectedLayout: newLayout.key,
+      selectedCoin: null
+    });
   }
 
   render() {

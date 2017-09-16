@@ -5,7 +5,7 @@ import stateStore from 'app/stateStore';
 class LayoutUi extends React.Component {
 
   handleClick(layout) {
-    stateStore.set({selectedLayout: layout.key});
+    stateStore.set({selectedLayout: layout.key, selectedCoin: null});
   }
 
   createLayoutsList() {

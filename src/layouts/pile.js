@@ -7,8 +7,8 @@ export default {
   create: function pile(coins, properties, {cx, cy}) {
     const numCoins = coins.length;
     const positions = [];
-    const spreadExponent = 0.2; // smaller number causes higher values for smaller coinNumbers relatively speaking
-    const spreadFactor = 35; // scales spread in a linear fashion 
+    const spreadExponent = 0.21; // smaller number causes higher values for smaller coinNumbers relatively speaking
+    const spreadFactor = 40; // scales spread in a linear fashion 
     let spread = Math.pow(numCoins, spreadExponent) * spreadFactor;
 
     coins.forEach(function(coin) {
