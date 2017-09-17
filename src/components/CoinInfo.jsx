@@ -36,7 +36,7 @@ class CoinInfo extends React.Component {
     let className = 'coin-info';
     className += compact ? ' coin-info--compact' : '';
     const fullCoinId = createFullCoinId(coin.data.id);
-    const linkCopy = compact ? '7' : 'View in collection';
+    const linkCopy = compact ? '' : 'View in collection';
 
     return (
       <div 

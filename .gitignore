@@ -8,3 +8,4 @@ src/data/xml
 src/data/csv/raw.csv
 .DS_Store
 build
+/npm-debug.log
