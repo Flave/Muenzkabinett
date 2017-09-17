@@ -1,33 +1,7 @@
 import React from 'react';
-import OrderingUi from 'components/OrderingUi';
-import LayoutUi from 'components/LayoutUi';
-import FilterUi from 'components/FilterUi';
-import _find from 'lodash/find';
-
 import stateStore from 'app/stateStore';
 
 class Ui extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClearFilters = this.handleClearFilters.bind(this);
-    this.handleFilterRemove = this.handleFilterRemove.bind(this);
-  }
-
-  handleFilterRemove({key, value}) {
-    let {coinFilters} = stateStore.get();
-    const filter = _find(coinFilters, {key, value});
-    const index = coinFilters.indexOf(filter);
-    coinFilters.splice(index, 1);
-    stateStore.set({coinFilters});
-  }
-
-  handleClearFilters() {
-    stateStore.set({coinFilters: []});
-  }
-
-  handleDeselectCoin() {
-    stateStore.set({selectedCoin: null});
-  }
 
   render() {
     var state = stateStore.get();
@@ -47,6 +21,8 @@ class Ui extends React.Component {
         <FilterUi 
           onFilterRemove={this.handleFilterRemove}
           onClearFilters={this.handleClearFilters}
+          onToggleLasso={this.handleToggleLasso}
+          onClearLasso={this.handleClearLasso}
           onDeselectCoin={this.handleDeselectCoin}
           selecting={state.selecting}
           selectedCoins={state.selectedCoins}

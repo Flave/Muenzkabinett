@@ -13,6 +13,7 @@ import _debounce from 'lodash/debounce';
 
 class App extends React.Component {
   componentWillMount() {
+    console.log(stateStore.get().returningUser);
     loader.load();
     stateStore.on('change.app', function() {
       this.forceUpdate();

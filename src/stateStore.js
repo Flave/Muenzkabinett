@@ -5,6 +5,8 @@ import _forEach from 'lodash/forEach';
 import { MARGIN } from 'constants';
 import tracker from 'utility/tracker';
 
+const returning = !!localStorage.getItem('returningUser');
+
 var _state = {
   selectedProperties: [],
   selectedLayout: 'pile',
@@ -25,8 +27,17 @@ var _state = {
   showInfo: false,
 
   width: window.innerWidth,
-  height: window.innerHeight - MARGIN.BOTTOM
+  height: window.innerHeight - MARGIN.BOTTOM,
+
+  returningUser: returning,
+  hasClickedOneProperty: returning,
+  hasClickedTwoProperties: returning,
+  hasClickedLayout: returning,
+  hasClickedLabel: returning,
+  hasClickedCoin: returning
 };
+
+//localStorage.setItem('returningUser', true);
 
 var _prevState = {};
 var changedProperties = [];
