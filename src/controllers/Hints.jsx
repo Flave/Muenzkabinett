@@ -3,12 +3,6 @@ import stateStore from 'app/stateStore';
 import hints from 'constants/hints';
 
 class Hints extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      anchorFound: true
-    }
-  }
   componentDidUpdate() {
     const {hintStep} = stateStore.get();
     const target = document.querySelectorAll(`[data-hint="${hints[hintStep].key}"]`)[0];
@@ -20,6 +14,10 @@ class Hints extends React.Component {
 
       root.style.top = `${targetBbox.top - bbox.height - 30}px`;
       root.style.left = `${targetBbox.left + targetBbox.width / 2 - bbox.width/2}px`;
+      if(this.props.showHints)
+        root.classList.remove('is-hidden');
+    } else {
+      root.classList.add('is-hidden');
     }
   }
   render() {

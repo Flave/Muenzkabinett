@@ -17,7 +17,7 @@ class LayoutUi extends React.Component {
       // wait until relayouting finished
       // if the new layout actually has clickable labels show hints again
       stateStore.set({
-        showHints: layout.requiredTypes.indexOf('discrete') !== -1 ? true : false
+        showHints: true
       })
     }, 1000);
   }

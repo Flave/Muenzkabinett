@@ -75,7 +75,8 @@ class CanvasController extends React.Component {
     });
     stateStore.set({
       coinFilters,
-      hintStep: null,
+      // if this is actually the last step, finish it
+      hintStep: state.hintStep === 2 ? null : state.hintStep,
       allHintsShown: state.hintStep === 2 ? true : false
     });
   }

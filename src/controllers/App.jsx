@@ -52,7 +52,8 @@ class App extends React.Component {
         <Menu />
         {state.showIntro && state.lowResLoaded && <Intro />}
         {state.showInfo && <Info />}
-        {!state.allHintsShown && <Hints 
+        {!state.allHintsShown && <Hints
+          layout={state.selectedLayout} 
           hintStep={state.hintStep}
           showHints={state.showHints}/>}
       </div>
