@@ -21,9 +21,10 @@
   }
 
   &--selectable {
-    background: $c-accent-1;
+    background-color: rgba($c-dark-1, .95);
+    color: $c-accent-1;
     cursor: pointer;
-    box-shadow: 0 0 3px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 3px rgba(0, 0, 0, .15);
     text-transform: capitalize;
   }
 
@@ -53,7 +54,8 @@
 
   &.is-preselected,
   &.is-selected {
-    background-color: $c-accent-3;
+    background-color: $c-accent-1;
+    color: $c-dark-1;
   }
 }
 
