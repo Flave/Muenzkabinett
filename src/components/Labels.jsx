@@ -85,6 +85,7 @@ class SelectionUi extends React.Component {
         propertyKey={label.key}
         key={i}
         isPreselected={isPreselected}
+        addHint={i === 0 && label.selectable}
         isSelected={isSelected}
         transform={transform} 
         onClick={this.handleClick.bind(this, key)}/>

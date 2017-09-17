@@ -20,6 +20,7 @@ class Label extends React.Component {
       isPreselected,
       isSelected,
       selectable,
+      addHint,
       propertyKey, 
       alignment, 
       x, 
@@ -42,6 +43,7 @@ class Label extends React.Component {
     return (
       <span 
         className={className}
+        data-hint={addHint ? 'filter' : ''}
         onClick={(e) => selectable && onClick(value, e)}
         style={{
           left: `${x * transform.k}px`, 

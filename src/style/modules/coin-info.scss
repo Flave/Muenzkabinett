@@ -7,6 +7,8 @@
   background-color: rgba($c-dark-1, .93);
   box-shadow: 0 0 12px rgba(#000, .2);
   border-radius: 2px;
+  pointer-events: all;
+  cursor: auto;
 
   &--compact {
     width: fit-content;
@@ -121,18 +123,18 @@
   border-radius: 20px;
   display: inline-block;
   text-align: center;
-  border: 1px solid $c-accent-1;
+  color: rgba($c-accent-1, .8);
+  border: 1px solid rgba($c-accent-1, .2);
   text-transform: capitalize;
 
   &--filterable {
-    background-color: $c-accent-1;
-    color: $c-dark-1;
-    pointer-events: all;
+    color: $c-accent-1;
+    border: 1px solid $c-accent-1;
     cursor: pointer;
-    border: none;
   }
 
   &.is-selected {
-    background-color: $c-accent-3;
+    background-color: $c-accent-1;
+    color: $c-dark-1;
   }
 }

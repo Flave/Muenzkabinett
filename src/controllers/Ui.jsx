@@ -40,7 +40,7 @@ class Ui extends React.Component {
             <OrderingUi state={state}/>
           </div>
           <div className='ui__section'>
-            <h3 data-hint='hasClickedLayout' className='ui__section-title'>Layout</h3>
+            <h3 className='ui__section-title'>Layout</h3>
             <LayoutUi state={state} />
           </div>
         </div>

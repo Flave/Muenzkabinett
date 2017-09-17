@@ -3,6 +3,7 @@ import rebind from 'utility/rebind';
 import _assign from 'lodash/assign';
 import _forEach from 'lodash/forEach';
 import { MARGIN } from 'constants';
+import hints from 'constants/hints';
 import tracker from 'utility/tracker';
 
 const returning = !!localStorage.getItem('returningUser');
@@ -30,11 +31,9 @@ var _state = {
   height: window.innerHeight - MARGIN.BOTTOM,
 
   returningUser: returning,
-  hasClickedOneProperty: returning,
-  hasClickedTwoProperties: returning,
-  hasClickedLayout: returning,
-  hasClickedLabel: returning,
-  hasClickedCoin: returning
+  allHintsShown: returning ? true : false, // is set to true once all hints have been shown. Is set to false again to restart.
+  hintStep: 0, // indicates the current hint step
+  showHints: false // needed to temporarily hide hints to prevent overlappint
 };
 
 //localStorage.setItem('returningUser', true);

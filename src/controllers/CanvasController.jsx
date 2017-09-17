@@ -73,7 +73,11 @@ class CanvasController extends React.Component {
         coinFilters.splice(index, 1);
       }
     });
-    stateStore.set({coinFilters});
+    stateStore.set({
+      coinFilters,
+      hintStep: null,
+      allHintsShown: state.hintStep === 2 ? true : false
+    });
   }
 
   render() {

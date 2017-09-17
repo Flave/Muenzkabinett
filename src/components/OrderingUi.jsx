@@ -54,8 +54,8 @@ class OrderingUi extends React.Component {
   }
 
   createPropertyUi(property, selectionIndex) {
-    var className = 'ordering-ui__ui',
-      label = property ? property.label : 'Select a property';
+    let className = 'ordering-ui__ui';
+    let label = property ? property.label : 'Select a property';
 
     className += !property ? ' is-empty' : '';
     className += this.state.activeIndex === selectionIndex ? ' is-selected' : '';
@@ -63,6 +63,7 @@ class OrderingUi extends React.Component {
     return <div className={className}>
       {this.createPropertiesList(selectionIndex)}
       <div 
+        data-hint={selectionIndex === 0 ? 'property' : ''}
         onClick={this.handleSelectionClick.bind(this, selectionIndex)} 
         className="ordering-ui__selection">
         <span className="btn__section">
@@ -89,8 +90,10 @@ class OrderingUi extends React.Component {
   handleSelectionClick(propertyIndex) {
     if(this.state.activeIndex === propertyIndex)
       this.setState({activeIndex: null});
-    else
+    else {
       this.setState({activeIndex: propertyIndex});
+      stateStore.set({showHints: false});
+    }
 
     document.addEventListener('click', this.boundHidePropertiesList);
 
@@ -117,7 +120,9 @@ class OrderingUi extends React.Component {
     stateStore.set({
       selectedProperties: selectedProps, 
       selectedLayout: newLayout.key,
-      selectedCoin: null
+      selectedCoin: null,
+      showHints: true,
+      hintStep: state.hintStep === 0 ? 1 : state.hintStep
     });
   }
 

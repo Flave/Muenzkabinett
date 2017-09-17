@@ -1,0 +1,44 @@
+.hint {
+  position: fixed;
+  @include hovering-panel;
+  padding: 20px;
+  color: $c-dark-1;
+  padding: 20px;
+  max-width: 260px;
+  text-align: center;
+  background-color: $c-accent-1;
+  opacity: 1;
+  transition: opacity .3s 1.5s, transform .1s;
+
+  &.is-hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-color: inherit;
+    left: 50%;
+    bottom: -10px;
+    transform: rotate(45deg) translateX(-50%);
+  }
+}
+
+.hint__title {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 18px;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba($c-dark-1, .1);
+}
+
+.hint__copy {
+  font-size: 14px;
+  line-height: 1.4em;
+}

@@ -5,17 +5,32 @@ import stateStore from 'app/stateStore';
 class LayoutUi extends React.Component {
 
   handleClick(layout) {
-    stateStore.set({selectedLayout: layout.key, selectedCoin: null});
+    const {hintStep} = stateStore.get();
+    stateStore.set({
+      selectedLayout: layout.key,
+      selectedCoin: null,
+      showHints: false,
+      hintStep: hintStep === 1 ? 2 : hintStep
+    });
+
+    setTimeout(() => {
+      // wait until relayouting finished
+      // if the new layout actually has clickable labels show hints again
+      stateStore.set({
+        showHints: layout.requiredTypes.indexOf('discrete') !== -1 ? true : false
+      })
+    }, 1000);
   }
 
   createLayoutsList() {
     var state = this.props.state;
-    return layouts.getApplicableLayouts(state.selectedProperties).map(function(layout) {
+    return layouts.getApplicableLayouts(state.selectedProperties).map(function(layout, i) {
       var className = 'layout-list__layout';
       className += state.selectedLayout === layout.key ? ' is-selected' : '';
       return (
         <div 
           key={layout.key} 
+          data-hint={i === 0 ? 'layout' : ''}
           onClick={this.handleClick.bind(this, layout)} 
           className={className}>
           <span className={`layout-list__layout-icon icon-${layout.key}`}></span>

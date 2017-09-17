@@ -3,7 +3,7 @@ import stateStore from 'app/stateStore';
 
 class Intro extends React.Component {
   handleClose() {
-    stateStore.set({showIntro: false});
+    stateStore.set({showIntro: false, showHints: true});
   }
   handleShowInfo() {
     stateStore.set({showIntro: false, showInfo: true});

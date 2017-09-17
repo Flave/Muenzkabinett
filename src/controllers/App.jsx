@@ -5,6 +5,7 @@ import CanvasController from 'controllers/CanvasController';
 import Intro from 'components/Intro';
 import Info from 'components/Info';
 import Menu from 'components/Menu';
+import Hints from 'controllers/Hints';
 import {event as d3_event} from 'd3-selection';
 import {csv as d3_csv} from 'd3-request';
 import stateStore from 'app/stateStore';
@@ -13,7 +14,6 @@ import _debounce from 'lodash/debounce';
 
 class App extends React.Component {
   componentWillMount() {
-    console.log(stateStore.get().returningUser);
     loader.load();
     stateStore.on('change.app', function() {
       this.forceUpdate();
@@ -52,6 +52,9 @@ class App extends React.Component {
         <Menu />
         {state.showIntro && state.lowResLoaded && <Intro />}
         {state.showInfo && <Info />}
+        {!state.allHintsShown && <Hints 
+          hintStep={state.hintStep}
+          showHints={state.showHints}/>}
       </div>
     );
   }
