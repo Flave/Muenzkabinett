@@ -14,12 +14,6 @@ function createGrouping(coins, propertyOne, propertyTwo) {
       values[1].push(coin.data[propertyTwo])
   });
 
-
-  if(values[0].length < values[1].length) {
-    values.reverse();
-    keys.reverse();
-  }
-
   // instantiate a nested array to fill in the coins
   groups = values[0].map(() => { 
     return d3_range(values[1].length).map(() => {
@@ -53,6 +47,7 @@ function createGrouping(coins, propertyOne, propertyTwo) {
 export default {
   key: 'cluster_grid',
   value: 'Cluster Grid',
+  description: 'The coins are grouped by the first property and then split up by second. This results in a grid of categories.',
   requiredTypes: ['discrete', 'discrete'],
   create: function plainGrid(coins, properties, bounds) {
     const propertyOne = properties[0].key;
@@ -67,6 +62,7 @@ export default {
     let minX = Infinity;
     let x;
     let y;
+
 
     grouping.groups.forEach((xGroup, xIndex) => {
       const baseX = SPACING * xIndex + bounds.left;
@@ -91,7 +87,7 @@ export default {
             x: bounds.left,
             y: baseY,
             selectable: true,
-            minZoom: yIndex % 2 === 0 ? .2 : .15,
+            minZoom: yIndex % 2 === 0 ? .12 : .16,
             alignment: ['right', 'center']
           });
       });
@@ -102,7 +98,7 @@ export default {
         sticky: 'top',
         x: baseX,
         selectable: true,
-        minZoom: xIndex % 2 === 0 ? .2 : .15,
+        minZoom: xIndex % 2 === 0 ? .12 : .16,
         alignment: ['center', 'top']
       });
     });
@@ -113,6 +109,7 @@ export default {
     return {
       positions, 
       labelGroups,
+      bounds: {left: minX, top: minY, right: minX + 4000, bottom: minY + 4000},
       alignment: ['left', 'top']};
   }
 }
