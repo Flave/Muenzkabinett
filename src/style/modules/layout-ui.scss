@@ -7,12 +7,17 @@
   color: $c-accent-1;
   border: 1px solid $c-accent-1;
   border-radius: 100%;
-  font-size: 42px;
+  font-size: 32px;
   cursor: pointer;
-  margin-right: 5px;
+  margin-right: 8px;
+  padding: 5px;
 
   &.is-selected {
     color: $c-background;
     background-color: $c-accent-1;
+  }
+
+  &:last-child {
+    margin-right: 0;
   }
 }

@@ -13,7 +13,8 @@
   background: rgba(#fff, .7);
   border-radius: 20px;
   transition: opacity .2s;
-  user-select: none; 
+  user-select: none;
+  text-transform: capitalize;
 
   &--highlight {
     font-weight: bold;

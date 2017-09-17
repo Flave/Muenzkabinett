@@ -33,7 +33,7 @@ export default [
   },
   {
     key: 'division',
-    label: 'Division',
+    label: 'Time Period',
     type: 'discrete',
     similarityWeight: 0.2,
     selectable: true,
@@ -41,7 +41,7 @@ export default [
   },
   {
     key: 'subdivision',
-    label: 'Subdivision',
+    label: 'Time Subperiod',
     type: 'discrete',
     similarityWeight: 0.3,
     selectable: true,

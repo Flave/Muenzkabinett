@@ -50,8 +50,8 @@ class CoinInfo extends React.Component {
             <a className='coin-info__link' 
               target='_blank' 
               href={`http://ikmk.smb.museum/object?id=182${fullCoinId}`}>
-              <i className='coin-info__link-icon icon-arrow_top_right'/>
               {linkCopy}
+              <i className='coin-info__link-icon icon-arrow_top_right'/>
             </a>
         </div>
         {!compact && <div className='coin-info__props'>

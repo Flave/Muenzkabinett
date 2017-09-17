@@ -22,7 +22,7 @@ class SelectionUi extends React.Component {
   }
 
   handleKeyUp(event) {
-    if(event.key === 'Shift') {
+    if(event.key === 'Shift' && this.state.selectedLabels.length) {
       const selectedLabels = this.state.selectedLabels.slice();
       this.setState({selectedLabels: []});
       this.props.onLabelClick(selectedLabels);
