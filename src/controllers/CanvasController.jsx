@@ -64,6 +64,7 @@ class CanvasController extends React.Component {
   handleLabelClick(labels) {
     const {state} = this.props;
     let coinFilters = state.coinFilters.slice();
+
     labels.forEach(({key, value}) => {
       const currentFilter = _find(coinFilters, {key, value});
       if(!currentFilter) {
@@ -77,7 +78,7 @@ class CanvasController extends React.Component {
       coinFilters,
       // if this is actually the last step, finish it
       hintStep: state.hintStep === 2 ? null : state.hintStep,
-      allHintsShown: state.hintStep === 2 ? true : false
+      allHintsShown: state.hintStep === 2 ? true : state.allHintsShown
     });
   }
 

@@ -36,7 +36,7 @@ var _state = {
   showHints: false // needed to temporarily hide hints to prevent overlappint
 };
 
-//localStorage.setItem('returningUser', true);
+localStorage.setItem('returningUser', true);
 
 var _prevState = {};
 var changedProperties = [];
