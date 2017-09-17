@@ -60,7 +60,7 @@ export default {
         x: group.x + left + COIN_HEIGHT/2,
         y: group.y + top + COIN_HEIGHT/2,
         z: group.data.coins.length / maxGroupSize,
-        minZoom: 1.1 - group.data.coins.length / maxGroupSize,
+        minZoom: 1 - group.data.coins.length / maxGroupSize,
         selectable: true,
         alignment: ['center', 'center']
       });

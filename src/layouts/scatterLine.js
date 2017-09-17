@@ -35,13 +35,14 @@ export default {
       });
     });
 
-    labelGroups[0].labels = ticks.map(tick => {
+    labelGroups[0].labels = ticks.map((tick, i) => {
       return {
         key: property.key,
         value: tick,
         y: options.labelsPos === 'top' ? yPositionExtent[0] - 30 : yPositionExtent[1] + 20,
         x: value2X(tick),
         alignment: ['center', 'center'],
+        minZoom: i % 2 === 0 ? .12 : .18,
         sticky: options.sticky ? 'top' : undefined
       }
     });

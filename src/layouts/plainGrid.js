@@ -45,7 +45,7 @@ export default {
           key,
           x: bounds.left,
           y,
-          minZoom: labelIndex % 2 === 0 ? .2 : .3,
+          minZoom: labelIndex % 2 === 0 ? .1 : .2,
           alignment: ['right', 'top'],
           sticky: 'left'
         });
