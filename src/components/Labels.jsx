@@ -45,17 +45,20 @@ class SelectionUi extends React.Component {
     return (x > left) && (x < right) && (y > top) && (y < bottom);
   }
 
-  getStickyPosition({x, y, sticky, alignment}, {left, top, bottom}) {
+  getStickyPosition({x, y, sticky, alignment}, {left, top, bottom}, transform) {
     let xPos = x;
     let yPos = y;
     let newAlignment = alignment.slice();
+    const leftMargin = 20 * (1/transform.k);
+    const topMargin = 55 * (1/transform.k);
+    const bottomMargin = 110 * (1/transform.k);
     if(sticky === 'left' && x < left) {
-      xPos = left + 30;
+      xPos = left + leftMargin;
       newAlignment[0] = 'left';
     } else if(sticky === 'top' && y < top) {
-      yPos = top + 50;
-    } else if(sticky === 'bottom' && y > bottom - 200) {
-      yPos = bottom - 200;
+      yPos = top + topMargin;
+    } else if(sticky === 'bottom' && y > bottom - bottomMargin) {
+      yPos = bottom - bottomMargin;
       newAlignment[1] = 'bottom';
     }
 
@@ -73,7 +76,7 @@ class SelectionUi extends React.Component {
     const isPreselected = _find(this.state.selectedLabels, {key, value: label.value}) !== undefined;
     const isSelected = _find(coinFilters, {key, value: label.value}) !== undefined;
     if(!isInside) {
-      let stickyPos = this.getStickyPosition(label, bounds);
+      let stickyPos = this.getStickyPosition(label, bounds, transform);
       label = {...label, ...stickyPos};
     }
     return (
