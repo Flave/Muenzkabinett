@@ -3,6 +3,7 @@ import {randomNormal as d3_randomNormal} from 'd3-random';
 export default {
   key: 'pile',
   value: 'Pile',
+  description: 'Just a pile of coins. Select one or more properties so you can put them into a more interesting layout.',
   requiredTypes: [],
   create: function pile(coins, properties, {cx, cy}) {
     const numCoins = coins.length;

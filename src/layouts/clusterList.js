@@ -6,6 +6,7 @@ import {max as d3_max} from 'd3-array';
 export default {
   key: 'cluster_list',
   value: 'Cluster List',
+  description: 'The coins are grouped into piles which are then sorted by amount of coins.',
   requiredTypes: ['discrete'],
   create: function plainGrid(coins, properties, bounds) {
     const centerY = bounds.top + bounds.height/2;

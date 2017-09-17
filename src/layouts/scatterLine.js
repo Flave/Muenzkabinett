@@ -5,6 +5,7 @@ import {groupContinuous, getExtent} from 'app/utility';
 export default {
   key: 'scatter_line',
   value: 'Scatter Line',
+  description: 'The coins are placed along a horizontal axis. The more scattering, the more coins there are around that value.',
   requiredTypes: ['continuous'],
   create: function plainGrid(coins, properties, {cy, cx}, options={}) {
     const property = properties[0];

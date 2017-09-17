@@ -5,6 +5,7 @@ import {COIN_HEIGHT} from 'constants';
 export default {
   key: 'plain_grid',
   value: 'Plain Grid',
+  description: 'The coins are sorted by the numerical property and arranged into a grid.',
   requiredTypes: ['continuous'],
   create: function plainGrid(coins, properties, bounds) {
     const MAX_WIDTH = 4000;

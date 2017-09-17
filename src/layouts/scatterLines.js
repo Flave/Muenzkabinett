@@ -4,6 +4,7 @@ import scatterLine from './scatterLine';
 export default {
   key: 'scatter_lines',
   value: 'Scatter Lines',
+  description: 'The coins are split up into categories and then placed along a horizontal axis by the numerical property.',
   requiredTypes: ['discrete', 'continuous'],
   create: function plainGrid(coins, properties, {top, cx}) {
     const MARGIN_LEFT = 150; // margin for labels

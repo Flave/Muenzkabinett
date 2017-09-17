@@ -30,6 +30,7 @@ function createGroupHierarchy(coins, property) {
 export default {
   key: 'clusters',
   value: 'Clusters',
+  description: 'The coins are grouped into piles. The more coins in a category, the bigger the pile.',
   requiredTypes: ['discrete'],
   create: function pile(coins, properties, {left, top}) {
     const numCoins = coins.length;

@@ -4,3 +4,10 @@ $c-background: #373737;
 $c-accent-1: #FACF8F; //#FACA8D; //#FBD691;
 $c-accent-3: #f9b899;
 $c-alert: #de5f75;
+
+@mixin hovering-panel {
+  background-color: rgba($c-dark-1, .93);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  color: #fff;
+}

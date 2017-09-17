@@ -33,6 +33,7 @@ const createGrid = (coins) => {
 export default {
   key: 'nested_grid',
   value: 'Nested Grid',
+  description: 'The coins are grouped into categories, sorted by the numerical category and placed in a grid.',
   requiredTypes: ['discrete', 'continuous'],
   create: function plainGrid(coins, properties, {left, top}) {
     const continuousProperty = getContinuousProperty(properties);

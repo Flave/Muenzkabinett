@@ -8,6 +8,7 @@ const property2Y = d3_scaleLinear();
 export default {
   key: 'scatter_plot',
   value: 'Scatter Plot',
+  description: 'A regular old scatter plot where the position (x and y) is defined by two numerical properties.',
   requiredTypes: ['continuous', 'continuous'],
   create: function plainGrid(coins, properties, {cx, cy, width, height}) {
     const propertyX =  properties[0].key;
