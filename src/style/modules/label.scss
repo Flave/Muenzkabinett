@@ -14,7 +14,6 @@
   border-radius: 20px;
   transition: opacity .2s;
   user-select: none;
-  text-transform: capitalize;
 
   &--highlight {
     font-weight: bold;
@@ -24,6 +23,7 @@
     background: $c-accent-1;
     cursor: pointer;
     box-shadow: 0 0 3px rgba(0, 0, 0, .1);
+    text-transform: capitalize;
   }
 
   &--center-x {
