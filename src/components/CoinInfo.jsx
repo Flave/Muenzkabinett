@@ -21,11 +21,10 @@ class CoinInfo extends React.Component {
 
     return (
       <div key={i} className='coin-info__prop'>
-        <i className={`coin-info__prop-icon icon-${prop.key}`}></i>
-        <div className='coin-info__prop-label'>{prop.label}</div>
         <div 
-          onClick={onClick} 
-          className={valueClassName}>{labelData.value} {labelData.unit}</div>
+          onClick={onClick}
+          title={`${labelData.value} ${labelData.unit}`}
+          className={valueClassName}><i className={`coin-info__prop-icon icon-${prop.key}`}></i>{labelData.value} {labelData.unit}</div>
       </div>
     )
   }
