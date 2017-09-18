@@ -8,11 +8,26 @@ export const MARGIN = {
 export const COIN_HEIGHT = 40;
 export const COINS_PER_SHEET = 1000;
 
-export const loadingSteps = {
-  DATA: 'DATA',
-  LOW_RES: 'LOW_RES',
-  HIGH_RES: 'HIGH_RES',
-  DONE: 'DONE'
+const userAgent = {};
+
+if (/(android)/i.test(navigator.userAgent)) {
+  userAgent.android = true;
+  userAgent.androidVersion = parseFloat(navigator.userAgent.slice(navigator.userAgent.indexOf("Android")+8));
+} else if (/iP(hone|od|ad)/.test(navigator.platform)) {
+  const v = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
+  userAgent.iOS = true;
+  userAgent.iOSVersion = [
+    parseInt(v[1], 10),
+    parseInt(v[2], 10),
+    parseInt(v[3] || 0, 10),
+  ];
+
+} else if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+  userAgent.firefox = true;
+} else if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+  userAgent.ie = true;
 }
 
-export const GA_TRACKING_ID = 'UA-106536142-1';
+export const USER_AGENT = {
+  ...userAgent
+};

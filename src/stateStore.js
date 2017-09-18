@@ -2,7 +2,7 @@ import {dispatch as d3_dispatch} from 'd3-dispatch';
 import rebind from 'utility/rebind';
 import _assign from 'lodash/assign';
 import _forEach from 'lodash/forEach';
-import { MARGIN } from 'constants';
+import { MARGIN, USER_AGENT } from 'constants';
 import hints from 'constants/hints';
 import tracker from 'utility/tracker';
 
@@ -24,16 +24,18 @@ var _state = {
   highResLoaded: false,
   loadingProgress: 0,
   canvasInitialized: false,
-  showIntro: true,
-  showInfo: false,
 
   width: window.innerWidth,
   height: window.innerHeight - MARGIN.BOTTOM,
 
+  showIntro: true,
+  showInfo: false,
   returningUser: returning,
   allHintsShown: returning ? true : false, // is set to true once all hints have been shown. Is set to false again to restart.
   hintStep: 0, // indicates the current hint step
-  showHints: false // needed to temporarily hide hints to prevent overlappint
+  showHints: false, // needed to temporarily hide hints to prevent overlappint
+  loadingPermitted: !(USER_AGENT.iOS || USER_AGENT.android),
+  isMobile: USER_AGENT.iOS || USER_AGENT.android
 };
 
 localStorage.setItem('returningUser', true);

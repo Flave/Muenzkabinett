@@ -4,7 +4,6 @@ import os
 final_keys = [
   'id', 
   'title', 
-  'division', 
   'subdivision', 
   'diameter', 
   'weight', 
@@ -14,7 +13,6 @@ final_keys = [
   'production_region', 
   'production_minting_place', 
   'production_material', 
-  'production_technique', 
   'finding_country'
 ]
 

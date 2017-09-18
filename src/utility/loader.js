@@ -5,12 +5,13 @@ import {csv as d3_csv} from 'd3-request';
 import coinsContainer from 'app/components/Coins';
 import Coin from 'app/Coin';
 import stateStore from 'app/stateStore';
-import {COIN_HEIGHT, COINS_PER_SHEET} from 'constants';
+import {COIN_HEIGHT, COINS_PER_SHEET, USER_AGENT} from 'constants';
+import {removeFalsy} from 'utility';
 
 const loader = {};
 const cachedCoins = []; // array used to retrieve coins quickly by index instead of _find
 
-loader.load = function() {
+loader.load = function(isMobile) {
   loader.data;
 
   DataLoader()
@@ -19,7 +20,8 @@ loader.load = function() {
       stateStore.set({loadingProgress: progress})
     )
     .done((_data) => {
-      loader.data = _data;
+      loader.originalDataSize = _data.length;
+      loader.data = isMobile ? _data.slice(0, 10001) : _data;
 
       stateStore.set({
         dataLoaded: true,
@@ -148,14 +150,18 @@ function SheetsLoader(_data, _resolution, _suffix) {
 
   // Create a list of sprite file names and urls to load
   function createSheetsSpecs(name, height, numSprites, spritesPerFile) {
-    return d3_range(Math.ceil(numSprites/spritesPerFile)).map(function(fileIndex) {
+    const spriteSpec = d3_range(Math.ceil(numSprites/spritesPerFile)).map(function(fileIndex) {
       const lowerEnd = fileIndex * spritesPerFile;
       const upperEnd = (fileIndex + 1) * spritesPerFile >= numSprites ? numSprites - 1 : (fileIndex + 1) * spritesPerFile;
+      // lowErend === upperEnd means not full data set is loaded
+      if(lowerEnd === upperEnd) return;
       return {
         name: `${name}_${lowerEnd}_${upperEnd}`, 
         url: `data/images/sprites${suffix}/${name}_sprites_${height}_${lowerEnd}_${upperEnd}.png`
       };
     });
+
+    return removeFalsy(spriteSpec);
   }
 
   function handleResourceLoaded(loader, resource) {

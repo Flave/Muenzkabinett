@@ -32,26 +32,10 @@ export default [
     unit: ''
   },
   {
-    key: 'division',
-    label: 'Time Period',
-    type: 'discrete',
-    similarityWeight: 0.2,
-    selectable: true,
-    unit: ''
-  },
-  {
     key: 'subdivision',
     label: 'Time Subperiod',
     type: 'discrete',
     similarityWeight: 0.3,
-    selectable: true,
-    unit: ''
-  },
-  {
-    key: 'production_technique',
-    label: 'Technique',
-    type: 'discrete',
-    similarityWeight: 0,
     selectable: true,
     unit: ''
   },
