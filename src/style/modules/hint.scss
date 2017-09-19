@@ -9,6 +9,7 @@
   background-color: $c-accent-1;
   opacity: 1;
   transition: opacity .3s 1.5s, transform .1s;
+  box-shadow: 0 0 6px rgba(0, 0, 0, .2);
 
   &.is-hidden {
     visibility: hidden;
@@ -26,6 +27,19 @@
     bottom: -10px;
     transform: rotate(45deg) translateX(-50%);
   }
+
+  &--survey {
+    width: 270px;
+    right: 15px;
+    top: 55px;
+    padding-bottom: 10px;
+
+    &:after {
+      right: 23px;
+      top: -2px;
+      left: auto;
+    }
+  }
 }
 
 .hint__title {
@@ -41,4 +55,9 @@
 .hint__copy {
   font-size: 14px;
   line-height: 1.4em;
+}
+
+.hint__footer {
+  margin-top: 15px;
+  padding: 0 30px;
 }

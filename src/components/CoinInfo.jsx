@@ -19,12 +19,20 @@ class CoinInfo extends React.Component {
     valueClassName += prop.type === 'discrete' ? ' coin-info__prop-value--filterable' : '';
     valueClassName += isSelected ? ' is-selected' : '';
 
+    // join years
+    if(prop.key === "date_latest") return;
+    if(prop.key === "date_earliest") {
+      const dateLatestProp = _find(coinProperties, {key: 'date_latest'});
+      const latestLabelData = createLabelData(dateLatestProp, coin.data.date_latest);
+      labelData.value = `${labelData.value} - ${latestLabelData.value}`
+    }
+
     return (
       <div key={i} className='coin-info__prop'>
         <div 
           onClick={onClick}
           title={`${labelData.value} ${labelData.unit}`}
-          className={valueClassName}><i className={`coin-info__prop-icon icon-${prop.key}`}></i>{labelData.value} {labelData.unit}</div>
+          className={valueClassName}><i className={`coin-info__prop-icon icon-${prop.key}`}></i>{labelData.value} <span className="coin-info__prop-unit">{labelData.unit}</span></div>
       </div>
     )
   }

@@ -106,7 +106,7 @@
 
 .coin-info__prop-value {
   font-size: 14px;
-  padding: 6px 37px;
+  padding: 6px 16px 6px 46px;
   border-radius: 40px;
   display: inline-block;
   white-space: nowrap;
@@ -114,7 +114,7 @@
   overflow: hidden;
   position: relative;
   width: 100%;
-  text-align: center;
+  text-align: left;
   line-height: 20px;
   margin-bottom: 7px;
   color: rgba($c-accent-1, .8);
@@ -131,4 +131,8 @@
     background-color: $c-accent-1;
     color: $c-dark-1;
   }
+}
+
+.coin-info__prop-unit {
+  text-transform: none;
 }

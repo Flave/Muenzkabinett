@@ -16,8 +16,8 @@
   &--big {
     text-transform: uppercase;
     letter-spacing: .08em;
-    font-size: 16px;
-    padding: 12px 24px;
+    font-size: 17px;
+    padding: 14px 26px;
   }
 
   &--primary {
@@ -31,6 +31,17 @@
     border: 1px solid $c-accent-1;
     color: #fff;
     border: none;
+  }
+
+  &--inverted {
+    background-color: $c-dark-1;
+    color: $c-accent-1;
+    font-size: 16px;
+  }
+
+  &--dark {
+    color: $c-dark-1;
+    font-size: 16px;
   }
 
   &.is-selected {

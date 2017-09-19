@@ -56,7 +56,7 @@ class App extends React.Component {
     if(state.loadingPermitted)
       return (
         <div className="app">
-          {!state.showIntro && <Ui/>}
+          {!state.showIntro && !state.showInfo && <Ui/>}
           {<CanvasController onCanvasInitialized={this.handleCanvasInitialized} state={state} />}
           <Menu />
           {state.showIntro && state.lowResLoaded && <Intro />}

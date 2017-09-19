@@ -33,7 +33,7 @@ export default [
   },
   {
     key: 'subdivision',
-    label: 'Time Subperiod',
+    label: 'Period',
     type: 'discrete',
     similarityWeight: 0.3,
     selectable: true,

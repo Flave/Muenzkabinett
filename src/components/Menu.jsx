@@ -1,6 +1,7 @@
 import React from 'react';
 import stateStore from 'app/stateStore';
 import LoadingIndicator from 'components/LoadingIndicator.jsx';
+import MenuButtons from 'components/MenuButtons.jsx';
 
 class Info extends React.Component {
   handleClick() {
@@ -11,7 +12,7 @@ class Info extends React.Component {
     const showMenu = !state.showIntro && state.highResLoaded;
     return (
       <div className="menu">
-        {showMenu && <span onClick={this.handleClick} className="menu__button">Info</span>}
+        {showMenu && <MenuButtons onInfoClick={this.handleClick}/>}
         {!state.highResLoaded && <LoadingIndicator 
             loadingProgress={state.loadingProgress}
             dataLoaded={state.dataLoaded}

@@ -1,17 +1,20 @@
 .menu {
   position: fixed;
-  top: 15px;
-  left: 13px;
+  top: 10px;
+  right: 17px;
+  display: flex;
 }
 
 .menu__button {
+  display: inline-block;
   text-transform: uppercase;
   letter-spacing: .1em;
   border-radius: 50px;
-  padding: 4px 11px;
-  font-size: 14px;
+  padding: 5px 12px;
+  font-size: 12px;
   background-color: rgba($c-dark-1, .93);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
   color: #fff;
   cursor: pointer;
+  margin-right: 6px;
 }

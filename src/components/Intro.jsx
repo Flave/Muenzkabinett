@@ -18,12 +18,12 @@ class Intro extends React.Component {
             <h3 className="popup__subtitle">A Rich Cultural Collection</h3>
           </div>
           <div className="popup__main">
-            <p className="popup__copy">The drawings by Frederick William IV are part of the collection of prints and drawings of the Prussian Palaces and Gardens Foundation Berlin-Brandenburg and have previously been published in a online inventory catalogue. Project partners of the research project »VIKUS – Visualising Cultural Collections.
-  a online inventory catalogue. Project partners of the research project »VIKUS – Visualising Cultural Collections.</p>
+            <p className="popup__copy">Do you remember playing with the coins of your parents? The journeys they spoke of? Now you have the chance to do the same thing again, but this time with a lot more coins belonging to one of the biggest coin collections in the world, the Münzkabinett Berlin! Every coin has its own history. Even Caesar or Alexander the Great could have held some of them in his hands or could have spent them on his world changing wars. This tool gives you the chance to explore these coins and sort them through different layouts and filters. Please be our guest and help us with our big chaos right here…</p>
           </div>
           <div className="popup__footer">
             <button onClick={this.handleClose} className="popup__btn btn btn--big btn--primary">Let's do this</button>
             <button onClick={this.handleShowInfo} className="popup__btn btn btn--big btn--secondary">More info</button>
+            {/*<p className="popup__small">(This tool is built for the latest versions of all major browsers)</p>*/}
           </div>
         </div>
       </div>
