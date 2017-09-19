@@ -1,4 +1,5 @@
-RewriteEngine On
-RewriteRule ^isoscope-two(.*) http://localhost:61724/$1 [P]
-
-AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/csv application/javascript text/javascript application/json
+# BEGIN GZIP
+<ifmodule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+</ifmodule>
+# END GZIP

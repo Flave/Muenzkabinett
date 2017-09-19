@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-brand:before {
+  content: "\e918";
+}
 .icon-arrow_right:before {
   content: "\e900";
 }

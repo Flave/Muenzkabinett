@@ -41,6 +41,14 @@ class Info extends React.Component {
             <p className="popup__copy">The project was initiated during the project course <a href="https://uclab.fh-potsdam.de/vikus/" target="_blank">Visualizing Cultural Collections</a> at <a href="https://www.fh-potsdam.de/" target="_blank">University of Applied Sciences Potsdam</a>.</p>
             <p className="popup__copy">A number of technical tools and libraries have been used to build this project. Most notably <a href="http://www.pixijs.com/" target="_blank">PixiJS</a>, <a href="https://d3js.org/" target="_blank">d3</a> and <a href="https://facebook.github.io/react/" target="_blank">React</a></p>
           </div>
+          <div className="section">
+            <h3>Share
+              <a 
+                className="icon-brand twitter-share-button"
+                href="https://twitter.com/intent/tweet?text=A%20journey%20through%20a%20rich%20cultural%20collection.%20Play%20around%20with%20and%20explore%20one%20of%20the%20biggest%20coin%20collections.&url=https://uclab.fh-potsdam.de/coins" 
+                data-size="large"></a>
+            </h3>
+          </div>
           <div className="popup__footer">
             <button onClick={this.handleClose} className="popup__btn btn btn--big btn--primary">Close</button>
           </div>

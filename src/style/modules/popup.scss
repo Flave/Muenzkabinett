@@ -40,6 +40,12 @@
     margin-top: 20px;
     margin-bottom: 13px;
     color: $c-accent-1;
+
+    a {
+      display: inline-block;
+      margin-left: 15px;
+      vertical-align: middle;
+    }
   }
 }
 

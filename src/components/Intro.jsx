@@ -15,7 +15,7 @@ class Intro extends React.Component {
         <div className="popup__inner">
           <div className="popup__header">
             <h1 className="popup__title">Coins</h1>
-            <h3 className="popup__subtitle">A Rich Cultural Collection</h3>
+            <h2 className="popup__subtitle">A journey through a rich cultural collection</h2>
           </div>
           <div className="popup__main">
             <p className="popup__copy">Do you remember playing with the coins of your parents? The journeys they spoke of? Now you have the chance to do the same thing again, but this time with a lot more coins belonging to one of the biggest coin collections in the world, the Münzkabinett Berlin! Every coin has its own history. Even Caesar or Alexander the Great could have held some of them in his hands or could have spent them on his world changing wars. This tool gives you the chance to explore these coins and sort them through different layouts and filters. Please be our guest and help us with our big chaos right here…</p>

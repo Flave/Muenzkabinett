@@ -25,7 +25,7 @@ class Info extends React.Component {
           <div className="hint__copy">This project is part of a research project on the visualisation of cultural collections. Would you like to help us and answer two quick questions?</div>
           <div className="hint__footer">
             <span target="_blank" className="btn btn--inverted">
-              <a href="https://goo.gl/forms/9TKRioKC3eVs7upv1">Sure</a>
+              <a target="_blank" href="https://goo.gl/forms/9TKRioKC3eVs7upv1">Sure</a>
             </span>
             <span onClick={this.handleNopeClick} className="btn btn--dark">Nope</span>
           </div>
