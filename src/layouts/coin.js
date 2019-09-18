@@ -58,8 +58,8 @@ export default {
 
     // calculate next bounds with selected coin in center
     const nextBounds = {
-      top: cy - windowSize.height * .65,// maxDelta.y,
-      bottom: cy + windowSize.height * .65 + COIN_HEIGHT,//maxDelta.y,
+      top: cy - windowSize.height * .65 + 100,// maxDelta.y,
+      bottom: cy + windowSize.height * .65 + COIN_HEIGHT + 100,//maxDelta.y,
       left: cx - windowSize.width * .65,//maxDelta.x,
       right: cx + windowSize.width * .65 + COIN_HEIGHT//maxDelta.x
     }
